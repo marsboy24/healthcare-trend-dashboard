@@ -24,7 +24,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 72px;
+      height: 64px;
       box-shadow: 0 2px 12px rgba(0,0,0,.35);
       position: sticky;
       top: 0;
@@ -34,44 +34,200 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: .9rem;
     }
 
     .header-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       background: rgba(255,255,255,.15);
       border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     header h1 {
-      font-size: 1.35rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      letter-spacing: .02em;
+      letter-spacing: .01em;
     }
 
     header .subtitle {
-      font-size: .75rem;
-      opacity: .7;
-      letter-spacing: .05em;
+      font-size: .68rem;
+      opacity: .6;
+      letter-spacing: .04em;
       text-transform: uppercase;
       margin-top: 2px;
     }
 
     .header-right {
-      text-align: right;
-      font-size: .72rem;
-      opacity: .65;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .header-pill {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 20px;
+      padding: .25rem .75rem;
+      font-size: .68rem;
+      font-weight: 600;
+      color: rgba(255,255,255,.85);
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+
+    .header-pill.accent {
+      background: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.3);
+      color: #fff;
+    }
+
+    /* ── Site Nav ─────────────────────────────────────────────── */
+    .site-nav {
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+
+    .nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    .nav-tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      gap: 0;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+
+    .nav-tab {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .8rem 1.2rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #7a8aa8;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color .15s, border-color .15s;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .nav-tab:hover { color: #0d2b52; border-bottom-color: #d0d8e8; }
+
+    .nav-tab.active {
+      color: #0d2b52;
+      border-bottom-color: #1a6fd4;
+    }
+
+    .nav-tab-icon { font-size: .9rem; line-height: 1; }
+
+    .nav-tab-count {
+      font-size: .62rem;
+      font-weight: 700;
+      background: #edf0f7;
+      color: #7a8aa8;
+      border-radius: 10px;
+      padding: 1px 6px;
+      transition: background .15s, color .15s;
+    }
+    .nav-tab.active .nav-tab-count {
+      background: #e0ecfd;
+      color: #1a6fd4;
+    }
+
+    .nav-meta {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .68rem;
+      color: #9aaac0;
+      padding: 0 0 0 .5rem;
+      border-left: 1px solid #e8ecf2;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-meta-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #22a35a;
+      flex-shrink: 0;
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+
+    /* ── Executive callout ────────────────────────────────────── */
+    .exec-callout {
+      background: linear-gradient(135deg, #0d2b52 0%, #1a3f6f 100%);
+      border-radius: 10px;
+      padding: .9rem 1.4rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .85rem;
+    }
+
+    .exec-callout-icon {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+
+    .exec-callout-text {
+      font-size: .8rem;
+      color: rgba(255,255,255,.88);
       line-height: 1.6;
     }
 
-    .header-right strong {
-      opacity: .9;
-      font-weight: 600;
+    .exec-callout-text strong { color: #fff; font-weight: 700; }
+
+    .exec-callout-text .callout-tag {
+      display: inline-block;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.15);
+      color: rgba(255,255,255,.8);
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    /* ── Section anchor offset (accounts for sticky header + nav) */
+    .sec-anchor {
+      display: block;
+      height: 0;
+      margin-top: -120px;
+      padding-top: 120px;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     /* ── Main layout ──────────────────────────────────────────── */
@@ -974,22 +1130,57 @@
   <div class="header-left">
     <div class="header-icon">&#9874;</div>
     <div>
-      <h1>Medical Trend Dashboard <span class="badge">2024</span></h1>
-      <div class="subtitle">Consumer Portfolio &nbsp;·&nbsp; National Health Expenditure Tracking</div>
+      <h1>Medical Trend Intelligence</h1>
+      <div class="subtitle">Healthcare Consumer Portfolio &nbsp;·&nbsp; Payer &amp; Market Analysis</div>
     </div>
   </div>
   <div class="header-right">
-    <strong>Data Sources</strong><br>
-    CMS National Health Expenditure Accounts (NHEA)<br>
-    CMS Office of the Actuary &nbsp;·&nbsp; HHS/CMS NHE Fact Sheet (2024)
+    <span class="header-pill accent">Q4 2024 Data</span>
+    <span class="header-pill">CMS NHEA</span>
+    <span class="header-pill">CDC &nbsp;·&nbsp; MedPAC &nbsp;·&nbsp; KFF</span>
   </div>
 </header>
+
+<!-- ═══════════════════════ SITE NAV ══════════════════════════ -->
+<nav class="site-nav" role="navigation" aria-label="Dashboard sections">
+  <div class="nav-inner">
+    <div class="nav-tabs">
+      <a class="nav-tab active" onclick="navTo('sec-overview')" id="navtab-overview">
+        <span class="nav-tab-icon">📊</span> Overview <span class="nav-tab-count">6</span>
+      </a>
+      <a class="nav-tab" onclick="navTo('sec-trends')" id="navtab-trends">
+        <span class="nav-tab-icon">📈</span> National Trends <span class="nav-tab-count">6</span>
+      </a>
+      <a class="nav-tab" onclick="navTo('sec-payer')" id="navtab-payer">
+        <span class="nav-tab-icon">🏦</span> Payer Landscape <span class="nav-tab-count">5</span>
+      </a>
+      <a class="nav-tab" onclick="navTo('sec-conditions')" id="navtab-conditions">
+        <span class="nav-tab-icon">🔬</span> Condition Drivers <span class="nav-tab-count">10</span>
+      </a>
+    </div>
+    <div class="nav-meta">
+      <div class="nav-meta-dot"></div>
+      Live &nbsp;·&nbsp; Sources verified Q4 2024
+    </div>
+  </div>
+</nav>
 
 <!-- ═══════════════════════ MAIN ══════════════════════════════ -->
 <main>
 
+  <!-- ════ SECTION: OVERVIEW ════ -->
+  <span class="sec-anchor" id="sec-overview"></span>
+
+  <div class="exec-callout" style="margin-top:1.5rem;">
+    <div class="exec-callout-icon">📊</div>
+    <div class="exec-callout-text">
+      <span class="callout-tag">Overview</span>
+      U.S. healthcare crossed <strong>$5.3 trillion in 2024</strong>, growing at <strong>7.2%</strong> — the fastest rate since 2012. Private insurance (+8.8%) and Medicare (+7.8%) are accelerating fastest. <strong>Click any metric below to explore what's driving it.</strong>
+    </div>
+  </div>
+
   <!-- ── KPI Cards ── -->
-  <div class="section-label">Key Performance Indicators &mdash; 2024 Actuals &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9aaac0;">&#9432; Click any card to explore trend drivers</span></div>
+  <div class="section-label">2024 Market Snapshot &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9aaac0;">&#9432; Click any card to explore trend drivers</span></div>
   <div class="kpi-grid">
 
     <div class="kpi-card blue" onclick="showDrivers('nhe')" id="kpi-nhe">
@@ -1064,8 +1255,19 @@
     <div class="driver-source" id="driverSource"></div>
   </div>
 
+  <!-- ════ SECTION: NATIONAL TRENDS ════ -->
+  <span class="sec-anchor" id="sec-trends"></span>
+
+  <div class="exec-callout" style="margin-top:2rem;">
+    <div class="exec-callout-icon">📈</div>
+    <div class="exec-callout-text">
+      <span class="callout-tag">National Trends</span>
+      Healthcare spending has outpaced GDP in <strong>9 of the last 10 years</strong>. At current trajectory, CMS projects the share of GDP reaches <strong>20.3% by 2033</strong>. Hospital care (+8.9%) and Rx drugs (+7.9%) are the fastest-growing service categories in 2024.
+    </div>
+  </div>
+
   <!-- ── Row 1: NHE Trend + Per Capita Trend ── -->
-  <div class="section-label" style="margin-top:2.25rem;">National Expenditure Trends</div>
+  <div class="section-label" style="margin-top:1.25rem;">Expenditure Trajectory</div>
   <div class="chart-grid-2">
 
     <div class="chart-card">
@@ -1083,7 +1285,7 @@
   </div>
 
   <!-- ── Row 2: Category breakdown + YoY growth ── -->
-  <div class="section-label">Spending Composition &amp; Growth (2024)</div>
+  <div class="section-label">Spend Composition &amp; Category Growth</div>
   <div class="chart-grid-2-wide">
 
     <div class="chart-card">
@@ -1103,7 +1305,7 @@
   </div>
 
   <!-- ── Row 3: Service category bar + financing ── -->
-  <div class="section-label">Service Categories &amp; Financing</div>
+  <div class="section-label">Service Mix &amp; Financing Sources</div>
   <div class="chart-grid-2">
 
     <div class="chart-card">
@@ -1123,7 +1325,7 @@
   </div>
 
   <!-- ── Row 4: Historical payer trend ── -->
-  <div class="section-label">Payer Trend Analysis</div>
+  <div class="section-label">Historical Trend vs. GDP</div>
   <div class="chart-grid-2">
 
     <div class="chart-card">
@@ -1138,6 +1340,17 @@
       <div class="chart-wrap"><canvas id="payerTrendChart" height="220"></canvas></div>
     </div>
 
+  </div>
+
+  <!-- ════ SECTION: PAYER LANDSCAPE ════ -->
+  <span class="sec-anchor" id="sec-payer"></span>
+
+  <div class="exec-callout" style="margin-top:2rem;">
+    <div class="exec-callout-icon">🏦</div>
+    <div class="exec-callout-text">
+      <span class="callout-tag">Payer Landscape</span>
+      <strong>Private insurance is the fastest-growing payer in 2024 (+8.8%)</strong>, driven by hospital contract renewals and GLP-1 formulary decisions. Medicare's structural enrollment growth continues through at least 2030. <strong>Click any payer card or chart element for a detailed driver breakdown.</strong>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1355,6 +1568,17 @@
         </table>
       </div>
       <div style="font-size:.65rem;color:#9aaac0;margin-top:.75rem;">Source: CMS NHEA 2024 Fact Sheet. All figures CMS actuals.</div>
+    </div>
+  </div>
+
+  <!-- ════ SECTION: CONDITION DRIVERS ════ -->
+  <span class="sec-anchor" id="sec-conditions"></span>
+
+  <div class="exec-callout" style="margin-top:2rem;">
+    <div class="exec-callout-icon">🔬</div>
+    <div class="exec-callout-text">
+      <span class="callout-tag">Condition Drivers</span>
+      Ten chronic conditions account for over <strong>$2.7 trillion in annual spend</strong>. Alzheimer's ($360B), Musculoskeletal ($380B), and Diabetes ($307B) are the top categories — each with distinct payer mix and per-patient cost implications. <strong>Click any condition bar to load a full breakdown.</strong>
     </div>
   </div>
 
@@ -2802,6 +3026,50 @@
     document.querySelectorAll('.payer-kpi-card').forEach(c => c.classList.remove('active'));
     activePayerKpi = null;
   }
+
+  /* ══════════════════════════════════════════════
+     NAVIGATION: SCROLL SPY + SMOOTH JUMP
+     ══════════════════════════════════════════════ */
+
+  const NAV_OFFSET = 120; // header (64) + subnav (48) + buffer
+
+  function navTo(sectionId) {
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET + 2;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  // ScrollSpy via IntersectionObserver
+  (function() {
+    const sections = ['sec-overview', 'sec-trends', 'sec-payer', 'sec-conditions'];
+    const tabMap = {
+      'sec-overview':    'navtab-overview',
+      'sec-trends':      'navtab-trends',
+      'sec-payer':       'navtab-payer',
+      'sec-conditions':  'navtab-conditions',
+    };
+
+    function setActive(sectionId) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      const tab = document.getElementById(tabMap[sectionId]);
+      if (tab) tab.classList.add('active');
+    }
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, {
+      rootMargin: `-${NAV_OFFSET}px 0px -60% 0px`,
+      threshold: 0,
+    });
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+  })();
 
   /* ══════════════════════════════════════════════
      KPI DRIVER DATA & INTERACTION
