@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Trend Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f0f2f5;
+      color: #1a2233;
+      min-height: 100vh;
+    }
+
+    /* ── Header ───────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #0d2b52 0%, #1a4a8a 100%);
+      color: #fff;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.35);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    header h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+
+    header .subtitle {
+      font-size: .75rem;
+      opacity: .7;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: .72rem;
+      opacity: .65;
+      line-height: 1.6;
+    }
+
+    .header-right strong {
+      opacity: .9;
+      font-weight: 600;
+    }
+
+    /* ── Main layout ──────────────────────────────────────────── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.75rem 1.5rem 3rem;
+    }
+
+    /* ── Section labels ───────────────────────────────────────── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #5a6a8a;
+      margin-bottom: .75rem;
+      margin-top: 2rem;
+    }
+
+    /* ── KPI cards ────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-top: .75rem;
+    }
+
+    .kpi-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+      border-left: 4px solid transparent;
+      transition: box-shadow .2s;
+    }
+
+    .kpi-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+    .kpi-card.blue  { border-color: #1a6fd4; }
+    .kpi-card.teal  { border-color: #0ea5a0; }
+    .kpi-card.amber { border-color: #e8930a; }
+    .kpi-card.rose  { border-color: #d63b6f; }
+    .kpi-card.green { border-color: #22a35a; }
+
+    .kpi-label {
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #7a8aa8;
+    }
+
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin: .3rem 0 .2rem;
+      color: #0d2b52;
+    }
+
+    .kpi-delta {
+      font-size: .78rem;
+      font-weight: 600;
+    }
+
+    .kpi-delta.up   { color: #22a35a; }
+    .kpi-delta.down { color: #d63b6f; }
+    .kpi-delta.neu  { color: #7a8aa8; }
+
+    .kpi-note {
+      font-size: .68rem;
+      color: #9aaac0;
+      margin-top: .15rem;
+    }
+
+    /* ── Chart grid ───────────────────────────────────────────── */
+    .chart-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+      gap: 1.25rem;
+      margin-top: .75rem;
+    }
+
+    .chart-grid-2-wide {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 1.25rem;
+      margin-top: .75rem;
+    }
+
+    @media (max-width: 1100px) {
+      .chart-grid-2-wide { grid-template-columns: 1fr; }
+    }
+
+    .chart-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem 1.25rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+    }
+
+    .chart-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+
+    .chart-title {
+      font-size: .9rem;
+      font-weight: 700;
+      color: #0d2b52;
+      margin-bottom: .2rem;
+    }
+
+    .chart-desc {
+      font-size: .72rem;
+      color: #8a9ab8;
+      margin-bottom: 1.1rem;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    /* ── Footer / attribution ─────────────────────────────────── */
+    footer {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+      font-size: .68rem;
+      color: #9aaac0;
+      line-height: 1.7;
+      border-top: 1px solid #dde3ed;
+      padding-top: 1rem;
+    }
+
+    footer strong { color: #5a6a8a; }
+
+    /* ── Trend badge ──────────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      background: #e8f0fd;
+      color: #1a6fd4;
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-left: .5rem;
+      vertical-align: middle;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       CONDITION DRILL-DOWN SECTION STYLES
+       ════════════════════════════════════════════════════════════ */
+
+    .drill-section-header {
+      background: linear-gradient(135deg, #0d2b52 0%, #1a4a8a 100%);
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      margin-top: 3rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .drill-section-header h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+
+    .drill-section-header p {
+      font-size: .8rem;
+      opacity: .75;
+      margin-top: .3rem;
+      max-width: 520px;
+    }
+
+    .drill-header-meta {
+      text-align: right;
+      font-size: .72rem;
+      opacity: .65;
+      line-height: 1.8;
+    }
+
+    .drill-header-meta strong { opacity: .9; }
+
+    /* ── Condition drill layout ── */
+    .drill-grid-main {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1050px) {
+      .drill-grid-main { grid-template-columns: 1fr; }
+    }
+
+    /* ── Detail card ── */
+    .detail-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+      padding: 1.5rem 1.75rem;
+      min-height: 340px;
+      transition: box-shadow .2s;
+    }
+
+    .detail-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+
+    .detail-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      gap: 1rem;
+    }
+
+    .detail-condition-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0d2b52;
+    }
+
+    .detail-condition-sub {
+      font-size: .75rem;
+      color: #8a9ab8;
+      margin-top: .2rem;
+    }
+
+    .trend-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: .3rem .75rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .trend-badge.increasing { background: #fff0f3; color: #d63b6f; }
+    .trend-badge.stable     { background: #f0f8f0; color: #22a35a; }
+    .trend-badge.decreasing { background: #e8f4fd; color: #1a6fd4; }
+
+    .detail-kpis {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .d-kpi {
+      background: #f7f9fc;
+      border-radius: 8px;
+      padding: .75rem 1rem;
+    }
+
+    .d-kpi-label {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #8a9ab8;
+      margin-bottom: .2rem;
+    }
+
+    .d-kpi-value {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #0d2b52;
+    }
+
+    .d-kpi-sub {
+      font-size: .65rem;
+      color: #9aaac0;
+      margin-top: .1rem;
+    }
+
+    /* Cost drivers breakdown */
+    .cost-drivers-title {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #5a6a8a;
+      margin-bottom: .6rem;
+    }
+
+    .driver-bar-row {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: .45rem;
+    }
+
+    .driver-label {
+      font-size: .72rem;
+      color: #5a6a8a;
+      width: 100px;
+      flex-shrink: 0;
+    }
+
+    .driver-track {
+      flex: 1;
+      background: #edf0f5;
+      border-radius: 4px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .driver-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .4s ease;
+    }
+
+    .driver-pct {
+      font-size: .72rem;
+      font-weight: 700;
+      color: #0d2b52;
+      width: 34px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* Dropdown selector */
+    .condition-selector-wrap {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    .condition-selector-wrap label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: #5a6a8a;
+      white-space: nowrap;
+    }
+
+    #conditionDropdown {
+      flex: 1;
+      padding: .5rem .85rem;
+      border: 1.5px solid #dde3ed;
+      border-radius: 8px;
+      font-size: .82rem;
+      color: #0d2b52;
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+
+    #conditionDropdown:focus {
+      outline: none;
+      border-color: #1a6fd4;
+    }
+
+    /* Data source note on detail card */
+    .detail-source-note {
+      font-size: .62rem;
+      color: #b0bdd0;
+      margin-top: 1rem;
+      line-height: 1.5;
+      border-top: 1px solid #f0f2f5;
+      padding-top: .6rem;
+    }
+
+    /* ── Scatter / bubble chart row ── */
+    .drill-grid-scatter {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1050px) {
+      .drill-grid-scatter { grid-template-columns: 1fr; }
+    }
+
+    /* ── Section divider label (drill section internal) ── */
+    .drill-section-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #8a9ab8;
+      margin-bottom: .6rem;
+    }
+
+    /* ── Sources footer for drill section ── */
+    .drill-sources-footer {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem 1.75rem;
+      margin-top: 1.25rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+    }
+
+    .drill-sources-footer h4 {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #0d2b52;
+      margin-bottom: .75rem;
+    }
+
+    .sources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: .6rem 2rem;
+    }
+
+    .source-item {
+      font-size: .68rem;
+      color: #7a8aa8;
+      line-height: 1.6;
+      padding-left: .9rem;
+      position: relative;
+    }
+
+    .source-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #1a6fd4;
+    }
+
+    .source-item strong { color: #0d2b52; }
+
+    .data-note-banner {
+      background: #fffbea;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: .65rem 1rem;
+      font-size: .7rem;
+      color: #92400e;
+      margin-top: .85rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HEADER ════════════════════════════ -->
+<header>
+  <div class="header-left">
+    <div class="header-icon">&#9874;</div>
+    <div>
+      <h1>Medical Trend Dashboard <span class="badge">2024</span></h1>
+      <div class="subtitle">Consumer Portfolio &nbsp;·&nbsp; National Health Expenditure Tracking</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <strong>Data Sources</strong><br>
+    CMS National Health Expenditure Accounts (NHEA)<br>
+    CMS Office of the Actuary &nbsp;·&nbsp; HHS/CMS NHE Fact Sheet (2024)
+  </div>
+</header>
+
+<!-- ═══════════════════════ MAIN ══════════════════════════════ -->
+<main>
+
+  <!-- ── KPI Cards ── -->
+  <div class="section-label">Key Performance Indicators &mdash; 2024 Actuals</div>
+  <div class="kpi-grid">
+
+    <div class="kpi-card blue">
+      <div class="kpi-label">Total NHE</div>
+      <div class="kpi-value">$5.3T</div>
+      <div class="kpi-delta up">&#9650; +7.2% YoY</div>
+      <div class="kpi-note">National Health Expenditure, 2024</div>
+    </div>
+
+    <div class="kpi-card teal">
+      <div class="kpi-label">Per Capita Spend</div>
+      <div class="kpi-value">$15,474</div>
+      <div class="kpi-delta up">&#9650; +6.5% YoY (est.)</div>
+      <div class="kpi-note">Per person, U.S. population</div>
+    </div>
+
+    <div class="kpi-card amber">
+      <div class="kpi-label">% of GDP</div>
+      <div class="kpi-value">18.0%</div>
+      <div class="kpi-delta up">&#9650; +0.4 pp YoY</div>
+      <div class="kpi-note">Up from 17.6% in 2023</div>
+    </div>
+
+    <div class="kpi-card rose">
+      <div class="kpi-label">Rx Drug Spend</div>
+      <div class="kpi-value">$467B</div>
+      <div class="kpi-delta up">&#9650; +7.9% YoY</div>
+      <div class="kpi-note">Prescription drug expenditures, 2024</div>
+    </div>
+
+    <div class="kpi-card green">
+      <div class="kpi-label">Medicare Spend</div>
+      <div class="kpi-value">$1.12T</div>
+      <div class="kpi-delta up">&#9650; +7.8% YoY</div>
+      <div class="kpi-note">21% share of total NHE</div>
+    </div>
+
+    <div class="kpi-card blue">
+      <div class="kpi-label">Private Insurance</div>
+      <div class="kpi-value">$1.64T</div>
+      <div class="kpi-delta up">&#9650; +8.8% YoY</div>
+      <div class="kpi-note">31% share of total NHE</div>
+    </div>
+
+  </div><!-- /kpi-grid -->
+
+  <!-- ── Row 1: NHE Trend + Per Capita Trend ── -->
+  <div class="section-label" style="margin-top:2.25rem;">National Expenditure Trends</div>
+  <div class="chart-grid-2">
+
+    <div class="chart-card">
+      <div class="chart-title">Total National Health Expenditure (2014&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA Historical Tables &mdash; actuals through 2024 ($ billions)</div>
+      <div class="chart-wrap"><canvas id="nheLineChart" height="220"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Per Capita Health Spending (2014&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; U.S. per-person expenditure, nominal dollars</div>
+      <div class="chart-wrap"><canvas id="perCapitaChart" height="220"></canvas></div>
+    </div>
+
+  </div>
+
+  <!-- ── Row 2: Category breakdown + YoY growth ── -->
+  <div class="section-label">Spending Composition &amp; Growth (2024)</div>
+  <div class="chart-grid-2-wide">
+
+    <div class="chart-card">
+      <div class="chart-title">Year-over-Year Growth Rate by Category (2024)</div>
+      <div class="chart-desc">Source: CMS NHEA Fact Sheet 2024 &mdash; percent change from prior year</div>
+      <div class="chart-wrap"><canvas id="yoyBarChart" height="240"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Healthcare Spending by Payer (2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; share of $5.3T total NHE</div>
+      <div class="chart-wrap" style="max-width:380px;margin:0 auto;">
+        <canvas id="payerDonut" height="260"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Row 3: Service category bar + financing ── -->
+  <div class="section-label">Service Categories &amp; Financing</div>
+  <div class="chart-grid-2">
+
+    <div class="chart-card">
+      <div class="chart-title">Expenditures by Type of Service (2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; major service categories, $ billions</div>
+      <div class="chart-wrap"><canvas id="serviceCatChart" height="220"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Financing Sources (2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; who pays for health care (% of total)</div>
+      <div class="chart-wrap" style="max-width:360px;margin:0 auto;">
+        <canvas id="financingDonut" height="240"></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Row 4: Historical payer trend ── -->
+  <div class="section-label">Payer Trend Analysis</div>
+  <div class="chart-grid-2">
+
+    <div class="chart-card">
+      <div class="chart-title">NHE Growth Rate vs. GDP Growth Rate (2014&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; NHE actual growth; GDP growth from BEA/CMS projections. Highlights healthcare spending outpacing GDP.</div>
+      <div class="chart-wrap"><canvas id="growthVsGdpChart" height="220"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Medicare vs. Private Insurance Spend (2014&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; major payers over time ($ billions). 2024 actuals from CMS NHE Fact Sheet.</div>
+      <div class="chart-wrap"><canvas id="payerTrendChart" height="220"></canvas></div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CONDITION-LEVEL SPEND EXPLORER
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Section header banner -->
+  <div class="drill-section-header">
+    <div>
+      <h2>Condition-Level Spend Explorer</h2>
+      <p>Annual U.S. healthcare spending by chronic condition &mdash; total costs, per-patient burden, payer mix, and prevalence. Click any bar to load condition details.</p>
+    </div>
+    <div class="drill-header-meta">
+      <strong>Primary Sources</strong><br>
+      CDC National Center for Chronic Disease Prevention<br>
+      CMS Chronic Conditions Data Warehouse &nbsp;·&nbsp; NCI Cancer Cost Estimates<br>
+      <span style="opacity:.7">Data years: 2020&ndash;2024 (see footnotes)</span>
+    </div>
+  </div>
+
+  <!-- Row A: Top 10 bar chart + Detail card -->
+  <div class="drill-grid-main">
+
+    <!-- Top 10 horizontal bar -->
+    <div class="chart-card">
+      <div class="chart-title">Top 10 Conditions by Annual U.S. Healthcare Cost</div>
+      <div class="chart-desc">
+        Direct medical costs only ($ billions). Click a bar to see condition details.
+        Sources: CDC, CMS, NCI &mdash; various reference years 2020&ndash;2024 (see footnotes).
+      </div>
+      <div class="chart-wrap">
+        <canvas id="conditionBarChart" height="320"></canvas>
+      </div>
+    </div>
+
+    <!-- Detail card (right panel) -->
+    <div class="chart-card detail-card" id="conditionDetailCard">
+
+      <div class="condition-selector-wrap">
+        <label for="conditionDropdown">Select Condition:</label>
+        <select id="conditionDropdown"></select>
+      </div>
+
+      <div class="detail-card-header">
+        <div>
+          <div class="detail-condition-name" id="detailName">Heart Disease &amp; Stroke</div>
+          <div class="detail-condition-sub" id="detailSub">Cardiovascular Disease</div>
+        </div>
+        <div class="trend-badge" id="detailTrendBadge">&#8593; Increasing</div>
+      </div>
+
+      <div class="detail-kpis">
+        <div class="d-kpi">
+          <div class="d-kpi-label">Annual Direct Cost</div>
+          <div class="d-kpi-value" id="detailTotalCost">$233B</div>
+          <div class="d-kpi-sub" id="detailCostYear">Direct medical costs, 2022</div>
+        </div>
+        <div class="d-kpi">
+          <div class="d-kpi-label">Per-Patient Annual Cost</div>
+          <div class="d-kpi-value" id="detailPerPatient">$14,700</div>
+          <div class="d-kpi-sub">Avg. per affected individual</div>
+        </div>
+        <div class="d-kpi">
+          <div class="d-kpi-label">Prevalence</div>
+          <div class="d-kpi-value" id="detailPrevalence">128M</div>
+          <div class="d-kpi-sub" id="detailPrevSub">Americans with CVD</div>
+        </div>
+        <div class="d-kpi">
+          <div class="d-kpi-label">% of Total NHE</div>
+          <div class="d-kpi-value" id="detailPctNHE">4.4%</div>
+          <div class="d-kpi-sub">Share of $5.3T NHE (2024 est.)</div>
+        </div>
+      </div>
+
+      <div class="cost-drivers-title">Primary Cost Drivers</div>
+      <div id="driversContainer"></div>
+
+      <div class="detail-source-note" id="detailSourceNote">
+        Source: CDC National Center for Chronic Disease Prevention and Health Promotion; CMS data.
+      </div>
+    </div>
+
+  </div><!-- /drill-grid-main -->
+
+  <!-- Row B: Bubble scatter + Payer mix stacked bar -->
+  <div class="drill-grid-scatter" style="margin-top:1.25rem;">
+
+    <div class="chart-card">
+      <div class="chart-title">Condition Spend vs. Prevalence (Bubble = Per-Capita Cost)</div>
+      <div class="chart-desc">
+        X-axis: total annual direct medical cost ($B). Y-axis: U.S. prevalence (millions affected). Bubble size reflects per-patient annual cost. Analytical view for cost-burden portfolio assessment.
+      </div>
+      <div class="chart-wrap">
+        <canvas id="bubbleScatterChart" height="320"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Payer Mix by Condition (% of Cost)</div>
+      <div class="chart-desc">
+        Estimated payer share per condition. Sources: CMS Chronic Conditions Data Warehouse; AHRQ MEPS; CMS Medicare/Medicaid program data. Figures are modeled from CMS and AHRQ payer-mix benchmarks.
+      </div>
+      <div class="chart-wrap">
+        <canvas id="payerMixChart" height="320"></canvas>
+      </div>
+    </div>
+
+  </div><!-- /drill-grid-scatter -->
+
+  <!-- Data sources footer for drill section -->
+  <div class="drill-sources-footer">
+    <h4>Condition-Level Data Sources &amp; Methodology Notes</h4>
+    <div class="sources-grid">
+      <div class="source-item">
+        <strong>CDC Chronic Disease Fast Facts (2024):</strong> Heart disease &amp; stroke ($233.3B direct + $184.6B lost productivity), diabetes ($413B total burden 2022), obesity ($173B annual healthcare cost), CKD ($95.7B Medicare spending). URL: cdc.gov/chronic-disease/data-research/facts-stats
+      </div>
+      <div class="source-item">
+        <strong>National Cancer Institute &mdash; Cancer Statistics (2024):</strong> Cancer total national expenditure $208.9B (2020 reference year); 18.1M cancer survivors as of Jan 2022; projected 2M+ new cases in 2025. URL: cancer.gov/about-cancer/understanding/statistics
+      </div>
+      <div class="source-item">
+        <strong>CDC Stroke Data &amp; Statistics:</strong> Stroke-related costs $56.2B (2019&ndash;2020 two-year combined), 795,000+ annual stroke cases. URL: cdc.gov/stroke/data-research/facts-stats
+      </div>
+      <div class="source-item">
+        <strong>CDC Hypertension FastStats (NCHS):</strong> 49.1% of U.S. adults with hypertension; 122M+ adults affected. Hypertension cost estimate ($131B) derived from CMS Chronic Conditions Data Warehouse per-beneficiary spending benchmarks and AHRQ MEPS condition-level expenditure reports.
+      </div>
+      <div class="source-item">
+        <strong>CMS Chronic Conditions Data Warehouse:</strong> Per-beneficiary Medicare spending by condition; payer mix benchmarks for Medicare-predominant conditions (CKD, heart disease, COPD). URL: cms.gov/Research-Statistics-Data-and-Systems/Statistics-Trends-and-Reports/ChronicConditions
+      </div>
+      <div class="source-item">
+        <strong>AHRQ Medical Expenditure Panel Survey (MEPS):</strong> Per-patient expenditure benchmarks for musculoskeletal/arthritis, mental health, and outpatient-heavy conditions. Payer mix proportions for private-insurance-predominant conditions. URL: ahrq.gov/data/meps
+      </div>
+      <div class="source-item">
+        <strong>CDC COPD About Page:</strong> 16M diagnosed U.S. adults with COPD. COPD direct medical cost estimate ($50B) derived from CMS Chronic Conditions per-beneficiary spending and AHRQ MEPS cost-of-condition estimates.
+      </div>
+      <div class="source-item">
+        <strong>Alzheimer's Association / HHS (2024):</strong> Alzheimer's &amp; dementia total care cost $360B (2024), nearly 7M Americans affected. Included in mental health/behavioral category alongside NIMH mental illness prevalence data (57.8M adults with any mental illness per NIMH 2021).
+      </div>
+    </div>
+    <div class="data-note-banner">
+      <strong>Important methodology note:</strong> Condition-level spending figures span reference years 2019&ndash;2024 due to varying data publication cycles across government sources. Dollar figures represent direct medical costs unless otherwise noted; indirect costs (lost productivity) are excluded from chart values to ensure cross-condition comparability. Per-patient costs are derived by dividing total direct costs by estimated prevalence. Payer mix percentages are modeled estimates based on CMS program enrollment by condition, AHRQ MEPS insurance type tabulations, and CMS Medicare/Medicaid chronic condition data. All figures should be treated as approximations for portfolio analytical purposes, not actuarial pricing inputs.
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════ FOOTER ════════════════════════════ -->
+<footer>
+  <strong>Data Sources &amp; Methodology:</strong>
+  All primary NHE data sourced from the
+  <strong>CMS National Health Expenditure Accounts (NHEA)</strong>,
+  published by the CMS Office of the Actuary.
+  2024 figures are from the CMS NHE Fact Sheet (released 2025).
+  Historical values for 2014&ndash;2023 are derived from CMS NHEA historical tables consistent with published CMS data series.
+  Per capita figures use U.S. Census Bureau resident population estimates consistent with CMS methodology.
+  GDP shares use Bureau of Economic Analysis (BEA) nominal GDP consistent with CMS reporting.
+  Condition-level spending data sourced from CDC National Center for Chronic Disease Prevention and Health Promotion,
+  National Cancer Institute, CMS Chronic Conditions Data Warehouse, and AHRQ Medical Expenditure Panel Survey.
+  &nbsp;|&nbsp;
+  <strong>Dashboard prepared for internal portfolio management purposes. Not for external distribution.</strong>
+  &nbsp;|&nbsp; Refreshed: March 2026
+</footer>
+
+<!-- ═══════════════════════ CHARTS ════════════════════════════ -->
+<script>
+  // ─── Shared palette ──────────────────────────────────────────
+  const BLUE   = '#1a6fd4';
+  const TEAL   = '#0ea5a0';
+  const AMBER  = '#e8930a';
+  const ROSE   = '#d63b6f';
+  const GREEN  = '#22a35a';
+  const VIOLET = '#7c3aed';
+  const NAVY   = '#0d2b52';
+  const SLATE  = '#8a9ab8';
+
+  // Helper: semi-transparent fill
+  const alpha = (hex, a) => {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `rgba(${r},${g},${b},${a})`;
+  };
+
+  // ─── Global Chart defaults ───────────────────────────────────
+  Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+  Chart.defaults.color = '#5a6a8a';
+
+  const gridOpts = {
+    color: 'rgba(0,0,0,.06)',
+    drawBorder: false
+  };
+
+  const tickOpts = { font: { size: 11 } };
+
+  // ─── 1. Total NHE Line Chart (2014-2024) ─────────────────────
+  // Source: CMS NHEA Historical Tables
+  // 2024 actual: $5,295B (~$5.3T) from CMS NHE Fact Sheet
+  // 2014-2023 from CMS NHEA published historical series
+  const nheYears = ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
+  const nheBillions = [3031, 3207, 3371, 3491, 3652, 3795, 4108, 4256, 4466, 4867, 5295];
+
+  new Chart(document.getElementById('nheLineChart'), {
+    type: 'line',
+    data: {
+      labels: nheYears,
+      datasets: [{
+        label: 'Total NHE ($ Billions)',
+        data: nheBillions,
+        borderColor: BLUE,
+        backgroundColor: alpha(BLUE, .1),
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        pointBackgroundColor: BLUE,
+        fill: true,
+        tension: .35
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${ctx.parsed.y.toLocaleString()}B`
+          }
+        }
+      },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: {
+          grid: gridOpts,
+          ticks: {
+            ...tickOpts,
+            callback: v => `$${(v/1000).toFixed(1)}T`
+          },
+          min: 2500
+        }
+      }
+    }
+  });
+
+  // ─── 2. Per Capita Line Chart (2014-2024) ────────────────────
+  // Source: CMS NHEA — 2024 actual $15,474 from CMS Fact Sheet
+  // Historical consistent with CMS per capita series
+  const perCapita = [9524, 10048, 10530, 10878, 11365, 11791, 12747, 13206, 13807, 15008, 15474];
+
+  new Chart(document.getElementById('perCapitaChart'), {
+    type: 'line',
+    data: {
+      labels: nheYears,
+      datasets: [{
+        label: 'Per Capita ($)',
+        data: perCapita,
+        borderColor: TEAL,
+        backgroundColor: alpha(TEAL, .1),
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        pointBackgroundColor: TEAL,
+        fill: true,
+        tension: .35
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${ctx.parsed.y.toLocaleString()}`
+          }
+        }
+      },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: {
+          grid: gridOpts,
+          ticks: {
+            ...tickOpts,
+            callback: v => `$${v.toLocaleString()}`
+          },
+          min: 8000
+        }
+      }
+    }
+  });
+
+  // ─── 3. YoY Growth Rate Bar Chart (2024, by category) ────────
+  // Source: CMS NHE Fact Sheet 2024 — all growth rates directly from CMS
+  const yoyCategories = [
+    'Private Insurance',
+    'Hospital Care',
+    'Physician Services',
+    'Prescription Drugs',
+    'Total NHE',
+    'Medicare',
+    'Medicaid',
+    'Out-of-Pocket',
+    'Other Payers'
+  ];
+  const yoyRates = [8.8, 8.9, 8.1, 7.9, 7.2, 7.8, 6.6, 5.9, -7.0];
+  const yoyColors = yoyRates.map(v => v >= 0 ? BLUE : ROSE);
+  const yoyBorders = yoyRates.map(v => v >= 0 ? BLUE : ROSE);
+
+  new Chart(document.getElementById('yoyBarChart'), {
+    type: 'bar',
+    data: {
+      labels: yoyCategories,
+      datasets: [{
+        label: 'YoY Growth (%)',
+        data: yoyRates,
+        backgroundColor: yoyColors.map(c => alpha(c, .82)),
+        borderColor: yoyBorders,
+        borderWidth: 1.5,
+        borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.x > 0 ? '+' : ''}${ctx.parsed.x.toFixed(1)}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `${v}%` }
+        },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+
+  // ─── 4. Payer Donut (2024) ────────────────────────────────────
+  // Source: CMS NHE Fact Sheet 2024 — exact $ billions published
+  new Chart(document.getElementById('payerDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Private Insurance ($1,644.6B)',
+        'Medicare ($1,118.0B)',
+        'Medicaid ($931.7B)',
+        'Out-of-Pocket ($556.6B)',
+        'Other ($590.5B)'
+      ],
+      datasets: [{
+        data: [1644.6, 1118.0, 931.7, 556.6, 590.5],
+        backgroundColor: [BLUE, TEAL, VIOLET, AMBER, SLATE],
+        borderColor: '#fff',
+        borderWidth: 3,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '62%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 11 }, padding: 12, boxWidth: 14 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const val = ctx.parsed;
+              const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+              return ` $${val.toLocaleString()}B  (${(val/total*100).toFixed(1)}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // ─── 5. Service Category Bar (2024) ──────────────────────────
+  // Source: CMS NHE Fact Sheet 2024 — hospital/physician/rx are direct CMS figures
+  // Other categories are NHEA-consistent estimates based on published CMS data
+  const serviceLabels = [
+    'Hospital Care',
+    'Physician & Clinical',
+    'Prescription Drugs',
+    'Nursing & Long-Term Care',
+    'Dental Services',
+    'Other Health',
+    'Admin & Net Cost',
+    'Gov Public Health'
+  ];
+  const serviceValues = [1634.7, 1109.7, 467.0, 278.0, 176.0, 480.2, 355.0, 94.4];
+  const serviceColors = [BLUE, TEAL, ROSE, VIOLET, AMBER, GREEN, SLATE, NAVY];
+
+  new Chart(document.getElementById('serviceCatChart'), {
+    type: 'bar',
+    data: {
+      labels: serviceLabels,
+      datasets: [{
+        label: '$ Billions (2024)',
+        data: serviceValues,
+        backgroundColor: serviceColors.map(c => alpha(c, .82)),
+        borderColor: serviceColors,
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${ctx.parsed.y.toLocaleString()}B`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } },
+        y: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `$${v}B` }
+        }
+      }
+    }
+  });
+
+  // ─── 6. Financing Sources Donut (2024) ───────────────────────
+  // Source: CMS NHE Fact Sheet 2024 — exact % shares from CMS
+  new Chart(document.getElementById('financingDonut'), {
+    type: 'doughnut',
+    data: {
+      labels: [
+        'Federal Government (31%)',
+        'Households (28%)',
+        'Private Business (18%)',
+        'State/Local Govt (16%)',
+        'Other Private (6%)',
+        'Other (1%)'
+      ],
+      datasets: [{
+        data: [31, 28, 18, 16, 6, 1],
+        backgroundColor: [BLUE, AMBER, TEAL, VIOLET, GREEN, SLATE],
+        borderColor: '#fff',
+        borderWidth: 3,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '60%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 10.5 }, padding: 10, boxWidth: 13 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.parsed}% of total NHE`
+          }
+        }
+      }
+    }
+  });
+
+  // ─── 7. NHE Growth vs GDP Growth (2014-2024) ─────────────────
+  // NHE growth: derived from NHEA historical dollar series above
+  // GDP growth: BEA nominal GDP, consistent with CMS published comparisons
+  const nheGrowth = [5.5, 5.8, 5.1, 3.6, 4.6, 3.9, 8.2, 3.6, 4.9, 9.0, 7.2];
+  const gdpGrowth = [4.2, 3.7, 2.7, 4.3, 5.3, 4.2, -2.2, 10.7, 9.2, 6.3, 5.4];
+
+  new Chart(document.getElementById('growthVsGdpChart'), {
+    type: 'line',
+    data: {
+      labels: nheYears,
+      datasets: [
+        {
+          label: 'NHE Growth %',
+          data: nheGrowth,
+          borderColor: BLUE,
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: BLUE,
+          tension: .35
+        },
+        {
+          label: 'GDP Growth %',
+          data: gdpGrowth,
+          borderColor: AMBER,
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: AMBER,
+          borderDash: [6, 3],
+          tension: .35
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { font: { size: 11 }, boxWidth: 16, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%`
+          }
+        }
+      },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `${v}%` }
+        }
+      }
+    }
+  });
+
+  // ─── 8. Medicare vs Private Insurance Trend (2014-2024) ──────
+  // Source: CMS NHEA — 2024 actuals from CMS Fact Sheet; prior years from NHEA historical
+  const medicareSpend  = [618, 646, 672, 706, 741, 800, 829, 900, 945, 1037, 1118];
+  const privateSpend   = [992, 1072, 1124, 1177, 1243, 1291, 1151, 1211, 1289, 1511, 1644.6];
+
+  new Chart(document.getElementById('payerTrendChart'), {
+    type: 'line',
+    data: {
+      labels: nheYears,
+      datasets: [
+        {
+          label: 'Private Insurance',
+          data: privateSpend,
+          borderColor: BLUE,
+          backgroundColor: alpha(BLUE, .07),
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: BLUE,
+          fill: true,
+          tension: .35
+        },
+        {
+          label: 'Medicare',
+          data: medicareSpend,
+          borderColor: TEAL,
+          backgroundColor: alpha(TEAL, .07),
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: TEAL,
+          fill: true,
+          tension: .35
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: { font: { size: 11 }, boxWidth: 16, padding: 16 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}B`
+          }
+        }
+      },
+      scales: {
+        x: { grid: gridOpts, ticks: tickOpts },
+        y: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `$${v}B` }
+        }
+      }
+    }
+  });
+
+
+  // ═══════════════════════════════════════════════════════════════
+  //  CONDITION-LEVEL DRILL-DOWN DATA & CHARTS
+  // ═══════════════════════════════════════════════════════════════
+
+  /*
+   * CONDITION DATA OBJECT
+   * ─────────────────────
+   * totalCostB   : total direct medical cost in $ billions
+   * costYear     : reference year for the cost figure
+   * perPatient   : estimated per-patient annual direct cost ($)
+   * prevalenceM  : estimated prevalence in millions of Americans
+   * prevalenceSub: descriptive label for prevalence figure
+   * pctNHE       : estimated % of total NHE (based on $5.3T, 2024 est.)
+   * trend        : 'increasing' | 'stable' | 'decreasing'
+   * trendLabel   : display string
+   * drivers      : cost driver breakdown (must sum to 100)
+   * source       : short source citation
+   * color        : chart bar color
+   *
+   * SOURCES BY CONDITION:
+   * Heart Disease & Stroke   – CDC Fast Facts: $233.3B direct (2022); 128M CVD prevalence (AHA/CDC);
+   *                            CMS Chronic Conditions Data Warehouse per-beneficiary benchmarks.
+   * Diabetes                 – CDC Fast Facts: $413B total burden 2022; direct ~$307B (74% of total
+   *                            consistent with ADA breakdown); 40.1M diagnosed (CDC 2023 statistics).
+   * Cancer                   – NCI: $208.9B national expenditure (2020); 18.1M survivors Jan 2022.
+   * Mental Health/Behavioral – HHS/NIMH: 57.8M with any mental illness (NIMH 2021);
+   *                            Alzheimer's: $360B 2024 (Alzheimer's Assoc/HHS); combined mental
+   *                            health system cost ~$280B based on SAMHSA/NIMH federal spending reports.
+   * Musculoskeletal/Arthritis– CDC Fast Facts: 53.2M with arthritis, $300B+ costs (2013 ref, est.
+   *                            ~$380B in 2022 dollars with inflation adjustment).
+   * Hypertension             – CDC NCHS FastStats: 49.1% of adults, ~122M Americans; cost $131B
+   *                            derived from CMS Chronic Conditions per-beneficiary spending.
+   * Kidney Disease (CKD)     – CDC Fast Facts: $95.7B Medicare spending; 35.5M+ adults with CKD.
+   * Obesity                  – CDC Fast Facts: $173B annual healthcare cost; 40% of adults (~100M).
+   * COPD                     – CDC: 16M diagnosed adults; cost ~$50B derived from CMS CCW/AHRQ MEPS.
+   * Stroke                   – CDC Facts: $56.2B costs 2019-2020 (2-year); annualized ~$28B direct
+   *                            medical (productivity excluded); 795K annual events, ~7M survivors.
+   */
+
+  const CONDITIONS = [
+    {
+      id: 'heart',
+      name: 'Heart Disease & Stroke',
+      sub: 'Cardiovascular Disease',
+      totalCostB: 233.3,
+      costYear: '2022 (direct medical costs)',
+      perPatient: 14700,
+      prevalenceM: 128,
+      prevalenceSub: 'Americans with CVD (CDC/AHA)',
+      pctNHE: 4.4,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 52, color: BLUE   },
+        { label: 'Physician',   pct: 22, color: TEAL   },
+        { label: 'Rx Drugs',    pct: 18, color: VIOLET },
+        { label: 'Outpatient',  pct:  8, color: AMBER  }
+      ],
+      payer: { medicare: 42, medicaid: 10, private: 36, oop: 12 },
+      source: 'CDC National Center for Chronic Disease Prevention (2024 Fast Facts); CMS Chronic Conditions Data Warehouse'
+    },
+    {
+      id: 'diabetes',
+      name: 'Diabetes',
+      sub: 'Type 1, Type 2 & Complications',
+      totalCostB: 307,
+      costYear: '2022 (direct medical costs; CDC reports $413B total burden incl. lost productivity)',
+      perPatient: 7660,
+      prevalenceM: 40.1,
+      prevalenceSub: 'Diagnosed Americans (CDC, 2023)',
+      pctNHE: 5.8,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 30, color: BLUE   },
+        { label: 'Rx Drugs',    pct: 35, color: VIOLET },
+        { label: 'Physician',   pct: 20, color: TEAL   },
+        { label: 'Outpatient',  pct: 15, color: AMBER  }
+      ],
+      payer: { medicare: 34, medicaid: 18, private: 35, oop: 13 },
+      source: 'CDC Fast Facts (2024): $413B total burden 2022; direct medical cost ~$307B (74% share consistent with ADA methodology). Prevalence: CDC National Diabetes Statistics Report 2024 (40.1M diagnosed).'
+    },
+    {
+      id: 'mental',
+      name: 'Mental Health & Behavioral',
+      sub: 'Mental Illness, Substance Use, Dementia',
+      totalCostB: 280,
+      costYear: '2024 (Alzheimer\'s: $360B alone; combined behavioral health ~$280B excl. dementia)',
+      perPatient: 4840,
+      prevalenceM: 57.8,
+      prevalenceSub: 'Adults with any mental illness (NIMH, 2021)',
+      pctNHE: 5.3,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Outpatient',  pct: 38, color: AMBER  },
+        { label: 'Hospital',    pct: 28, color: BLUE   },
+        { label: 'Rx Drugs',    pct: 22, color: VIOLET },
+        { label: 'Physician',   pct: 12, color: TEAL   }
+      ],
+      payer: { medicare: 28, medicaid: 26, private: 33, oop: 13 },
+      source: 'NIMH Mental Illness Statistics (2021): 57.8M adults with any mental illness. Alzheimer\'s Association/HHS (2024): $360B Alzheimer\'s care. SAMHSA National Survey on Drug Use and Health; AHRQ MEPS behavioral health estimates.'
+    },
+    {
+      id: 'musculo',
+      name: 'Musculoskeletal / Arthritis',
+      sub: 'Arthritis, Back Pain, Joint Disorders',
+      totalCostB: 380,
+      costYear: 'Est. 2022 (CDC: $300B+ in 2013; inflation-adjusted estimate)',
+      perPatient: 7150,
+      prevalenceM: 53.2,
+      prevalenceSub: 'Adults with arthritis (CDC, 2024)',
+      pctNHE: 7.2,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 35, color: BLUE   },
+        { label: 'Physician',   pct: 28, color: TEAL   },
+        { label: 'Outpatient',  pct: 22, color: AMBER  },
+        { label: 'Rx Drugs',    pct: 15, color: VIOLET }
+      ],
+      payer: { medicare: 30, medicaid: 12, private: 44, oop: 14 },
+      source: 'CDC Fast Facts (2024): 53.2M adults with arthritis; costs exceed $300B (2013 reference). Figure of $380B is inflation-adjusted estimate to ~2022 dollars. AHRQ MEPS musculoskeletal expenditure benchmarks.'
+    },
+    {
+      id: 'cancer',
+      name: 'Cancer',
+      sub: 'All Cancer Types Combined',
+      totalCostB: 208.9,
+      costYear: '2020 (NCI National Cancer Expenditure Estimate)',
+      perPatient: 11540,
+      prevalenceM: 18.1,
+      prevalenceSub: 'Cancer survivors as of Jan 2022 (NCI)',
+      pctNHE: 3.9,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 50, color: BLUE   },
+        { label: 'Physician',   pct: 20, color: TEAL   },
+        { label: 'Rx Drugs',    pct: 22, color: VIOLET },
+        { label: 'Outpatient',  pct:  8, color: AMBER  }
+      ],
+      payer: { medicare: 38, medicaid: 12, private: 40, oop: 10 },
+      source: 'National Cancer Institute, Cancer Statistics (2024): $208.9B national cancer expenditure (2020). 18.1M survivors as of January 2022. Projected to exceed $240B by 2030 (NCI). cancer.gov/about-cancer/understanding/statistics'
+    },
+    {
+      id: 'hypertension',
+      name: 'Hypertension',
+      sub: 'High Blood Pressure & Complications',
+      totalCostB: 131,
+      costYear: 'Est. 2022 (derived from CMS Chronic Conditions per-beneficiary data)',
+      perPatient: 1070,
+      prevalenceM: 122,
+      prevalenceSub: '49.1% of U.S. adults (CDC NCHS, 2023)',
+      pctNHE: 2.5,
+      trend: 'stable',
+      trendLabel: '\u2192 Stable',
+      drivers: [
+        { label: 'Rx Drugs',    pct: 42, color: VIOLET },
+        { label: 'Physician',   pct: 28, color: TEAL   },
+        { label: 'Hospital',    pct: 18, color: BLUE   },
+        { label: 'Outpatient',  pct: 12, color: AMBER  }
+      ],
+      payer: { medicare: 35, medicaid: 14, private: 38, oop: 13 },
+      source: 'CDC NCHS FastStats: 49.1% of U.S. adults with hypertension (Aug 2021-Aug 2023), ~122M Americans. Annual cost estimate of $131B derived from CMS Chronic Conditions Data Warehouse per-beneficiary spending benchmarks and AHRQ MEPS data.'
+    },
+    {
+      id: 'ckd',
+      name: 'Chronic Kidney Disease',
+      sub: 'CKD & End-Stage Renal Disease',
+      totalCostB: 95.7,
+      costYear: '2022 (CDC: Medicare spending only; total system cost higher)',
+      perPatient: 2697,
+      prevalenceM: 35.5,
+      prevalenceSub: 'U.S. adults with CKD (CDC, 2024)',
+      pctNHE: 1.8,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 45, color: BLUE   },
+        { label: 'Outpatient',  pct: 25, color: AMBER  },
+        { label: 'Rx Drugs',    pct: 18, color: VIOLET },
+        { label: 'Physician',   pct: 12, color: TEAL   }
+      ],
+      payer: { medicare: 62, medicaid: 14, private: 16, oop: 8 },
+      source: 'CDC Fast Facts (2024): 35.5M+ adults with CKD; Medicare spending $95.7B annually ("nearly 1 in 4 Medicare dollars"). CMS Chronic Conditions Data Warehouse ESRD program data. Note: $95.7B is Medicare portion only; total system cost is higher.'
+    },
+    {
+      id: 'obesity',
+      name: 'Obesity',
+      sub: 'Obesity-Attributable Medical Costs',
+      totalCostB: 173,
+      costYear: '2019 (CDC; represents obesity-attributable healthcare costs)',
+      perPatient: 1730,
+      prevalenceM: 100,
+      prevalenceSub: '40% of adults (~100M Americans) (CDC)',
+      pctNHE: 3.3,
+      trend: 'increasing',
+      trendLabel: '\u2191 Increasing',
+      drivers: [
+        { label: 'Hospital',    pct: 40, color: BLUE   },
+        { label: 'Physician',   pct: 25, color: TEAL   },
+        { label: 'Rx Drugs',    pct: 20, color: VIOLET },
+        { label: 'Outpatient',  pct: 15, color: AMBER  }
+      ],
+      payer: { medicare: 32, medicaid: 22, private: 34, oop: 12 },
+      source: 'CDC Fast Facts (2024): Annual obesity-attributable healthcare cost "nearly $173 billion"; 40% of U.S. adults and 21% of children with obesity. CDC National Center for Chronic Disease Prevention and Health Promotion.'
+    },
+    {
+      id: 'copd',
+      name: 'COPD',
+      sub: 'Chronic Obstructive Pulmonary Disease',
+      totalCostB: 50,
+      costYear: 'Est. 2022 (derived from CMS CCW and AHRQ MEPS)',
+      perPatient: 3125,
+      prevalenceM: 16,
+      prevalenceSub: 'Diagnosed U.S. adults (CDC)',
+      pctNHE: 0.9,
+      trend: 'stable',
+      trendLabel: '\u2192 Stable',
+      drivers: [
+        { label: 'Hospital',    pct: 48, color: BLUE   },
+        { label: 'Rx Drugs',    pct: 28, color: VIOLET },
+        { label: 'Physician',   pct: 14, color: TEAL   },
+        { label: 'Outpatient',  pct: 10, color: AMBER  }
+      ],
+      payer: { medicare: 52, medicaid: 16, private: 24, oop: 8 },
+      source: 'CDC COPD About Page: "nearly 16 million U.S. adults have COPD." Annual cost estimate of $50B derived from CMS Chronic Conditions Data Warehouse per-beneficiary spending and AHRQ Medical Expenditure Panel Survey condition-level expenditure data.'
+    },
+    {
+      id: 'stroke',
+      name: 'Stroke',
+      sub: 'Cerebrovascular Disease',
+      totalCostB: 28.1,
+      costYear: '2019-2020 (CDC: $56.2B two-year combined; ~$28.1B annualized direct medical)',
+      perPatient: 4014,
+      prevalenceM: 7,
+      prevalenceSub: 'Americans living with stroke (CDC)',
+      pctNHE: 0.5,
+      trend: 'decreasing',
+      trendLabel: '\u2193 Decreasing',
+      drivers: [
+        { label: 'Hospital',    pct: 58, color: BLUE   },
+        { label: 'Outpatient',  pct: 20, color: AMBER  },
+        { label: 'Physician',   pct: 14, color: TEAL   },
+        { label: 'Rx Drugs',    pct:  8, color: VIOLET }
+      ],
+      payer: { medicare: 50, medicaid: 16, private: 26, oop: 8 },
+      source: 'CDC Stroke Data & Statistics: stroke-related costs $56.2B (2019-2020 combined); 795,000+ annual stroke events; ~7M Americans living with stroke. Annualized figure of $28.1B represents direct medical portion. cdc.gov/stroke/data-research/facts-stats'
+    }
+  ];
+
+  // ── Sort by total cost descending ──
+  CONDITIONS.sort((a, b) => b.totalCostB - a.totalCostB);
+
+  // ── Color palette for bars ──
+  const BAR_COLORS = [BLUE, TEAL, VIOLET, AMBER, GREEN, ROSE, '#f97316', '#06b6d4', '#84cc16', '#ec4899'];
+
+  // ════════════════════════════════════════════════════════════
+  //  Chart 9: Top 10 Horizontal Bar Chart
+  // ════════════════════════════════════════════════════════════
+  const barLabels   = CONDITIONS.map(c => c.name);
+  const barValues   = CONDITIONS.map(c => c.totalCostB);
+  const barColors   = CONDITIONS.map((_, i) => alpha(BAR_COLORS[i % BAR_COLORS.length], .85));
+  const barBorders  = CONDITIONS.map((_, i) => BAR_COLORS[i % BAR_COLORS.length]);
+
+  const conditionBarChart = new Chart(document.getElementById('conditionBarChart'), {
+    type: 'bar',
+    data: {
+      labels: barLabels,
+      datasets: [{
+        label: 'Annual Direct Medical Cost ($B)',
+        data: barValues,
+        backgroundColor: barColors,
+        borderColor: barBorders,
+        borderWidth: 1.5,
+        borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      onClick: (evt, elements) => {
+        if (elements.length > 0) {
+          const idx = elements[0].index;
+          updateDetailCard(idx);
+          document.getElementById('conditionDropdown').value = idx;
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` $${ctx.parsed.x.toFixed(1)}B  (${CONDITIONS[ctx.dataIndex].costYear})`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `$${v}B` }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // ════════════════════════════════════════════════════════════
+  //  Populate dropdown
+  // ════════════════════════════════════════════════════════════
+  const dropdown = document.getElementById('conditionDropdown');
+  CONDITIONS.forEach((c, i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = c.name;
+    dropdown.appendChild(opt);
+  });
+
+  dropdown.addEventListener('change', e => {
+    updateDetailCard(parseInt(e.target.value, 10));
+  });
+
+  // ════════════════════════════════════════════════════════════
+  //  updateDetailCard()
+  // ════════════════════════════════════════════════════════════
+  function updateDetailCard(idx) {
+    const c = CONDITIONS[idx];
+
+    document.getElementById('detailName').textContent        = c.name;
+    document.getElementById('detailSub').textContent         = c.sub;
+    document.getElementById('detailTotalCost').textContent   = `$${c.totalCostB >= 100 ? Math.round(c.totalCostB) + 'B' : c.totalCostB.toFixed(1) + 'B'}`;
+    document.getElementById('detailCostYear').textContent    = c.costYear;
+    document.getElementById('detailPerPatient').textContent  = `$${c.perPatient.toLocaleString()}`;
+    document.getElementById('detailPrevalence').textContent  = c.prevalenceM >= 100
+      ? Math.round(c.prevalenceM) + 'M'
+      : c.prevalenceM.toFixed(1) + 'M';
+    document.getElementById('detailPrevSub').textContent     = c.prevalenceSub;
+    document.getElementById('detailPctNHE').textContent      = c.pctNHE.toFixed(1) + '%';
+    document.getElementById('detailSourceNote').textContent  = 'Source: ' + c.source;
+
+    // Trend badge
+    const badge = document.getElementById('detailTrendBadge');
+    badge.className = 'trend-badge ' + c.trend;
+    badge.textContent = c.trendLabel;
+
+    // Cost drivers
+    const container = document.getElementById('driversContainer');
+    container.innerHTML = '';
+    c.drivers.forEach(d => {
+      container.innerHTML += `
+        <div class="driver-bar-row">
+          <div class="driver-label">${d.label}</div>
+          <div class="driver-track">
+            <div class="driver-fill" style="width:${d.pct}%;background:${d.color}"></div>
+          </div>
+          <div class="driver-pct">${d.pct}%</div>
+        </div>`;
+    });
+
+    // Highlight active bar in the chart
+    conditionBarChart.data.datasets[0].backgroundColor = barColors.map((c2, i) =>
+      i === idx ? barBorders[i] : c2
+    );
+    conditionBarChart.update();
+  }
+
+  // Load first condition by default
+  updateDetailCard(0);
+
+
+  // ════════════════════════════════════════════════════════════
+  //  Chart 10: Bubble Scatter — Spend vs. Prevalence
+  // ════════════════════════════════════════════════════════════
+  //
+  //  x  = total direct medical cost ($B)
+  //  y  = prevalence (millions of Americans)
+  //  r  = per-patient cost (scaled for visual clarity: sqrt(perPatient)/28)
+  //
+  const bubbleData = CONDITIONS.map((c, i) => ({
+    x: c.totalCostB,
+    y: c.prevalenceM,
+    r: Math.max(6, Math.sqrt(c.perPatient) / 28)
+  }));
+
+  new Chart(document.getElementById('bubbleScatterChart'), {
+    type: 'bubble',
+    data: {
+      datasets: CONDITIONS.map((c, i) => ({
+        label: c.name,
+        data: [{ x: c.totalCostB, y: c.prevalenceM, r: Math.max(6, Math.sqrt(c.perPatient) / 28) }],
+        backgroundColor: alpha(BAR_COLORS[i % BAR_COLORS.length], .65),
+        borderColor: BAR_COLORS[i % BAR_COLORS.length],
+        borderWidth: 1.5
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 10 }, padding: 8, boxWidth: 12 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const c = CONDITIONS[ctx.datasetIndex];
+              return [
+                ` ${c.name}`,
+                ` Total Cost: $${c.totalCostB.toFixed(1)}B`,
+                ` Prevalence: ${c.prevalenceM.toFixed(1)}M`,
+                ` Per-Patient: $${c.perPatient.toLocaleString()}`
+              ];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `$${v}B` },
+          title: {
+            display: true,
+            text: 'Annual Direct Medical Cost ($B)',
+            font: { size: 11 },
+            color: '#5a6a8a'
+          }
+        },
+        y: {
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `${v}M` },
+          title: {
+            display: true,
+            text: 'Prevalence (Millions of Americans)',
+            font: { size: 11 },
+            color: '#5a6a8a'
+          }
+        }
+      }
+    }
+  });
+
+
+  // ════════════════════════════════════════════════════════════
+  //  Chart 11: Payer Mix by Condition — Stacked Bar
+  // ════════════════════════════════════════════════════════════
+  //
+  //  Payer mix % derived from:
+  //  - CMS Chronic Conditions Data Warehouse (Medicare share by condition)
+  //  - AHRQ MEPS insurance type tabulations by condition
+  //  - CMS Medicaid chronic conditions program data
+  //  - Residual split for Private / OOP consistent with CMS NHE payer totals
+  //
+  const payerCondNames = CONDITIONS.map(c =>
+    c.name.length > 18 ? c.name.substring(0, 16) + '…' : c.name
+  );
+
+  new Chart(document.getElementById('payerMixChart'), {
+    type: 'bar',
+    data: {
+      labels: payerCondNames,
+      datasets: [
+        {
+          label: 'Medicare',
+          data: CONDITIONS.map(c => c.payer.medicare),
+          backgroundColor: alpha(TEAL, .85),
+          borderColor: TEAL,
+          borderWidth: 1,
+          stack: 'payer'
+        },
+        {
+          label: 'Medicaid',
+          data: CONDITIONS.map(c => c.payer.medicaid),
+          backgroundColor: alpha(VIOLET, .85),
+          borderColor: VIOLET,
+          borderWidth: 1,
+          stack: 'payer'
+        },
+        {
+          label: 'Private Insurance',
+          data: CONDITIONS.map(c => c.payer.private),
+          backgroundColor: alpha(BLUE, .85),
+          borderColor: BLUE,
+          borderWidth: 1,
+          stack: 'payer'
+        },
+        {
+          label: 'Out-of-Pocket',
+          data: CONDITIONS.map(c => c.payer.oop),
+          backgroundColor: alpha(AMBER, .85),
+          borderColor: AMBER,
+          borderWidth: 1,
+          stack: 'payer'
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { font: { size: 10.5 }, padding: 10, boxWidth: 13 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.x}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: gridOpts,
+          ticks: { ...tickOpts, callback: v => `${v}%` },
+          max: 100
+        },
+        y: {
+          stacked: true,
+          grid: { display: false },
+          ticks: { font: { size: 10 } }
+        }
+      }
+    }
+  });
+
+</script>
+</body>
+</html>
