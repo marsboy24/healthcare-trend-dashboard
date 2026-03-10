@@ -106,15 +106,174 @@
       padding: 1.25rem 1.5rem;
       box-shadow: 0 1px 6px rgba(0,0,0,.07);
       border-left: 4px solid transparent;
-      transition: box-shadow .2s;
+      transition: box-shadow .2s, transform .15s, background .15s;
+      cursor: pointer;
+      position: relative;
     }
 
-    .kpi-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); }
+    .kpi-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.15); transform: translateY(-2px); }
     .kpi-card.blue  { border-color: #1a6fd4; }
     .kpi-card.teal  { border-color: #0ea5a0; }
     .kpi-card.amber { border-color: #e8930a; }
     .kpi-card.rose  { border-color: #d63b6f; }
     .kpi-card.green { border-color: #22a35a; }
+
+    .kpi-card.active.blue  { background: #eef4fd; box-shadow: 0 4px 20px rgba(26,111,212,.2); }
+    .kpi-card.active.teal  { background: #e6f7f7; box-shadow: 0 4px 20px rgba(14,165,160,.2); }
+    .kpi-card.active.amber { background: #fef6e8; box-shadow: 0 4px 20px rgba(232,147,10,.2); }
+    .kpi-card.active.rose  { background: #fdeef4; box-shadow: 0 4px 20px rgba(214,59,111,.2); }
+    .kpi-card.active.green { background: #eaf7f0; box-shadow: 0 4px 20px rgba(34,163,90,.2); }
+
+    .kpi-hint {
+      font-size: .62rem;
+      color: #9aaac0;
+      margin-top: .5rem;
+      letter-spacing: .03em;
+    }
+
+    .kpi-card.active .kpi-hint { opacity: 0; }
+
+    /* ── KPI Driver Panel ── */
+    .kpi-driver-panel {
+      display: none;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.1);
+      margin-top: 1rem;
+      overflow: hidden;
+      animation: slideDown .25s ease;
+    }
+
+    .kpi-driver-panel.open { display: block; }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .driver-panel-header {
+      padding: 1.1rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #edf0f7;
+    }
+
+    .driver-panel-header h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0d2b52;
+    }
+
+    .driver-panel-header .driver-kpi-val {
+      font-size: .85rem;
+      font-weight: 700;
+      color: #5a6a8a;
+    }
+
+    .driver-close {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #9aaac0;
+      line-height: 1;
+      padding: 0 0 0 1rem;
+    }
+
+    .driver-close:hover { color: #1a2233; }
+
+    .driver-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    @media (max-width: 900px) { .driver-body { grid-template-columns: 1fr; } }
+
+    .driver-drivers {
+      padding: 1.25rem 1.75rem;
+      border-right: 1px solid #edf0f7;
+    }
+
+    .driver-drivers h4 {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7a8aa8;
+      margin-bottom: .9rem;
+    }
+
+    .driver-bar-row {
+      margin-bottom: .85rem;
+    }
+
+    .driver-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #1a2233;
+      margin-bottom: .3rem;
+    }
+
+    .driver-bar-label span { color: #5a6a8a; font-weight: 500; }
+
+    .driver-bar-track {
+      background: #edf0f7;
+      border-radius: 4px;
+      height: 7px;
+      overflow: hidden;
+    }
+
+    .driver-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width .6s ease;
+    }
+
+    .driver-context {
+      padding: 1.25rem 1.75rem;
+    }
+
+    .driver-context h4 {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7a8aa8;
+      margin-bottom: .9rem;
+    }
+
+    .driver-insight {
+      display: flex;
+      gap: .75rem;
+      margin-bottom: .85rem;
+      align-items: flex-start;
+    }
+
+    .driver-insight-icon {
+      font-size: .9rem;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    .driver-insight-text {
+      font-size: .78rem;
+      color: #3a4a6a;
+      line-height: 1.5;
+    }
+
+    .driver-insight-text strong { color: #0d2b52; }
+
+    .driver-source {
+      font-size: .65rem;
+      color: #9aaac0;
+      padding: .6rem 1.75rem;
+      border-top: 1px solid #edf0f7;
+      background: #fafbfd;
+    }
 
     .kpi-label {
       font-size: .72rem;
@@ -549,52 +708,80 @@
 <main>
 
   <!-- ── KPI Cards ── -->
-  <div class="section-label">Key Performance Indicators &mdash; 2024 Actuals</div>
+  <div class="section-label">Key Performance Indicators &mdash; 2024 Actuals &nbsp;<span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9aaac0;">&#9432; Click any card to explore trend drivers</span></div>
   <div class="kpi-grid">
 
-    <div class="kpi-card blue">
+    <div class="kpi-card blue" onclick="showDrivers('nhe')" id="kpi-nhe">
       <div class="kpi-label">Total NHE</div>
       <div class="kpi-value">$5.3T</div>
       <div class="kpi-delta up">&#9650; +7.2% YoY</div>
       <div class="kpi-note">National Health Expenditure, 2024</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
-    <div class="kpi-card teal">
+    <div class="kpi-card teal" onclick="showDrivers('capita')" id="kpi-capita">
       <div class="kpi-label">Per Capita Spend</div>
       <div class="kpi-value">$15,474</div>
       <div class="kpi-delta up">&#9650; +6.5% YoY (est.)</div>
       <div class="kpi-note">Per person, U.S. population</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
-    <div class="kpi-card amber">
+    <div class="kpi-card amber" onclick="showDrivers('gdp')" id="kpi-gdp">
       <div class="kpi-label">% of GDP</div>
       <div class="kpi-value">18.0%</div>
       <div class="kpi-delta up">&#9650; +0.4 pp YoY</div>
       <div class="kpi-note">Up from 17.6% in 2023</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
-    <div class="kpi-card rose">
+    <div class="kpi-card rose" onclick="showDrivers('rx')" id="kpi-rx">
       <div class="kpi-label">Rx Drug Spend</div>
       <div class="kpi-value">$467B</div>
       <div class="kpi-delta up">&#9650; +7.9% YoY</div>
       <div class="kpi-note">Prescription drug expenditures, 2024</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
-    <div class="kpi-card green">
+    <div class="kpi-card green" onclick="showDrivers('medicare')" id="kpi-medicare">
       <div class="kpi-label">Medicare Spend</div>
       <div class="kpi-value">$1.12T</div>
       <div class="kpi-delta up">&#9650; +7.8% YoY</div>
       <div class="kpi-note">21% share of total NHE</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
-    <div class="kpi-card blue">
+    <div class="kpi-card blue" onclick="showDrivers('private')" id="kpi-private">
       <div class="kpi-label">Private Insurance</div>
       <div class="kpi-value">$1.64T</div>
       <div class="kpi-delta up">&#9650; +8.8% YoY</div>
       <div class="kpi-note">31% share of total NHE</div>
+      <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
   </div><!-- /kpi-grid -->
+
+  <!-- ── KPI Driver Panel ── -->
+  <div class="kpi-driver-panel" id="kpiDriverPanel">
+    <div class="driver-panel-header">
+      <div>
+        <h3 id="driverTitle">Trend Drivers</h3>
+        <div class="driver-kpi-val" id="driverSubtitle"></div>
+      </div>
+      <button class="driver-close" onclick="closeDrivers()" title="Close">&times;</button>
+    </div>
+    <div class="driver-body">
+      <div class="driver-drivers">
+        <h4>Primary Cost Drivers</h4>
+        <div id="driverBars"></div>
+      </div>
+      <div class="driver-context">
+        <h4>Key Insights</h4>
+        <div id="driverInsights"></div>
+      </div>
+    </div>
+    <div class="driver-source" id="driverSource"></div>
+  </div>
 
   <!-- ── Row 1: NHE Trend + Per Capita Trend ── -->
   <div class="section-label" style="margin-top:2.25rem;">National Expenditure Trends</div>
@@ -1778,6 +1965,187 @@
       }
     }
   });
+
+  /* ══════════════════════════════════════════════
+     KPI DRIVER DATA & INTERACTION
+     ══════════════════════════════════════════════ */
+  const kpiDriverData = {
+    nhe: {
+      title: 'Total National Health Expenditure',
+      subtitle: '$5.3T &nbsp;&#9650;&nbsp; +7.2% YoY &nbsp;|&nbsp; 2024 Actual',
+      color: '#1a6fd4',
+      drivers: [
+        { label: 'Hospital Care',        value: '+8.9%', pct: 92 },
+        { label: 'Physician Services',   value: '+8.1%', pct: 84 },
+        { label: 'Rx Drugs',             value: '+7.9%', pct: 82 },
+        { label: 'Nursing / Long-Term',  value: '+5.2%', pct: 54 },
+        { label: 'Administrative Costs', value: '+6.4%', pct: 66 },
+      ],
+      insights: [
+        { icon: '📈', text: '<strong>Hospital labor costs</strong> remain the single largest driver, with nursing and allied health wages up ~9% following pandemic-era workforce compression.' },
+        { icon: '💊', text: '<strong>GLP-1 medications</strong> (semaglutide class) drove outsized Rx growth — estimated $35B+ in 2024 spend, up from near zero in 2021.' },
+        { icon: '👴', text: '<strong>Population aging</strong> adds ~1.5pp to base trend annually as 10,000+ baby boomers turn 65 each day, shifting utilization toward higher-acuity services.' },
+        { icon: '🔄', text: '<strong>Post-COVID care catch-up</strong> — deferred procedures from 2020–2022 continue to normalize, adding volume pressure especially in elective surgery.' },
+      ],
+      source: 'Sources: CMS Office of the Actuary, National Health Expenditure Accounts (NHEA) 2024 Fact Sheet; CMS NHE Historical Tables.'
+    },
+    capita: {
+      title: 'Per Capita Health Spend',
+      subtitle: '$15,474 &nbsp;&#9650;&nbsp; +6.5% YoY &nbsp;|&nbsp; 2024 Estimate',
+      color: '#0ea5a0',
+      drivers: [
+        { label: 'Unit Cost Inflation',     value: '+4.1%', pct: 78 },
+        { label: 'Utilization Increase',    value: '+1.8%', pct: 34 },
+        { label: 'Chronic Disease Growth',  value: '+0.9%', pct: 17 },
+        { label: 'Aging Demographics',      value: '+1.5%', pct: 28 },
+        { label: 'Behavioral Health Access',value: '+0.7%', pct: 13 },
+      ],
+      insights: [
+        { icon: '💰', text: '<strong>Unit cost inflation</strong> accounts for roughly 63% of per-capita growth — driven by provider wage inflation, supply chain costs, and hospital consolidation pricing power.' },
+        { icon: '📊', text: '<strong>Utilization is recovering</strong> toward pre-pandemic norms. Outpatient and ambulatory visit volumes are now ~103% of 2019 baseline.' },
+        { icon: '🏥', text: '<strong>Chronic condition prevalence</strong> (diabetes, obesity, heart disease) directly increases average per-member cost — 5 chronic conditions = 3× average spend.' },
+        { icon: '🧠', text: '<strong>Behavioral health</strong> is the fastest-growing utilization category, up ~15% in visit volume since 2021 parity law enforcement tightened.' },
+      ],
+      source: 'Sources: CMS NHEA Per Capita Estimates; AHRQ Medical Expenditure Panel Survey (MEPS); CMS Chronic Conditions Data Warehouse.'
+    },
+    gdp: {
+      title: 'Healthcare as % of GDP',
+      subtitle: '18.0% &nbsp;&#9650;&nbsp; +0.4 pp YoY &nbsp;|&nbsp; Projected 20.3% by 2033',
+      color: '#e8930a',
+      drivers: [
+        { label: 'Healthcare Outpacing GDP Growth', value: '+2.1pp', pct: 88 },
+        { label: 'Federal Program Expansion',       value: '+0.6pp', pct: 25 },
+        { label: 'Labor Cost Structural Shift',     value: '+0.4pp', pct: 17 },
+        { label: 'Technology & Pharma Investment',  value: '+0.3pp', pct: 13 },
+        { label: 'Administrative Overhead',         value: '+0.2pp', pct: 8  },
+      ],
+      insights: [
+        { icon: '📉', text: '<strong>Healthcare spending grows faster than GDP</strong> in virtually every year — the gap averaged +2.1pp over 2014–2024, a structural divergence without a market correction mechanism.' },
+        { icon: '🏛️', text: '<strong>IRA (Inflation Reduction Act) drug provisions</strong> are expected to slow Rx inflation slightly by 2026, but Medicare negotiation savings are partially offset by increased utilization in other categories.' },
+        { icon: '🤖', text: '<strong>AI and diagnostics investment</strong> is adding near-term cost before realizing long-term efficiency gains — a common pattern in healthcare technology adoption cycles.' },
+        { icon: '⚠️', text: 'CMS projects the share will reach <strong>20.3% of GDP by 2033</strong>, adding significant pressure to federal budget, employer benefit costs, and household expenditures.' },
+      ],
+      source: 'Sources: CMS Office of the Actuary NHE Projections 2024–2033; CMS NHEA Fact Sheet 2024; CBO Federal Budget Outlook.'
+    },
+    rx: {
+      title: 'Prescription Drug Expenditure',
+      subtitle: '$467B &nbsp;&#9650;&nbsp; +7.9% YoY &nbsp;|&nbsp; 2024 Actual',
+      color: '#d63b6f',
+      drivers: [
+        { label: 'GLP-1 / Obesity Drugs',      value: '+$35B', pct: 95 },
+        { label: 'Oncology Biologics',          value: '+$18B', pct: 49 },
+        { label: 'Specialty Rx (non-GLP-1)',    value: '+$14B', pct: 38 },
+        { label: "Alzheimer's Treatments",      value: '+$8B',  pct: 22 },
+        { label: 'Brand Inflation (legacy Rx)', value: '+3.2%', pct: 16 },
+      ],
+      insights: [
+        { icon: '💉', text: '<strong>GLP-1 medications</strong> (Ozempic, Wegovy, Mounjaro) are the single largest new cost driver in pharma — formulary and coverage decisions for these drugs now materially affect plan financials.' },
+        { icon: '🔬', text: '<strong>Oncology biologics</strong> remain the highest-cost per-patient category, averaging $150K–$500K per treated patient annually, with pipeline approvals continuing to accelerate.' },
+        { icon: '📋', text: '<strong>IRA Medicare drug negotiations</strong> cover 10 drugs in 2026, expected to yield $2–3B in savings — meaningful but less than 1% of total Rx spend.' },
+        { icon: '🧬', text: '<strong>Alzheimer\'s treatments</strong> (lecanemab, donanemab) entered commercial coverage in 2024, adding a new multi-billion dollar spend category with significant utilization uncertainty.' },
+      ],
+      source: 'Sources: CMS NHEA Rx Expenditure Tables 2024; CMS Office of the Actuary Drug Spending Dashboard; IQVIA National Prescription Audit.'
+    },
+    medicare: {
+      title: 'Medicare Program Spend',
+      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 21% of Total NHE',
+      color: '#22a35a',
+      drivers: [
+        { label: 'Beneficiary Enrollment Growth', value: '+2.8%', pct: 72 },
+        { label: 'Medicare Advantage Shift',      value: '+4.1%', pct: 88 },
+        { label: 'Part D IRA Restructuring',      value: '+1.9%', pct: 49 },
+        { label: 'Post-Acute Care Volume',        value: '+3.2%', pct: 66 },
+        { label: 'Fee Schedule Updates',          value: '+3.5%', pct: 71 },
+      ],
+      insights: [
+        { icon: '👵', text: '<strong>Baby boomer enrollment</strong> adds ~1.1M beneficiaries annually — the program will peak enrollment around 2030, sustaining structural growth pressure for 6+ more years.' },
+        { icon: '🏢', text: '<strong>Medicare Advantage now covers 54%</strong> of beneficiaries (2024), shifting risk to private plans but increasing CMS capitation payments due to risk-score optimization practices.' },
+        { icon: '💊', text: '<strong>IRA Part D redesign</strong> (2025 implementation) caps out-of-pocket at $2,000 and shifts more cost to manufacturers — but increases government liability for catastrophic coverage.' },
+        { icon: '🏨', text: '<strong>Post-acute care</strong> (SNF, home health, inpatient rehab) is the fastest-growing Medicare service category, driven by aging population and hospital-to-home care transitions.' },
+      ],
+      source: 'Sources: CMS Medicare Trustees Report 2024; CMS Medicare Advantage Enrollment Data; CMS Part D Dashboard; MedPAC March 2024 Report.'
+    },
+    private: {
+      title: 'Private Health Insurance Spend',
+      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 31% of Total NHE',
+      color: '#1a6fd4',
+      drivers: [
+        { label: 'Hospital System Consolidation', value: '+4.5%', pct: 90 },
+        { label: 'Premium Rate Increases',        value: '+7.0%', pct: 82 },
+        { label: 'GLP-1 Formulary Coverage',      value: '+$12B', pct: 58 },
+        { label: 'Workforce / Admin Costs',       value: '+5.2%', pct: 52 },
+        { label: 'Mental Health Parity Enforce.',  value: '+2.1%', pct: 28 },
+      ],
+      insights: [
+        { icon: '🏦', text: '<strong>Hospital consolidation</strong> is the dominant structural driver — markets with dominant health systems show 15–40% higher commercial prices vs. markets with competitive hospital supply.' },
+        { icon: '📄', text: '<strong>Employer premiums rose ~7%</strong> in 2024 (KFF Employer Survey), the largest single-year increase since 2011, driven by hospital contract renewals and Rx cost pass-through.' },
+        { icon: '💊', text: '<strong>GLP-1 coverage decisions</strong> are the #1 benefits strategy debate for plan sponsors — covering obesity indication adds $3–8 PMPM to plan cost depending on formulary controls.' },
+        { icon: '⚖️', text: '<strong>Mental health parity enforcement</strong> (MHPAEA 2024 final rule) is expanding required coverage of behavioral health services, adding near-term cost with long-term ROI potential.' },
+      ],
+      source: 'Sources: CMS NHEA Private Insurance Tables 2024; KFF Employer Health Benefits Survey 2024; American Hospital Association Hospital Statistics.'
+    }
+  };
+
+  let activeKpi = null;
+
+  function showDrivers(key) {
+    const data = kpiDriverData[key];
+    if (!data) return;
+
+    // If same card clicked again, close
+    if (activeKpi === key) { closeDrivers(); return; }
+
+    // Deactivate all cards
+    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
+    // Activate clicked card
+    document.getElementById('kpi-' + key).classList.add('active');
+    activeKpi = key;
+
+    // Populate panel
+    document.getElementById('driverTitle').innerHTML = data.title;
+    document.getElementById('driverSubtitle').innerHTML = data.subtitle;
+    document.getElementById('driverSource').textContent = data.source;
+
+    // Bars
+    const barsEl = document.getElementById('driverBars');
+    barsEl.innerHTML = data.drivers.map(d => `
+      <div class="driver-bar-row">
+        <div class="driver-bar-label">${d.label} <span>${d.value}</span></div>
+        <div class="driver-bar-track">
+          <div class="driver-bar-fill" style="width:0%;background:${data.color}" data-pct="${d.pct}"></div>
+        </div>
+      </div>
+    `).join('');
+
+    // Insights
+    const insightsEl = document.getElementById('driverInsights');
+    insightsEl.innerHTML = data.insights.map(i => `
+      <div class="driver-insight">
+        <div class="driver-insight-icon">${i.icon}</div>
+        <div class="driver-insight-text">${i.text}</div>
+      </div>
+    `).join('');
+
+    // Show panel
+    const panel = document.getElementById('kpiDriverPanel');
+    panel.classList.add('open');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    // Animate bars after paint
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        panel.querySelectorAll('.driver-bar-fill').forEach(el => {
+          el.style.width = el.dataset.pct + '%';
+        });
+      });
+    });
+  }
+
+  function closeDrivers() {
+    document.getElementById('kpiDriverPanel').classList.remove('open');
+    document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
+    activeKpi = null;
+  }
 
 </script>
 </body>
