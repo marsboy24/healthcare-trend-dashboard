@@ -835,6 +835,136 @@
     }
 
     .share-bar-fill { height: 100%; border-radius: 3px; }
+
+    /* ── In-card chart context panel ── */
+    .chart-context-panel {
+      display: none;
+      margin-top: 1rem;
+      border-top: 1px solid #edf0f7;
+      padding-top: 1rem;
+      animation: slideDown .22s ease;
+    }
+    .chart-context-panel.open { display: block; }
+
+    .ctx-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: .75rem;
+    }
+
+    .ctx-title {
+      font-size: .82rem;
+      font-weight: 700;
+      color: #0d2b52;
+      line-height: 1.3;
+    }
+
+    .ctx-subtitle {
+      font-size: .69rem;
+      color: #7a8aa8;
+      margin-top: .15rem;
+    }
+
+    .ctx-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #b0bdd0;
+      font-size: 1.1rem;
+      line-height: 1;
+      padding: 0 0 0 .75rem;
+      flex-shrink: 0;
+    }
+    .ctx-close:hover { color: #1a2233; }
+
+    .ctx-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .55rem 1.25rem;
+    }
+    @media (max-width: 700px) { .ctx-grid { grid-template-columns: 1fr; } }
+
+    .ctx-item {
+      display: flex;
+      gap: .55rem;
+      align-items: flex-start;
+    }
+
+    .ctx-icon { font-size: .88rem; flex-shrink: 0; line-height: 1.55; }
+
+    .ctx-text {
+      font-size: .75rem;
+      color: #3a4a6a;
+      line-height: 1.55;
+    }
+    .ctx-text strong { color: #0d2b52; }
+
+    .ctx-stat-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: .7rem;
+      flex-wrap: wrap;
+    }
+
+    .ctx-stat {
+      background: #f4f6fb;
+      border-radius: 8px;
+      padding: .45rem .85rem;
+      font-size: .75rem;
+    }
+
+    .ctx-stat-val { font-size: 1.05rem; font-weight: 800; color: #0d2b52; }
+    .ctx-stat-lbl { font-size: .65rem; color: #7a8aa8; margin-top: .05rem; }
+
+    .ctx-source {
+      font-size: .63rem;
+      color: #b0bdd0;
+      margin-top: .75rem;
+      padding-top: .5rem;
+      border-top: 1px solid #f0f2f7;
+    }
+
+    /* chart card click hint */
+    .chart-click-hint {
+      font-size: .67rem;
+      color: #b0bdd0;
+      margin-top: .3rem;
+      margin-bottom: -.2rem;
+    }
+
+    /* ── Table accordion rows ── */
+    .cost-shift-table tbody tr.tbl-clickable {
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .cost-shift-table tbody tr.tbl-clickable:hover { background: #f5f7fc; }
+    .cost-shift-table tbody tr.tbl-clickable.tbl-active { background: #f0f4fb; }
+
+    .tbl-chevron {
+      display: inline-block;
+      font-size: .65rem;
+      color: #b0bdd0;
+      margin-left: .4rem;
+      transition: transform .2s;
+    }
+    .tbl-active .tbl-chevron { transform: rotate(180deg); color: #1a6fd4; }
+
+    .tbl-detail-row { display: none; }
+    .tbl-detail-row.open { display: table-row; }
+
+    .tbl-detail-cell {
+      padding: .85rem 1rem .85rem 1.75rem !important;
+      background: #f8f9fd;
+      border-bottom: 2px solid #e8edf5 !important;
+    }
+
+    .tbl-detail-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem 1.5rem;
+    }
+    @media (max-width: 700px) { .tbl-detail-inner { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -1093,17 +1223,36 @@
     <div class="driver-source" id="payerDriverSource"></div>
   </div>
 
-  <!-- Payer Charts Row 1: Stacked Area + Trend Rate Bar -->
+  <!-- Payer Charts Row 1: Stacked Bar + Trend Rate Bar -->
   <div class="payer-chart-grid-wide" style="margin-top:1.25rem;">
     <div class="chart-card">
       <div class="chart-title">Payer Spend Mix Over Time (2014&ndash;2024)</div>
-      <div class="chart-desc">Source: CMS NHEA Historical Tables &mdash; major payer categories in $ billions. Shows structural shift toward Medicare as population ages.</div>
+      <div class="chart-desc">Source: CMS NHEA Historical Tables &mdash; major payer categories in $ billions.</div>
+      <div class="chart-click-hint">&#9432; Click a year bar to see what drove that year's payer mix</div>
       <div class="chart-wrap"><canvas id="payerStackedChart" height="240"></canvas></div>
+      <div class="chart-context-panel" id="ctx-stacked">
+        <div class="ctx-header">
+          <div><div class="ctx-title" id="ctx-stacked-title"></div><div class="ctx-subtitle" id="ctx-stacked-sub"></div></div>
+          <button class="ctx-close" onclick="closeCtx('stacked')">&times;</button>
+        </div>
+        <div class="ctx-stat-row" id="ctx-stacked-stats"></div>
+        <div class="ctx-grid" id="ctx-stacked-body"></div>
+        <div class="ctx-source" id="ctx-stacked-source"></div>
+      </div>
     </div>
     <div class="chart-card">
       <div class="chart-title">YoY Medical Trend Rate by Payer (2022&ndash;2024)</div>
-      <div class="chart-desc">Source: CMS NHEA &mdash; annual growth rate per payer. Private insurance trend accelerating fastest in 2024.</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; annual growth rate per payer.</div>
+      <div class="chart-click-hint">&#9432; Click any bar to see what drove that payer's trend in that year</div>
       <div class="chart-wrap"><canvas id="payerTrendRateChart" height="240"></canvas></div>
+      <div class="chart-context-panel" id="ctx-trendrate">
+        <div class="ctx-header">
+          <div><div class="ctx-title" id="ctx-trendrate-title"></div><div class="ctx-subtitle" id="ctx-trendrate-sub"></div></div>
+          <button class="ctx-close" onclick="closeCtx('trendrate')">&times;</button>
+        </div>
+        <div class="ctx-grid" id="ctx-trendrate-body"></div>
+        <div class="ctx-source" id="ctx-trendrate-source"></div>
+      </div>
     </div>
   </div>
 
@@ -1112,76 +1261,100 @@
     <div class="chart-card">
       <div class="chart-title">Per-Member / Per-Beneficiary Annual Cost</div>
       <div class="chart-desc">Source: CMS NHEA spend ÷ CMS enrollment data &mdash; cost per covered life by payer type, 2024.</div>
+      <div class="chart-click-hint">&#9432; Click a bar to see cost composition and implications</div>
       <div class="chart-wrap"><canvas id="perMemberChart" height="220"></canvas></div>
+      <div class="chart-context-panel" id="ctx-permember">
+        <div class="ctx-header">
+          <div><div class="ctx-title" id="ctx-permember-title"></div><div class="ctx-subtitle" id="ctx-permember-sub"></div></div>
+          <button class="ctx-close" onclick="closeCtx('permember')">&times;</button>
+        </div>
+        <div class="ctx-stat-row" id="ctx-permember-stats"></div>
+        <div class="ctx-grid" id="ctx-permember-body"></div>
+        <div class="ctx-source" id="ctx-permember-source"></div>
+      </div>
     </div>
     <div class="chart-card">
       <div class="chart-title">Payer Summary: Spend, Share &amp; Trend (2024)</div>
-      <div class="chart-desc">Source: CMS NHEA 2024 Fact Sheet &mdash; all figures are CMS actuals or direct estimates.</div>
+      <div class="chart-desc">Source: CMS NHEA 2024 Fact Sheet. <span style="color:#b0bdd0">&#9432; Click any row to expand context.</span></div>
       <div style="margin-top:.5rem; overflow-x:auto;">
         <table class="cost-shift-table">
           <thead>
-            <tr>
-              <th>Payer</th>
-              <th>2024 Spend</th>
-              <th>YoY Trend</th>
-              <th>NHE Share</th>
-            </tr>
+            <tr><th>Payer</th><th>2024 Spend</th><th>YoY Trend</th><th>NHE Share</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td><span class="payer-dot" style="background:#1a6fd4"></span>Private Insurance</td>
-              <td>$1,644.6B</td>
-              <td class="trend-up">&#9650; +8.8%</td>
-              <td>
-                <div class="share-bar-inline">31%
-                  <div class="share-bar-track"><div class="share-bar-fill" style="width:31%;background:#1a6fd4"></div></div>
-                </div>
-              </td>
+            <tr class="tbl-clickable" onclick="toggleTblRow('tbl-private')">
+              <td><span class="payer-dot" style="background:#1a6fd4"></span>Private Insurance <span class="tbl-chevron">&#9660;</span></td>
+              <td>$1,644.6B</td><td class="trend-up">&#9650; +8.8%</td>
+              <td><div class="share-bar-inline">31%<div class="share-bar-track"><div class="share-bar-fill" style="width:31%;background:#1a6fd4"></div></div></div></td>
             </tr>
-            <tr>
-              <td><span class="payer-dot" style="background:#22a35a"></span>Medicare</td>
-              <td>$1,118.0B</td>
-              <td class="trend-up">&#9650; +7.8%</td>
-              <td>
-                <div class="share-bar-inline">21%
-                  <div class="share-bar-track"><div class="share-bar-fill" style="width:21%;background:#22a35a"></div></div>
-                </div>
-              </td>
+            <tr class="tbl-detail-row" id="tbl-private"><td class="tbl-detail-cell" colspan="4">
+              <div class="tbl-detail-inner">
+                <div class="ctx-item"><div class="ctx-icon">🏦</div><div class="ctx-text"><strong>Highest trend rate of any payer in 2024.</strong> Hospital contract renewals (+4–6% unit cost) and specialty pharmacy growth are the primary levers. Large employers are absorbing vs. passing to employees.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">💊</div><div class="ctx-text"><strong>GLP-1 coverage is now a top-3 cost driver for commercial plans.</strong> Formulary control (prior auth, step therapy) is the primary mitigation tool — without it, add $3–8 PMPM.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">📈</div><div class="ctx-text"><strong>Per-covered-life cost: ~$7,200.</strong> 2024 marks the 3rd consecutive year of accelerating commercial trend — actuaries are projecting 8–9% for 2025 absent structural intervention.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">⚠️</div><div class="ctx-text"><strong>Watch: hospital system M&A.</strong> Each merger in a concentrated market historically adds 2–5% to commercial rates in that region within 3 years of deal close.</div></div>
+              </div>
+            </td></tr>
+
+            <tr class="tbl-clickable" onclick="toggleTblRow('tbl-medicare')">
+              <td><span class="payer-dot" style="background:#22a35a"></span>Medicare <span class="tbl-chevron">&#9660;</span></td>
+              <td>$1,118.0B</td><td class="trend-up">&#9650; +7.8%</td>
+              <td><div class="share-bar-inline">21%<div class="share-bar-track"><div class="share-bar-fill" style="width:21%;background:#22a35a"></div></div></div></td>
             </tr>
-            <tr>
-              <td><span class="payer-dot" style="background:#9b59b6"></span>Medicaid &amp; CHIP</td>
-              <td>$931.7B</td>
-              <td class="trend-up">&#9650; +6.6%</td>
-              <td>
-                <div class="share-bar-inline">18%
-                  <div class="share-bar-track"><div class="share-bar-fill" style="width:18%;background:#9b59b6"></div></div>
-                </div>
-              </td>
+            <tr class="tbl-detail-row" id="tbl-medicare"><td class="tbl-detail-cell" colspan="4">
+              <div class="tbl-detail-inner">
+                <div class="ctx-item"><div class="ctx-icon">👵</div><div class="ctx-text"><strong>Structural enrollment growth is non-negotiable.</strong> ~1.1M new beneficiaries per year through ~2030. Per-beneficiary cost also rising as the average age within the program increases.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">🏢</div><div class="ctx-text"><strong>Medicare Advantage now covers 54% of beneficiaries.</strong> CMS is tightening MA risk-score oversight — plans that relied on risk-score optimization are facing capitation headwinds in 2025–2026.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">💊</div><div class="ctx-text"><strong>IRA Part D $2,000 OOP cap (2025)</strong> shifts catastrophic cost to the government and manufacturers. Net effect on program spend is modestly positive for beneficiaries, modestly negative for CMS budgets.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">📊</div><div class="ctx-text"><strong>Per-beneficiary cost: ~$14,600.</strong> 2× the private insurance per-member figure, reflecting the elderly population's higher chronic condition burden and post-acute care utilization.</div></div>
+              </div>
+            </td></tr>
+
+            <tr class="tbl-clickable" onclick="toggleTblRow('tbl-medicaid')">
+              <td><span class="payer-dot" style="background:#9b59b6"></span>Medicaid &amp; CHIP <span class="tbl-chevron">&#9660;</span></td>
+              <td>$931.7B</td><td class="trend-up">&#9650; +6.6%</td>
+              <td><div class="share-bar-inline">18%<div class="share-bar-track"><div class="share-bar-fill" style="width:18%;background:#9b59b6"></div></div></div></td>
             </tr>
-            <tr>
-              <td><span class="payer-dot" style="background:#e8930a"></span>Out-of-Pocket</td>
-              <td>$556.6B</td>
-              <td class="trend-up">&#9650; +5.9%</td>
-              <td>
-                <div class="share-bar-inline">11%
-                  <div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#e8930a"></div></div>
-                </div>
-              </td>
+            <tr class="tbl-detail-row" id="tbl-medicaid"><td class="tbl-detail-cell" colspan="4">
+              <div class="tbl-detail-inner">
+                <div class="ctx-item"><div class="ctx-icon">🔄</div><div class="ctx-text"><strong>Enrollment unwinding removed ~6M members</strong> post-PHE — but per-enrollee cost rose because the disenrolled population skewed younger and healthier, leaving a sicker average member.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">🏠</div><div class="ctx-text"><strong>LTSS is 30% of Medicaid spend</strong> and growing faster than acute care. State transitions from nursing home to home-based care (HCBS) are reducing per-episode cost but increasing total utilization.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">🧠</div><div class="ctx-text"><strong>Behavioral health is the highest-growth subcategory.</strong> 1115 waiver expansions are opening new SUD and mental health benefits — net positive for population health, near-term cost pressure.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">📊</div><div class="ctx-text"><strong>Per-enrollee cost varies dramatically:</strong> expansion adults ~$3,500/yr vs. aged/disabled ~$22,000/yr. The overall $8,900 average is heavily influenced by the high-cost LTSS population.</div></div>
+              </div>
+            </td></tr>
+
+            <tr class="tbl-clickable" onclick="toggleTblRow('tbl-oop')">
+              <td><span class="payer-dot" style="background:#e8930a"></span>Out-of-Pocket <span class="tbl-chevron">&#9660;</span></td>
+              <td>$556.6B</td><td class="trend-up">&#9650; +5.9%</td>
+              <td><div class="share-bar-inline">11%<div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#e8930a"></div></div></div></td>
             </tr>
-            <tr>
-              <td><span class="payer-dot" style="background:#7a8aa8"></span>Other Payers</td>
-              <td>$590.5B</td>
-              <td class="trend-down">&#9660; &minus;7.0%</td>
-              <td>
-                <div class="share-bar-inline">11%
-                  <div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#7a8aa8"></div></div>
-                </div>
-              </td>
+            <tr class="tbl-detail-row" id="tbl-oop"><td class="tbl-detail-cell" colspan="4">
+              <div class="tbl-detail-inner">
+                <div class="ctx-item"><div class="ctx-icon">📋</div><div class="ctx-text"><strong>55% of covered workers are in HDHPs (2024).</strong> First-dollar exposure deters preventive care and medication adherence — particularly among hourly workers and low-income households.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">🦷</div><div class="ctx-text"><strong>~$200B of OOP is dental and vision</strong> — almost entirely uncovered for the non-Medicare population. Dental benefit expansion is a top employee request and a growing union bargaining point.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">💊</div><div class="ctx-text"><strong>IRA OOP cap ($2,000 for Medicare Part D in 2025)</strong> provides relief for the Medicare population. Commercial OOP caps remain at plan-level deductible + out-of-pocket max, averaging ~$8,700 for single coverage.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">⚠️</div><div class="ctx-text"><strong>OOP growth is slowing (+5.9% vs. +11.4% in 2023)</strong> as consumer inflation cools — but HDHP structural growth means OOP as a cost-sharing mechanism continues to expand as a % of household health spending.</div></div>
+              </div>
+            </td></tr>
+
+            <tr class="tbl-clickable" onclick="toggleTblRow('tbl-other')">
+              <td><span class="payer-dot" style="background:#7a8aa8"></span>Other Payers <span class="tbl-chevron">&#9660;</span></td>
+              <td>$590.5B</td><td class="trend-down">&#9660; &minus;7.0%</td>
+              <td><div class="share-bar-inline">11%<div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#7a8aa8"></div></div></div></td>
             </tr>
+            <tr class="tbl-detail-row" id="tbl-other"><td class="tbl-detail-cell" colspan="4">
+              <div class="tbl-detail-inner">
+                <div class="ctx-item"><div class="ctx-icon">🏛️</div><div class="ctx-text"><strong>The −7.0% decline is almost entirely PHE wind-down.</strong> ~$85B in COVID-era federal supplemental grants, FEMA reimbursements, and emergency appropriations that were in this bucket in 2022–2023 are now gone.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">⚕️</div><div class="ctx-text"><strong>VA community care is growing ~12% YoY</strong> as the Mission Act expands veteran access to non-VA providers. This partially offsets the PHE decline and is expected to sustain 8–10% growth through 2027.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">🪖</div><div class="ctx-text"><strong>TRICARE covers ~9.5M lives at controlled rates.</strong> Military health spend grows modestly (+2–3%) relative to civilian trends due to fixed fee schedules and base-access primary care.</div></div>
+                <div class="ctx-item"><div class="ctx-icon">📊</div><div class="ctx-text"><strong>Normalized baseline going forward: +2–4% annually.</strong> Absent another public health emergency, this category stabilizes as VA and TRICARE growth offsets workers comp normalization.</div></div>
+              </div>
+            </td></tr>
           </tbody>
         </table>
       </div>
-      <div style="font-size:.65rem;color:#9aaac0;margin-top:.75rem;">Source: CMS National Health Expenditure Accounts (NHEA) 2024 Fact Sheet. All figures are CMS actuals.</div>
+      <div style="font-size:.65rem;color:#9aaac0;margin-top:.75rem;">Source: CMS NHEA 2024 Fact Sheet. All figures CMS actuals.</div>
     </div>
   </div>
 
@@ -2296,10 +2469,82 @@
      PAYER PERSPECTIVE CHARTS
      ══════════════════════════════════════════════ */
 
-  // Stacked area: payer mix 2014-2024
+  // ── Shared context panel helpers ──
+  function openCtx(id) {
+    document.getElementById('ctx-' + id).classList.add('open');
+  }
+  function closeCtx(id) {
+    document.getElementById('ctx-' + id).classList.remove('open');
+  }
+  function toggleTblRow(id) {
+    const detail = document.getElementById(id);
+    const trigger = detail.previousElementSibling;
+    const isOpen = detail.classList.contains('open');
+    // close all
+    document.querySelectorAll('.tbl-detail-row.open').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.tbl-clickable.tbl-active').forEach(r => r.classList.remove('tbl-active'));
+    if (!isOpen) {
+      detail.classList.add('open');
+      trigger.classList.add('tbl-active');
+    }
+  }
+
+  // ── Year context data for stacked chart ──
+  const yearContext = {
+    '2014': { title: '2014 — ACA Launch Year', sub: 'Total NHE: ~$2.9T', stats: [['26', 'Medicaid expansion states'], ['8M', 'Exchange enrollees (year 1)']], items: [{ i: '🏛️', t: '<strong>ACA Medicaid expansion</strong> launched in 26 states, adding millions of low-income adults and pushing Medicaid spend up 12.8% in one year — the sharpest single-year Medicaid surge in the data.' }, { i: '📋', t: '<strong>Private insurance enrollment surged</strong> via exchanges, but cost growth was modest as newly insured members were generally younger and healthier than the existing pool.' }, { i: '💰', t: '<strong>Lowest per-capita OOP growth in the decade (+2.3%)</strong> as newly insured individuals shifted costs from OOP to coverage — a direct substitution effect from coverage expansion.' }, { i: '📊', t: '<strong>Medicare trend remained flat (~3.5%)</strong> due to the Sustainable Growth Rate formula and sequestration cuts, artificially suppressing program growth relative to underlying utilization.' }], src: 'Source: CMS NHEA 2014; KFF ACA Tracking Poll; CBO ACA Coverage Estimates.' },
+    '2015': { title: '2015 — MACRA & Market Stabilization', sub: 'Total NHE: ~$3.1T', stats: [['MACRA', 'Passed — replaced SGR formula'], ['~$3.1T', 'Total NHE']], items: [{ i: '🏛️', t: '<strong>Medicare Access & CHIP Reauthorization Act (MACRA)</strong> permanently repealed the SGR, replacing it with MIPS/APM value-based payment tracks — setting the stage for future Medicare cost structure.' }, { i: '📋', t: '<strong>Exchange markets began stabilizing</strong> with risk corridor payments and reinsurance. Insurer participation was still broad, though some Blue Cross plans reported losses on ACA individual business.' }, { i: '💊', t: '<strong>Hepatitis C cure drugs (Sovaldi/Harvoni)</strong> created a $12B+ pharmacy cost spike that began moderating as the treated pool diminished and generic competition entered.' }, { i: '📈', t: '<strong>Medicare Advantage hit 30% penetration</strong> of beneficiaries for the first time, beginning the structural shift of Medicare spend toward MA capitation rather than FFS.' }], src: 'Source: CMS NHEA 2015; MACRA legislation; CMS Medicare Advantage Fact Sheet.' },
+    '2016': { title: '2016 — ACA Maturation, Insurer Exits Begin', sub: 'Total NHE: ~$3.2T', stats: [['Aetna/UHC', 'Exit most ACA exchanges'], ['+4.8%', 'NHE YoY growth']], items: [{ i: '📉', t: '<strong>Major insurers (Aetna, UnitedHealth) exited most ACA exchange markets</strong> citing unsustainable losses on individual risk pools — reducing competition and beginning the premium increase cycle.' }, { i: '🏥', t: '<strong>Hospital outpatient and ambulatory volumes continued shifting</strong> from inpatient, driven by CMS site-neutral payment proposals and value-based care model incentives.' }, { i: '💊', t: '<strong>Pharmacy trend moderated</strong> as the hepatitis C treatment wave subsided. Specialty pharmacy was growing but had not yet become the dominant cost driver it is today.' }, { i: '📊', t: '<strong>OOP spend growth held at +4.2%</strong> as HDHP adoption was accelerating — more workers facing first-dollar deductibles averaging ~$1,500 for single coverage.' }], src: 'Source: CMS NHEA 2016; KFF Health Insurance Marketplace Data; AHA Hospital Statistics.' },
+    '2017': { title: '2017 — ACA Repeal Attempts, Market Uncertainty', sub: 'Total NHE: ~$3.5T', stats: [['3 votes', 'ACA repeal failed by'], ['Individual mandate', 'Eliminated (effective 2019)']], items: [{ i: '🏛️', t: '<strong>ACA repeal efforts created market uncertainty</strong> throughout 2017, causing some insurers to delay exchange participation decisions and contributing to premium volatility.' }, { i: '💊', t: '<strong>Individual mandate was eliminated</strong> via TCJA (effective 2019), beginning the erosion of the risk pool balance that would contribute to individual market instability in subsequent years.' }, { i: '📈', t: '<strong>Private insurance trend remained controlled (~+4.3%)</strong> — the last year of relatively moderate commercial cost growth before hospital labor inflation began its structural acceleration.' }, { i: '🏥', t: '<strong>Medicare Advantage surpassed 33% penetration</strong>. CMS began the Star Rating quality incentive system refinements that would later drive MA plan behavior around risk coding.' }], src: 'Source: CMS NHEA 2017; CBO ACA Repeal Estimates; CMS Medicare Advantage Data.' },
+    '2018': { title: '2018 — Short-Term Plans Expand, HDHP Peak', sub: 'Total NHE: ~$3.6T', stats: [['55%+', 'Workers now in HDHPs'], ['Short-term plans', 'Expanded to 364 days']], items: [{ i: '📋', t: '<strong>Short-term health plans expanded to 364-day terms</strong>, drawing healthier individuals out of ACA-compliant risk pools and further fragmenting the individual insurance market.' }, { i: '💊', t: '<strong>HDHP enrollment crossed 55% of covered workers</strong> — a structural milestone that permanently shifted first-dollar cost exposure to employees and began suppressing utilization among cost-sensitive populations.' }, { i: '🏥', t: '<strong>Hospital M&A activity reached a decade high</strong>, with 115 transactions completing. Consolidated markets began experiencing the 3–5 year lag effect on commercial contract rates.' }, { i: '📊', t: '<strong>Medicaid growth slowed significantly (+3.6%)</strong> as ACA expansion enrollment plateau stabilized and states implemented managed care efficiencies across newly enrolled populations.' }], src: 'Source: CMS NHEA 2018; KFF Employer Survey; AHA Hospital Merger Data; CMS Medicaid Enrollment.' },
+    '2019': { title: '2019 — Pre-COVID Baseline Year', sub: 'Total NHE: ~$3.8T', stats: [['$3.8T', 'NHE (pre-COVID baseline)'], ['+4.7%', 'NHE YoY growth']], items: [{ i: '📊', t: '<strong>2019 is the cleanest pre-COVID baseline</strong> in the NHEA data. All subsequent year-over-year comparisons should reference 2019 rather than 2020 or 2021 to avoid distortion from pandemic effects.' }, { i: '💊', t: '<strong>Specialty pharmacy began its dominant rise</strong> — oncology biologics, autoimmune drugs, and gene therapies were collectively growing at 15%+ annually and becoming the primary pharmacy trend driver.' }, { i: '🏥', t: '<strong>Medicare Advantage hit 36% penetration</strong> and MA risk scores were under increasing CMS scrutiny. The OIG released reports flagging unsupported diagnoses in MA encounter data.' }, { i: '📈', t: '<strong>Private insurance commercial trend ran at +5.8%</strong> — already above GDP growth but not yet at the 8–9% pace that would emerge post-COVID. Hospital labor costs were the primary driver.' }], src: 'Source: CMS NHEA 2019; IQVIA National Prescription Audit; OIG MA Risk Score Reports.' },
+    '2020': { title: '2020 — COVID-19 Pandemic Year', sub: 'Total NHE: ~$4.1T (+9.7% due to federal response)', stats: [['$814B', 'Federal COVID supplemental spend'], ['−$100B', 'Private insurance dip (deferred care)']], items: [{ i: '🦠', t: '<strong>Private insurance DECLINED despite rising total NHE</strong> — the apparent paradox of COVID year is that elective procedure deferrals sharply reduced commercial claims while federal emergency spending surged.' }, { i: '🏛️', t: '<strong>CARES Act ($2.2T) and subsequent bills</strong> channeled $814B+ into healthcare, primarily captured in the "Other Payers" category — COVID relief grants, PPP for providers, FEMA healthcare spending.' }, { i: '🏥', t: '<strong>Hospitals experienced a historic financial crisis</strong> — inpatient volumes dropped 25%+ in Q2 2020 while personal protective equipment and ICU costs surged. Federal relief payments prevented mass closures.' }, { i: '💊', t: '<strong>Telehealth utilization exploded</strong> — visits went from ~1% to ~17% of all ambulatory encounters in weeks, permanently reshaping care delivery and adding new cost and quality measurement challenges.' }], src: 'Source: CMS NHEA 2020; CARES Act Appropriations; AHA COVID-19 Financial Impact Report.' },
+    '2021': { title: '2021 — COVID Recovery, Continuous Enrollment', sub: 'Total NHE: ~$4.4T', stats: [['93M', 'Medicaid enrollees (peak)'], ['+3.6%', 'Private insurance — still depressed']], items: [{ i: '🏛️', t: '<strong>Continuous enrollment protection</strong> (FFCRA) prevented any Medicaid disenrollment during the PHE, pushing Medicaid to its all-time enrollment peak of ~93M and holding costs high through retained enrollment.' }, { i: '💊', t: '<strong>COVID vaccine and treatment costs</strong> were largely federally funded and appear in "Other Payers" — but vaccine distribution infrastructure added ~$20B in administration and logistics costs.' }, { i: '🏥', t: '<strong>Elective procedure volumes recovered sharply in H2 2021</strong> creating a catch-up effect. Surgical volumes exceeded 2019 baseline by ~8% in Q3–Q4 2021 as deferred care was finally accessed.' }, { i: '📈', t: '<strong>Healthcare labor crisis emerged</strong> — travel nurse rates tripled, permanent staff wages jumped 12–18%. This wage inflation would prove sticky and became the dominant cost driver in 2022–2024.' }], src: 'Source: CMS NHEA 2021; CMS Medicaid Enrollment Data; AHA Workforce Report 2021.' },
+    '2022': { title: '2022 — Post-COVID Normalization + IRA', sub: 'Total NHE: ~$4.7T', stats: [['IRA Signed', 'First Medicare drug negotiations'], ['+7.5%', 'Private insurance trend']], items: [{ i: '🏛️', t: '<strong>Inflation Reduction Act (IRA) signed</strong>, authorizing Medicare to negotiate drug prices for the first time. Initial negotiation list covers 10 drugs for 2026 — impact will be modest early but precedent-setting.' }, { i: '💊', t: '<strong>Medicaid trend spiked to +11.9%</strong> — driven by continuous enrollment reaching its peak of 93M enrollees. The PHE-protected population included many individuals who would have otherwise been disenrolled.' }, { i: '🏥', t: '<strong>Hospital labor cost inflation peaked</strong> — permanent staff wages up 12% and travel nurse usage at record levels (~$8B/yr industry-wide). Hospitals began multi-year contract renegotiations reflecting new labor baselines.' }, { i: '📈', t: '<strong>Post-COVID care catch-up drove utilization</strong> across all categories. Orthopedic, cardiac, and cancer procedures that were deferred 2020–2021 normalized in 2022, adding volume pressure on top of unit cost inflation.' }], src: 'Source: CMS NHEA 2022; IRA Legislative Text; AHA Workforce Cost Survey; CMS Medicaid Enrollment Report.' },
+    '2023': { title: '2023 — PHE Ends, Medicaid Redeterminations Begin', sub: 'Total NHE: ~$4.9T', stats: [['−6M', 'Medicaid disenrollees (redeterminations)'], ['+14%', '"Other Payers" — PHE grants still flowing']], items: [{ i: '🔄', t: '<strong>COVID Public Health Emergency ended May 2023</strong> — triggering Medicaid redeterminations that removed ~6M enrollees through year-end. However, per-enrollee cost rose as the remaining population skewed sicker.' }, { i: '📊', t: '<strong>"Other Payers" spiked to +14%</strong> because PHE-related federal grants and FEMA reimbursements were still being processed and recognized in 2023, creating an accounting artifact that reverses sharply in 2024.' }, { i: '🏥', t: '<strong>Medicare trend surged to +9.9%</strong> — driven by post-COVID volume normalization, MA enrollment hitting 50%, and risk-score optimization by MA plans reaching its peak before CMS crackdowns.' }, { i: '💊', t: '<strong>GLP-1 medications crossed the $20B threshold</strong> in commercial spending for the first time, emerging as the #1 new pharmacy cost story heading into 2024 and generating intense formulary management activity.' }], src: 'Source: CMS NHEA 2023; CMS Medicaid PHE Unwinding Tracker; IQVIA Therapy Tracker; CMS MA Enrollment Data.' },
+    '2024': { title: '2024 — GLP-1 Era, IRA Implementation', sub: 'Total NHE: $5.3T (2024 Actual — CMS)', stats: [['$5.3T', 'Total NHE (2024 actual)'], ['+7.2%', 'Overall NHE YoY growth']], items: [{ i: '💊', t: '<strong>GLP-1 medications (Ozempic, Wegovy, Mounjaro) became the defining pharmacy story</strong> — $35B+ in 2024 commercial spend, reshaping formulary management, PBM negotiations, and employer benefit strategy.' }, { i: '🏛️', t: '<strong>"Other Payers" fell −7.0%</strong> as PHE supplemental funding was fully wound down. This is a one-time normalization — the category is expected to stabilize at +2–4% growth going forward.' }, { i: '🧬', t: '<strong>Alzheimer\'s treatments (lecanemab, donanemab) entered commercial coverage</strong> — adding a new multi-billion dollar spend category with significant utilization uncertainty. Coverage decisions vary widely by plan.' }, { i: '📈', t: '<strong>Private insurance trend remained elevated at +8.8%</strong> despite GLP-1 formulary restrictions by many plans. Hospital contract inflation and specialty pharmacy are sustaining trend above pre-COVID baseline.' }], src: 'Source: CMS NHEA 2024 Fact Sheet; CMS Office of the Actuary; IQVIA National Prescription Audit 2024.' },
+  };
+
+  // ── Trend rate context data [payer][year] ──
+  const trendRateContext = {
+    'Private Ins.': {
+      '2022': { rate: '+7.5%', color: '#1a6fd4', items: [{ i: '🏥', t: '<strong>Post-COVID care catch-up</strong> drove the first significant commercial trend acceleration since 2016. Elective procedure volumes exceeded 2019 baselines by ~8%.' }, { i: '💼', t: '<strong>Healthcare labor inflation hit employers</strong> — hospitals renegotiating provider contracts with embedded 8–12% wage cost increases, with a 12–18 month lag to commercial rate impact.' }, { i: '💊', t: '<strong>Specialty pharmacy growing at +14% YoY</strong> within commercial plans. Oncology and autoimmune biologics now account for ~45% of commercial pharmacy spend on only 2–3% of claims.' }, { i: '📊', t: '<strong>Hospital M&A completed 2017–2019 began flowing through</strong> to contract rates. Consolidated market commercial prices running 20–40% above competitive market benchmarks.' }], src: 'Source: CMS NHEA 2022; KFF Employer Survey; IQVIA National Prescription Audit.' },
+      '2023': { rate: '+8.9%', color: '#1a6fd4', items: [{ i: '🏥', t: '<strong>Hospital labor inflation peaked in 2023</strong> — travel nurse usage declined but permanent staff wages remained elevated. Multi-year contracts signed in 2022 locked in 6–9% annual increases.' }, { i: '💊', t: '<strong>GLP-1 spend crossed $20B</strong> in commercial plans — most large employers were covering diabetes indication with formulary controls; obesity coverage was the emerging debate.' }, { i: '🔗', t: '<strong>Site-of-care shifts to outpatient and ASC</strong> began showing cost savings, but hospital systems were acquiring physician practices and ASCs, limiting the plan\'s site-of-care leverage.' }, { i: '📈', t: '<strong>Highest commercial trend since 2011</strong>. Actuaries began revising 2024–2026 trend assumptions upward, driving premium increases that employers started passing to employees via higher cost-sharing.' }], src: 'Source: CMS NHEA 2023; KFF Employer Health Benefits Survey 2023; IQVIA Therapy Tracker.' },
+      '2024': { rate: '+8.8%', color: '#1a6fd4', items: [{ i: '💊', t: '<strong>GLP-1 medications are now a standalone cost driver</strong> at $35B+. Plans with obesity coverage are experiencing 3–8 PMPM higher trend than plans without — creating significant actuarial segmentation.' }, { i: '🏦', t: '<strong>Hospital consolidation pricing power is structural.</strong> In markets where the dominant system holds >50% share, commercial rates now average 230% of Medicare — up from 200% in 2019.' }, { i: '⚖️', t: '<strong>MHPAEA final rule enforcement</strong> is adding behavioral health coverage requirements that translate to ~1.5% of commercial premium in near-term cost — with uncertain but potentially positive long-term ROI.' }, { i: '📊', t: '<strong>2024 marks the 3rd consecutive year of 8%+ commercial trend</strong> — a sustained acceleration not seen since the early 2000s. The structural drivers (labor, consolidation, specialty Rx) show no sign of abating.' }], src: 'Source: CMS NHEA 2024; KFF Employer Survey 2024; AHA Statistics; CMS MHPAEA enforcement.' },
+    },
+    'Medicare': {
+      '2022': { rate: '+2.3%', color: '#22a35a', items: [{ i: '📊', t: '<strong>Artificially low Medicare trend in 2022</strong> reflects the statistical base effect: 2021 had elevated Medicare spend from COVID treatment and the post-COVID volume surge. The comparison base inflated 2021, making 2022 look slow.' }, { i: '🏥', t: '<strong>Post-acute care volumes were still recovering</strong> — SNF and home health utilization remained below 2019 baseline in 2022 as the pipeline of hospitalized patients normalized.' }, { i: '💊', t: '<strong>Part D spending was temporarily suppressed</strong> by the expiration of the coverage gap donut hole provisions and manufacturer rebate accounting changes.' }, { i: '🏢', t: '<strong>Medicare Advantage grew to 45% penetration</strong> — capitation payments were growing, but CMS was tightening risk score validation, limiting some of the MA spending acceleration.' }], src: 'Source: CMS NHEA 2022; MedPAC Data Book 2022; CMS MA Enrollment Data.' },
+      '2023': { rate: '+9.9%', color: '#22a35a', items: [{ i: '📈', t: '<strong>Highest Medicare trend rate in a decade</strong> — driven by the simultaneous surge in post-acute care volumes, MA enrollment acceleration, and provider rate updates that outpaced general inflation.' }, { i: '🏢', t: '<strong>Medicare Advantage hit 50% penetration</strong> in 2023. CMS capitation payments to MA plans increased significantly as risk scores reached their structural peak before OIG/CMS enforcement crackdowns.' }, { i: '🏨', t: '<strong>Post-acute care (home health, SNF, LTACH) surged</strong> as deferred transitions of care normalized. Home health volumes exceeded 2019 baselines by 15%+ — driving significant Part A spend.' }, { i: '💊', t: '<strong>Part D catastrophic phase costs spiked</strong> in the final year of the old Part D structure before the IRA $2,000 OOP cap implementation — some high-cost beneficiaries hit catastrophic earlier due to drug price inflation.' }], src: 'Source: CMS NHEA 2023; MedPAC March 2024 Report; CMS MA Star Ratings Data.' },
+      '2024': { rate: '+7.8%', color: '#22a35a', items: [{ i: '👵', t: '<strong>Enrollment growth is the most predictable driver</strong> — ~1.1M new beneficiaries annually through 2030. Combined with rising per-beneficiary cost, program spend growth of 7–9% is the structural baseline.' }, { i: '💊', t: '<strong>IRA Part D $2,000 OOP cap implementation (2025)</strong> is the most significant Part D structural change since 2006. Near-term CMS liability for catastrophic coverage increases; manufacturer discounts provide partial offset.' }, { i: '🏢', t: '<strong>CMS tightening MA risk score oversight</strong> — plans that relied on diagnosis coding optimization are losing risk-score upside. Several large MA plans issued 2024 earnings warnings citing this pressure.' }, { i: '🧬', t: '<strong>New drug categories (Alzheimer\'s treatments, GLP-1s) will add to Medicare spend</strong> as Medicare coverage decisions are finalized. Lecanemab coverage expansion alone could add $2–4B annually at full penetration.' }], src: 'Source: CMS NHEA 2024; MedPAC March 2024; CMS MA Encounter Data; CMS Part D Dashboard.' },
+    },
+    'Medicaid': {
+      '2022': { rate: '+11.9%', color: '#9b59b6', items: [{ i: '🏛️', t: '<strong>Highest Medicaid trend in the dataset</strong> — driven by continuous enrollment protection reaching its peak. The PHE-protected population included individuals who would normally have been disenrolled, keeping enrollment at record highs.' }, { i: '📋', t: '<strong>Managed care rate increases were approved broadly</strong> — states updated actuarial soundness rates reflecting COVID-era utilization recovery and provider wage inflation, adding significant per-enrollee cost.' }, { i: '🧠', t: '<strong>Behavioral health utilization surged post-COVID</strong> — Medicaid is the dominant payer for mental health and SUD services, and the 2020–2022 demand wave began flowing through claims in full.' }, { i: '💊', t: '<strong>Medicaid pharmacy spend rose sharply</strong> — GLP-1 medications began appearing on state PDLs as diabetes treatments, and specialty drug utilization in the disabled population continued accelerating.' }], src: 'Source: CMS NHEA 2022; MACPAC Report 2022; CMS Medicaid Drug Rebate Data.' },
+      '2023': { rate: '+6.8%', color: '#9b59b6', items: [{ i: '🔄', t: '<strong>Medicaid unwinding began May 2023</strong> — states started redeterminations, removing ~3M enrollees through year-end. The declining enrollment base partially offset per-enrollee cost growth.' }, { i: '📊', t: '<strong>Managed care rate updates moderated</strong> as states recalibrated actuarial assumptions post-PHE. The exceptional 2022 rate spikes were not repeated, dampening overall program growth.' }, { i: '🏠', t: '<strong>HCBS waivers continued expanding</strong> — state transitions from institutional to home-based LTSS continued, with waiver spending growing ~9% while institutional care grew only ~2%.' }, { i: '⚠️', t: '<strong>Watch: churn from redeterminations</strong>. Many disenrolled individuals re-enrolled in exchange plans or went uninsured — creating cost-shifting to commercial plans and uncompensated care.' }], src: 'Source: CMS NHEA 2023; CMS Medicaid PHE Unwinding Tracker; MACPAC Report 2023.' },
+      '2024': { rate: '+6.6%', color: '#9b59b6', items: [{ i: '📈', t: '<strong>Per-enrollee cost rising as enrollment falls</strong> — the ~6M disenrolled through 2024 are disproportionately younger, healthier adults. Remaining enrollees skew older, disabled, and LTSS-eligible.' }, { i: '🏠', t: '<strong>LTSS is 30% of total Medicaid spend and growing</strong> — the shift from nursing home to HCBS is lowering per-episode cost but the eligible population is growing faster than HCBS supply.' }, { i: '💊', t: '<strong>GLP-1 coverage in Medicaid is expanding</strong> — 30+ states now cover semaglutide for diabetes on their PDL. Obesity indication coverage remains limited but is expanding via 1115 waivers.' }, { i: '🏛️', t: '<strong>ACA enhanced subsidies (ARPA) continue through 2025</strong> — some Medicaid-adjacent individuals remain in the exchange market rather than cycling back to Medicaid, moderating Medicaid enrollment recovery.' }], src: 'Source: CMS NHEA 2024; KFF Medicaid Data; MACPAC Report to Congress 2024.' },
+    },
+    'Out-of-Pocket': {
+      '2022': { rate: '+8.9%', color: '#e8930a', items: [{ i: '🏥', t: '<strong>Post-COVID care catch-up hit consumer wallets directly</strong> — deferred procedures and diagnostics accessed in 2022 triggered deductible and cost-sharing obligations that had not been incurred during 2020–2021 deferrals.' }, { i: '📋', t: '<strong>HDHP deductibles increased significantly</strong> — average individual HDHP deductible reached $1,650, up from $1,400 in 2019. First-dollar exposure means elective care access is now directly cost-sensitive.' }, { i: '💊', t: '<strong>Rx cost-sharing rose</strong> as specialty tiers expanded on commercial formularies. Specialty drug OOP contributions averaged $350/month for patients on specialty medications in 2022.' }, { i: '📈', t: '<strong>OOP is the most volatile component post-COVID</strong> — it tracks utilization recovery closely because deductibles reset annually, meaning high-utilization years generate outsized OOP spikes.' }], src: 'Source: CMS NHEA 2022; KFF Employer Survey; AHRQ MEPS 2022.' },
+      '2023': { rate: '+11.4%', color: '#e8930a', items: [{ i: '📈', t: '<strong>Highest OOP growth rate in the data</strong> — a convergence of HDHP deductible increases, utilization normalization, and general consumer price inflation all hitting simultaneously.' }, { i: '🦷', t: '<strong>Dental spend grew sharply</strong> — post-COVID dental backlogs cleared in 2023, with restorative and periodontal procedures driving above-average dental OOP growth. Dental remains almost entirely OOP for under-65 population.' }, { i: '💊', t: '<strong>OTC drug spending surged</strong> — post-COVID consumer health awareness and behind-the-counter access expansion (hearing aids, oral contraceptives) added new OOP categories.' }, { i: '⚠️', t: '<strong>OOP burden is increasingly regressive</strong> — households earning <$40K spend 7%+ of income on healthcare OOP vs. 2% for households earning >$100K. HDHP design amplifies this disparity.' }], src: 'Source: CMS NHEA 2023; AHRQ MEPS; KFF Health Costs Survey 2023.' },
+      '2024': { rate: '+5.9%', color: '#e8930a', items: [{ i: '📉', t: '<strong>OOP growth cooling in 2024</strong> as consumer health inflation moderates and the catch-up utilization surge from post-COVID stabilizes. This is likely a one-year moderation, not a structural shift.' }, { i: '💊', t: '<strong>IRA Medicare OOP cap ($2,000 for Part D, effective 2025)</strong> will reduce OOP for Medicare beneficiaries on high-cost drugs — but does not affect the commercial OOP structure.' }, { i: '📋', t: '<strong>HDHP structural growth continues</strong> — even with slower trend in 2024, the underlying mechanism (first-dollar deductibles) keeps expanding. 55% of covered workers are now in HDHPs, up from 26% in 2013.' }, { i: '🏡', t: '<strong>Self-pay long-term care is the hidden OOP crisis</strong> — median private-pay nursing home costs exceeded $108K/year in 2024. Medicaid asset spend-down requires near-total depletion before coverage begins.' }], src: 'Source: CMS NHEA 2024; AHRQ MEPS; KFF Employer Survey 2024; Genworth Cost of Care Survey 2024.' },
+    },
+    'Other': {
+      '2022': { rate: '-0.5%', color: '#7a8aa8', items: [{ i: '🏛️', t: '<strong>PHE spending began normalizing</strong> — the extraordinary 2020–2021 COVID emergency appropriations were winding down, creating a flat/declining trajectory for this category.' }, { i: '⚕️', t: '<strong>VA Mission Act community care spending grew +9%</strong> as veteran access to non-VA providers expanded under the 2018 legislation. This was a positive offset to PHE wind-down.' }, { i: '🪖', t: '<strong>TRICARE costs remained stable (+2.4%)</strong> — DoD health system beneficiaries are relatively protected from commercial market cost drivers through fixed DoD fee schedules.' }, { i: '📊', t: '<strong>Workers compensation claims normalized post-COVID</strong> — 2020–2021 saw elevated COVID-related workers comp claims that subsided in 2022, contributing to the flat trend.' }], src: 'Source: CMS NHEA 2022; VA Annual Report 2022; DOD TRICARE Actuarial Report.' },
+      '2023': { rate: '+14.0%', color: '#7a8aa8', items: [{ i: '🏛️', t: '<strong>Accounting artifact — PHE grants still processing.</strong> The +14% spike is almost entirely federal PHE-related grants and FEMA reimbursements still being recognized in 2023 before the May 2023 PHE expiration.' }, { i: '⚕️', t: '<strong>VA community care continued accelerating (+12%)</strong> — the Mission Act\'s community care expansion is the one genuine structural growth driver within this category.' }, { i: '📊', t: '<strong>This spike will fully reverse in 2024</strong> — the PHE funding recognition is a one-time effect. Analysts should strip this category from trend benchmarking in 2022–2023 due to PHE distortion.' }, { i: '⚠️', t: '<strong>Watch: VA PACT Act (2022) implementation</strong> — expanding veterans\' toxic exposure eligibility is adding a new cohort of VA enrollees, adding a structural (non-PHE) growth driver to this category.' }], src: 'Source: CMS NHEA 2023; VA PACT Act Implementation Report; FEMA PHE Reimbursement Data.' },
+      '2024': { rate: '-7.0%', color: '#7a8aa8', items: [{ i: '🏛️', t: '<strong>PHE wind-down complete — the large decline is the expected normalization</strong> of ~$85B in COVID-era federal supplemental spending that was in this bucket in 2022–2023.' }, { i: '⚕️', t: '<strong>VA PACT Act enrollment expansion is the new structural driver</strong> — toxic exposure-eligible veterans are enrolling in VA care, adding genuine long-term growth to this category independent of PHE.' }, { i: '📊', t: '<strong>Normalized 2024 baseline: ~+2–4% organically</strong> once PHE distortion is removed. The go-forward trend is VA growth + TRICARE + modest workers comp — far more predictable than 2022–2023.' }, { i: '📈', t: '<strong>This category will re-expand in any future public health emergency</strong> — the PHE spending structure demonstrated that "Other Payers" can double in magnitude during a major health crisis.' }], src: 'Source: CMS NHEA 2024; VA Annual Benefits Report 2024; NCCI Workers Comp Statistical Plan.' },
+    },
+  };
+
+  // ── Per-member context ──
+  const perMemberContext = {
+    'Medicare\n(per beneficiary)': { title: 'Medicare: Per-Beneficiary Cost', sub: '~$14,600/yr · ~67M beneficiaries · +6.8% YoY', color: '#22a35a', stats: [['$14,600', 'Per beneficiary/yr'], ['3.3M', 'New enrollees (age-in) since 2020']], items: [{ i: '👵', t: '<strong>2× the private insurance per-member cost</strong> — reflecting the elderly population\'s higher chronic condition burden. Average Medicare beneficiary has 2.8 chronic conditions; top 5% of beneficiaries account for 43% of spend.' }, { i: '🏨', t: '<strong>Post-acute care is the largest cost driver within per-beneficiary spend</strong> — SNF, home health, and LTACH together account for ~23% of traditional Medicare spend and are growing faster than acute care.' }, { i: '💊', t: '<strong>Part D per-beneficiary drug cost is rising sharply</strong> — driven by specialty medications for cancer, autoimmune, and now Alzheimer\'s. The IRA $2,000 OOP cap shifts this cost to CMS, not away from the system.' }, { i: '📈', t: '<strong>Per-beneficiary cost will continue rising faster than enrollment growth</strong> as the average age within Medicare increases — the first boomers enrolled in 2011 are now turning 78–79, entering higher-acuity age bands.' }], src: 'Source: CMS Medicare Trustees Report 2024; MedPAC Data Book 2024; CMS NHEA per-capita calculations.' },
+    'Medicaid\n(per enrollee)': { title: 'Medicaid: Per-Enrollee Cost', sub: '~$8,900/yr blended · ~93M peak enrollees · highly stratified', color: '#9b59b6', stats: [['$8,900', 'Blended per-enrollee/yr'], ['$3,500', 'Expansion adult avg vs. $22K disabled avg']], items: [{ i: '📊', t: '<strong>The $8,900 blended figure is highly misleading in isolation.</strong> Expansion adults average ~$3,500/yr. Aged and disabled beneficiaries average ~$22,000/yr. LTSS-dependent enrollees can exceed $80,000/yr.' }, { i: '🏠', t: '<strong>LTSS-eligible enrollees (~15% of enrollment) drive ~40% of total Medicaid spend.</strong> Per-enrollee cost for nursing home residents averages $60,000–$80,000/year, dwarfing other Medicaid populations.' }, { i: '🔄', t: '<strong>Post-redetermination per-enrollee cost is rising</strong> — the ~6M disenrolled were disproportionately younger and healthier. The remaining pool is sicker on average, mechanically pushing per-enrollee cost higher.' }, { i: '🏛️', t: '<strong>State-by-state variation is extreme</strong> — per-enrollee cost ranges from ~$5,800 (low-cost states with younger expansion populations) to >$14,000 (high-cost states with large aged/disabled populations).' }], src: 'Source: CMS NHEA 2024; MACPAC Medicaid Spending Report; CMS Medicaid Enrollment Data; Kaiser Family Foundation State Health Facts.' },
+    'Private Ins.\n(per covered life)': { title: 'Private Insurance: Per-Covered-Life Cost', sub: '~$7,200/yr · ~228M covered lives · +7.1% YoY', color: '#1a6fd4', stats: [['$7,200', 'Per covered life/yr (employer + individual)'], ['$7,200', 'Blended; employer-sponsored avg ~$8,400']], items: [{ i: '🏢', t: '<strong>Employer-sponsored insurance averages ~$8,400/life</strong> vs. ~$5,100 for individual/exchange plans. The $7,200 blended figure reflects the mix of self-insured employer, fully-insured employer, and individual market.' }, { i: '💊', t: '<strong>Pharmacy is the fastest-growing component</strong> within per-life cost — specialty and GLP-1 drugs are adding $300–600 per covered life annually to plan cost, even with formulary controls.' }, { i: '📈', t: '<strong>Per-life cost growth (2024: ~+7.1%) is now outpacing wage growth by ~4pp</strong> — creating a structural squeeze on take-home pay as employers pass more cost to employees through premiums and cost-sharing.' }, { i: '⚠️', t: '<strong>The per-life cost conceals extreme high-cost claimant concentration.</strong> The top 1% of commercial claimants (typically catastrophic illness) account for ~28% of total commercial spend — a small population with enormous financial impact.' }], src: 'Source: CMS NHEA 2024; KFF Employer Health Benefits Survey 2024; IQVIA National Prescription Audit.' },
+    'Out-of-Pocket\n(per capita)': { title: 'Out-of-Pocket: Per-Capita Burden', sub: '~$1,650/yr · entire U.S. population · +5.9% YoY', color: '#e8930a', stats: [['$1,650', 'Per capita OOP (total population)'], ['$4,800', 'Per capita among those with any healthcare use']], items: [{ i: '📊', t: '<strong>The $1,650 per-capita figure includes the 30%+ of Americans with no healthcare use in a given year.</strong> Among those who actually use healthcare, OOP averages ~$4,800/person — the more relevant metric for benefit design.' }, { i: '📋', t: '<strong>HDHP enrollees face average deductibles of $1,650</strong> before insurance pays. In a year with any significant health event, a single hospitalization will exhaust the deductible and often the OOP max ($8,700 avg for single coverage).' }, { i: '💊', t: '<strong>OOP for specialty medications averages $350/month</strong> for patients on specialty drugs — even with copay assistance programs from manufacturers, which themselves cost the system ~$8B/year in commercial plans.' }, { i: '🏡', t: '<strong>Long-term care OOP is the largest single financial risk</strong> for most households. Median assisted living: $54K/year. Median nursing home: $108K/year. 70% of people over 65 will need LTC — only 10% have LTC insurance.' }], src: 'Source: CMS NHEA 2024; AHRQ MEPS; KFF Employer Survey 2024; Genworth Cost of Care 2024; AHIP LTC Insurance Data.' },
+  };
+
+  // ── Stacked chart ──
   (function() {
     const years = ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
-    new Chart(document.getElementById('payerStackedChart'), {
+    const chart = new Chart(document.getElementById('payerStackedChart'), {
       type: 'bar',
       data: {
         labels: years,
@@ -2313,6 +2558,18 @@
       },
       options: {
         responsive: true, maintainAspectRatio: true,
+        onClick(e) {
+          const pts = chart.getElementsAtEventForMode(e, 'index', { intersect: false }, true);
+          if (!pts.length) return;
+          const year = years[pts[0].index];
+          const d = yearContext[year]; if (!d) return;
+          document.getElementById('ctx-stacked-title').innerHTML = d.title;
+          document.getElementById('ctx-stacked-sub').textContent = d.sub;
+          document.getElementById('ctx-stacked-stats').innerHTML = d.stats.map(s => `<div class="ctx-stat"><div class="ctx-stat-val">${s[0]}</div><div class="ctx-stat-lbl">${s[1]}</div></div>`).join('');
+          document.getElementById('ctx-stacked-body').innerHTML = d.items.map(it => `<div class="ctx-item"><div class="ctx-icon">${it.i}</div><div class="ctx-text">${it.t}</div></div>`).join('');
+          document.getElementById('ctx-stacked-source').textContent = d.src;
+          openCtx('stacked');
+        },
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}B` } } },
         scales: {
           x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
@@ -2322,20 +2579,35 @@
     });
   })();
 
-  // YoY trend rate by payer: 2022, 2023, 2024
+  // ── Trend rate chart ──
   (function() {
-    new Chart(document.getElementById('payerTrendRateChart'), {
+    const payers = ['Private Ins.', 'Medicare', 'Medicaid', 'Out-of-Pocket', 'Other'];
+    const yearLabels = ['2022','2023','2024'];
+    const chart = new Chart(document.getElementById('payerTrendRateChart'), {
       type: 'bar',
       data: {
-        labels: ['Private Ins.', 'Medicare', 'Medicaid', 'Out-of-Pocket', 'Other'],
+        labels: payers,
         datasets: [
-          { label: '2022', data: [7.5, 2.3, 11.9, 8.9, -0.5], backgroundColor: 'rgba(26,111,212,.35)' },
-          { label: '2023', data: [8.9, 9.9, 6.8, 11.4, 14.0], backgroundColor: 'rgba(26,111,212,.6)' },
+          { label: '2022', data: [7.5, 2.3, 11.9, 8.9, -0.5], backgroundColor: 'rgba(26,111,212,.3)' },
+          { label: '2023', data: [8.9, 9.9, 6.8, 11.4, 14.0], backgroundColor: 'rgba(26,111,212,.58)' },
           { label: '2024', data: [8.8, 7.8, 6.6, 5.9, -7.0], backgroundColor: '#1a6fd4' },
         ]
       },
       options: {
         responsive: true, maintainAspectRatio: true,
+        onClick(e) {
+          const pts = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+          if (!pts.length) return;
+          const payerLabel = payers[pts[0].index];
+          const yearLabel  = yearLabels[pts[0].datasetIndex];
+          const payerKey = payerLabel === 'Other' ? 'Other' : payerLabel;
+          const d = trendRateContext[payerKey]?.[yearLabel]; if (!d) return;
+          document.getElementById('ctx-trendrate-title').innerHTML = `${payerLabel} &mdash; ${yearLabel} Trend: <span style="color:${d.color}">${d.rate}</span>`;
+          document.getElementById('ctx-trendrate-sub').textContent = 'What drove this result';
+          document.getElementById('ctx-trendrate-body').innerHTML = d.items.map(it => `<div class="ctx-item"><div class="ctx-icon">${it.i}</div><div class="ctx-text">${it.t}</div></div>`).join('');
+          document.getElementById('ctx-trendrate-source').textContent = d.src;
+          openCtx('trendrate');
+        },
         plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` } } },
         scales: {
           x: { grid: { display: false }, ticks: { font: { size: 10 } } },
@@ -2347,10 +2619,11 @@
 
   // Per-member cost by payer
   (function() {
-    new Chart(document.getElementById('perMemberChart'), {
+    const pmLabels = ['Medicare\n(per beneficiary)', 'Medicaid\n(per enrollee)', 'Private Ins.\n(per covered life)', 'Out-of-Pocket\n(per capita)'];
+    const chart = new Chart(document.getElementById('perMemberChart'), {
       type: 'bar',
       data: {
-        labels: ['Medicare\n(per beneficiary)', 'Medicaid\n(per enrollee)', 'Private Ins.\n(per covered life)', 'Out-of-Pocket\n(per capita)'],
+        labels: pmLabels,
         datasets: [{
           label: 'Annual Cost per Member (2024)',
           data: [14600, 8900, 7200, 1650],
@@ -2361,6 +2634,18 @@
       options: {
         indexAxis: 'y',
         responsive: true, maintainAspectRatio: true,
+        onClick(e) {
+          const pts = chart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+          if (!pts.length) return;
+          const lbl = pmLabels[pts[0].index];
+          const d = perMemberContext[lbl]; if (!d) return;
+          document.getElementById('ctx-permember-title').textContent = d.title;
+          document.getElementById('ctx-permember-sub').textContent = d.sub;
+          document.getElementById('ctx-permember-stats').innerHTML = d.stats.map(s => `<div class="ctx-stat"><div class="ctx-stat-val">${s[0]}</div><div class="ctx-stat-lbl">${s[1]}</div></div>`).join('');
+          document.getElementById('ctx-permember-body').innerHTML = d.items.map(it => `<div class="ctx-item"><div class="ctx-icon">${it.i}</div><div class="ctx-text">${it.t}</div></div>`).join('');
+          document.getElementById('ctx-permember-source').textContent = d.src;
+          openCtx('permember');
+        },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` $${ctx.raw.toLocaleString()} per member` } } },
         scales: {
           x: { ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 } }, grid: { color: '#f0f2f7' } },
