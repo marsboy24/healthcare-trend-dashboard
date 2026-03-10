@@ -684,6 +684,157 @@
       margin-top: .85rem;
       line-height: 1.6;
     }
+
+    /* ══════════════════════════════════════════════
+       PAYER PERSPECTIVE SECTION
+       ══════════════════════════════════════════════ */
+
+    .payer-section-header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0d6b6e 100%);
+      border-radius: 14px;
+      padding: 1.75rem 2rem;
+      margin-top: 3rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .payer-section-header h2 { font-size: 1.3rem; font-weight: 800; }
+    .payer-section-header p  { font-size: .8rem; opacity: .75; margin-top: .3rem; max-width: 520px; }
+
+    .payer-header-meta { text-align: right; font-size: .72rem; opacity: .65; line-height: 1.8; }
+    .payer-header-meta strong { opacity: .9; }
+
+    /* payer KPI cards */
+    .payer-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .85rem;
+      margin-top: 1.1rem;
+    }
+
+    @media (max-width: 1100px) { .payer-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 700px)  { .payer-kpi-grid { grid-template-columns: 1fr 1fr; } }
+
+    .payer-kpi-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.1rem 1.3rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,.07);
+      border-top: 4px solid transparent;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s, background .15s;
+    }
+
+    .payer-kpi-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.13); transform: translateY(-2px); }
+
+    .payer-kpi-card.c-private { border-color: #1a6fd4; }
+    .payer-kpi-card.c-medicare { border-color: #22a35a; }
+    .payer-kpi-card.c-medicaid { border-color: #9b59b6; }
+    .payer-kpi-card.c-oop     { border-color: #e8930a; }
+    .payer-kpi-card.c-other   { border-color: #7a8aa8; }
+
+    .payer-kpi-card.active.c-private { background: #eef4fd; box-shadow: 0 4px 20px rgba(26,111,212,.18); }
+    .payer-kpi-card.active.c-medicare { background: #eaf7f0; box-shadow: 0 4px 20px rgba(34,163,90,.18); }
+    .payer-kpi-card.active.c-medicaid { background: #f5eefb; box-shadow: 0 4px 20px rgba(155,89,182,.18); }
+    .payer-kpi-card.active.c-oop     { background: #fef6e8; box-shadow: 0 4px 20px rgba(232,147,10,.18); }
+    .payer-kpi-card.active.c-other   { background: #f4f5f8; box-shadow: 0 4px 20px rgba(122,138,168,.18); }
+
+    .payer-kpi-name  { font-size: .68rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #7a8aa8; }
+    .payer-kpi-spend { font-size: 1.5rem; font-weight: 800; color: #0d2b52; line-height: 1.15; margin: .25rem 0 .15rem; }
+    .payer-kpi-trend { font-size: .75rem; font-weight: 600; color: #22a35a; }
+    .payer-kpi-share { font-size: .67rem; color: #9aaac0; margin-top: .15rem; }
+    .payer-kpi-hint  { font-size: .6rem; color: #b0bdd0; margin-top: .45rem; }
+    .payer-kpi-card.active .payer-kpi-hint { opacity: 0; }
+
+    /* payer driver panel */
+    .payer-driver-panel {
+      display: none;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.1);
+      margin-top: .85rem;
+      overflow: hidden;
+      animation: slideDown .25s ease;
+    }
+    .payer-driver-panel.open { display: block; }
+
+    /* payer charts grid */
+    .payer-chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+      margin-top: 1.1rem;
+    }
+
+    @media (max-width: 950px) { .payer-chart-grid { grid-template-columns: 1fr; } }
+
+    .payer-chart-grid-wide {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.1rem;
+      margin-top: 1.1rem;
+    }
+
+    @media (max-width: 1050px) { .payer-chart-grid-wide { grid-template-columns: 1fr; } }
+
+    /* cost shift table */
+    .cost-shift-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .78rem;
+    }
+
+    .cost-shift-table thead th {
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #7a8aa8;
+      padding: .5rem .75rem;
+      border-bottom: 2px solid #edf0f7;
+      text-align: left;
+    }
+
+    .cost-shift-table tbody tr { border-bottom: 1px solid #f0f2f7; }
+    .cost-shift-table tbody tr:last-child { border-bottom: none; }
+
+    .cost-shift-table td {
+      padding: .55rem .75rem;
+      color: #1a2233;
+      vertical-align: middle;
+    }
+
+    .cost-shift-table .payer-dot {
+      display: inline-block;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+
+    .cost-shift-table .trend-up   { color: #d63b6f; font-weight: 700; }
+    .cost-shift-table .trend-down { color: #22a35a; font-weight: 700; }
+    .cost-shift-table .trend-neu  { color: #7a8aa8; font-weight: 700; }
+
+    .share-bar-inline {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .share-bar-track {
+      flex: 1;
+      background: #edf0f7;
+      border-radius: 3px;
+      height: 6px;
+      overflow: hidden;
+    }
+
+    .share-bar-fill { height: 100%; border-radius: 3px; }
   </style>
 </head>
 <body>
@@ -857,6 +1008,181 @@
       <div class="chart-wrap"><canvas id="payerTrendChart" height="220"></canvas></div>
     </div>
 
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PAYER PERSPECTIVE SECTION
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <div class="payer-section-header">
+    <div>
+      <h2>Medical Trend: Payer Perspective</h2>
+      <p>How each major payer segment is experiencing healthcare cost trends &mdash; spend, growth rate, per-member cost, and structural drivers. Click any payer to explore.</p>
+    </div>
+    <div class="payer-header-meta">
+      <strong>Primary Sources</strong><br>
+      CMS NHEA 2024 &nbsp;·&nbsp; MedPAC 2024<br>
+      KFF Employer Survey &nbsp;·&nbsp; CMS Medicaid Data
+    </div>
+  </div>
+
+  <!-- Payer KPI Cards -->
+  <div class="payer-kpi-grid">
+
+    <div class="payer-kpi-card c-private" onclick="showPayerDrivers('private')" id="pkpi-private">
+      <div class="payer-kpi-name">Private Insurance</div>
+      <div class="payer-kpi-spend">$1.64T</div>
+      <div class="payer-kpi-trend">&#9650; +8.8% YoY</div>
+      <div class="payer-kpi-share">31% of NHE &nbsp;·&nbsp; ~228M lives</div>
+      <div class="payer-kpi-hint">&#9660; View drivers</div>
+    </div>
+
+    <div class="payer-kpi-card c-medicare" onclick="showPayerDrivers('medicare')" id="pkpi-medicare">
+      <div class="payer-kpi-name">Medicare</div>
+      <div class="payer-kpi-spend">$1.12T</div>
+      <div class="payer-kpi-trend">&#9650; +7.8% YoY</div>
+      <div class="payer-kpi-share">21% of NHE &nbsp;·&nbsp; ~67M beneficiaries</div>
+      <div class="payer-kpi-hint">&#9660; View drivers</div>
+    </div>
+
+    <div class="payer-kpi-card c-medicaid" onclick="showPayerDrivers('medicaid')" id="pkpi-medicaid">
+      <div class="payer-kpi-name">Medicaid &amp; CHIP</div>
+      <div class="payer-kpi-spend">$932B</div>
+      <div class="payer-kpi-trend">&#9650; +6.6% YoY</div>
+      <div class="payer-kpi-share">18% of NHE &nbsp;·&nbsp; ~93M enrollees</div>
+      <div class="payer-kpi-hint">&#9660; View drivers</div>
+    </div>
+
+    <div class="payer-kpi-card c-oop" onclick="showPayerDrivers('oop')" id="pkpi-oop">
+      <div class="payer-kpi-name">Out-of-Pocket</div>
+      <div class="payer-kpi-spend">$557B</div>
+      <div class="payer-kpi-trend">&#9650; +5.9% YoY</div>
+      <div class="payer-kpi-share">11% of NHE &nbsp;·&nbsp; ~$1,650 per capita</div>
+      <div class="payer-kpi-hint">&#9660; View drivers</div>
+    </div>
+
+    <div class="payer-kpi-card c-other" onclick="showPayerDrivers('other')" id="pkpi-other">
+      <div class="payer-kpi-name">Other Payers</div>
+      <div class="payer-kpi-spend">$591B</div>
+      <div class="payer-kpi-trend" style="color:#d63b6f">&#9660; &minus;7.0% YoY</div>
+      <div class="payer-kpi-share">11% of NHE &nbsp;·&nbsp; VA, DoD, Workers Comp</div>
+      <div class="payer-kpi-hint">&#9660; View drivers</div>
+    </div>
+
+  </div>
+
+  <!-- Payer Driver Panel -->
+  <div class="payer-driver-panel" id="payerDriverPanel">
+    <div class="driver-panel-header">
+      <div>
+        <h3 id="payerDriverTitle">Payer Drivers</h3>
+        <div class="driver-kpi-val" id="payerDriverSubtitle"></div>
+      </div>
+      <button class="driver-close" onclick="closePayerDrivers()" title="Close">&times;</button>
+    </div>
+    <div class="driver-body">
+      <div class="driver-drivers">
+        <h4>Primary Trend Drivers</h4>
+        <div id="payerDriverBars"></div>
+      </div>
+      <div class="driver-context">
+        <h4>Key Insights</h4>
+        <div id="payerDriverInsights"></div>
+      </div>
+    </div>
+    <div class="driver-source" id="payerDriverSource"></div>
+  </div>
+
+  <!-- Payer Charts Row 1: Stacked Area + Trend Rate Bar -->
+  <div class="payer-chart-grid-wide" style="margin-top:1.25rem;">
+    <div class="chart-card">
+      <div class="chart-title">Payer Spend Mix Over Time (2014&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA Historical Tables &mdash; major payer categories in $ billions. Shows structural shift toward Medicare as population ages.</div>
+      <div class="chart-wrap"><canvas id="payerStackedChart" height="240"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">YoY Medical Trend Rate by Payer (2022&ndash;2024)</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; annual growth rate per payer. Private insurance trend accelerating fastest in 2024.</div>
+      <div class="chart-wrap"><canvas id="payerTrendRateChart" height="240"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Payer Charts Row 2: Per-Member Cost + Payer Share Table -->
+  <div class="payer-chart-grid" style="margin-top:1.1rem;">
+    <div class="chart-card">
+      <div class="chart-title">Per-Member / Per-Beneficiary Annual Cost</div>
+      <div class="chart-desc">Source: CMS NHEA spend ÷ CMS enrollment data &mdash; cost per covered life by payer type, 2024.</div>
+      <div class="chart-wrap"><canvas id="perMemberChart" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Payer Summary: Spend, Share &amp; Trend (2024)</div>
+      <div class="chart-desc">Source: CMS NHEA 2024 Fact Sheet &mdash; all figures are CMS actuals or direct estimates.</div>
+      <div style="margin-top:.5rem; overflow-x:auto;">
+        <table class="cost-shift-table">
+          <thead>
+            <tr>
+              <th>Payer</th>
+              <th>2024 Spend</th>
+              <th>YoY Trend</th>
+              <th>NHE Share</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="payer-dot" style="background:#1a6fd4"></span>Private Insurance</td>
+              <td>$1,644.6B</td>
+              <td class="trend-up">&#9650; +8.8%</td>
+              <td>
+                <div class="share-bar-inline">31%
+                  <div class="share-bar-track"><div class="share-bar-fill" style="width:31%;background:#1a6fd4"></div></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="payer-dot" style="background:#22a35a"></span>Medicare</td>
+              <td>$1,118.0B</td>
+              <td class="trend-up">&#9650; +7.8%</td>
+              <td>
+                <div class="share-bar-inline">21%
+                  <div class="share-bar-track"><div class="share-bar-fill" style="width:21%;background:#22a35a"></div></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="payer-dot" style="background:#9b59b6"></span>Medicaid &amp; CHIP</td>
+              <td>$931.7B</td>
+              <td class="trend-up">&#9650; +6.6%</td>
+              <td>
+                <div class="share-bar-inline">18%
+                  <div class="share-bar-track"><div class="share-bar-fill" style="width:18%;background:#9b59b6"></div></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="payer-dot" style="background:#e8930a"></span>Out-of-Pocket</td>
+              <td>$556.6B</td>
+              <td class="trend-up">&#9650; +5.9%</td>
+              <td>
+                <div class="share-bar-inline">11%
+                  <div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#e8930a"></div></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="payer-dot" style="background:#7a8aa8"></span>Other Payers</td>
+              <td>$590.5B</td>
+              <td class="trend-down">&#9660; &minus;7.0%</td>
+              <td>
+                <div class="share-bar-inline">11%
+                  <div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#7a8aa8"></div></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size:.65rem;color:#9aaac0;margin-top:.75rem;">Source: CMS National Health Expenditure Accounts (NHEA) 2024 Fact Sheet. All figures are CMS actuals.</div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
@@ -1965,6 +2291,232 @@
       }
     }
   });
+
+  /* ══════════════════════════════════════════════
+     PAYER PERSPECTIVE CHARTS
+     ══════════════════════════════════════════════ */
+
+  // Stacked area: payer mix 2014-2024
+  (function() {
+    const years = ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
+    new Chart(document.getElementById('payerStackedChart'), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [
+          { label: 'Private Insurance', data: [1072,1129,1176,1208,1248,1295,1211,1286,1389,1512,1645], backgroundColor: '#1a6fd4', stack: 'payers' },
+          { label: 'Medicare',          data: [618,647,679,705,741,799,829,900,944,1037,1118],  backgroundColor: '#22a35a', stack: 'payers' },
+          { label: 'Medicaid & CHIP',   data: [499,554,566,582,614,613,671,734,821,877,932],  backgroundColor: '#9b59b6', stack: 'payers' },
+          { label: 'Out-of-Pocket',     data: [339,349,358,365,376,406,388,433,472,526,557],  backgroundColor: '#e8930a', stack: 'payers' },
+          { label: 'Other Payers',      data: [390,397,412,427,446,469,521,561,558,636,591],  backgroundColor: '#7a8aa8', stack: 'payers' },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}B` } } },
+        scales: {
+          x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: { stacked: true, ticks: { callback: v => '$' + v + 'B', font: { size: 11 } }, grid: { color: '#f0f2f7' } }
+        }
+      }
+    });
+  })();
+
+  // YoY trend rate by payer: 2022, 2023, 2024
+  (function() {
+    new Chart(document.getElementById('payerTrendRateChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Private Ins.', 'Medicare', 'Medicaid', 'Out-of-Pocket', 'Other'],
+        datasets: [
+          { label: '2022', data: [7.5, 2.3, 11.9, 8.9, -0.5], backgroundColor: 'rgba(26,111,212,.35)' },
+          { label: '2023', data: [8.9, 9.9, 6.8, 11.4, 14.0], backgroundColor: 'rgba(26,111,212,.6)' },
+          { label: '2024', data: [8.8, 7.8, 6.6, 5.9, -7.0], backgroundColor: '#1a6fd4' },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%` } } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          y: { ticks: { callback: v => v + '%', font: { size: 11 } }, grid: { color: '#f0f2f7' } }
+        }
+      }
+    });
+  })();
+
+  // Per-member cost by payer
+  (function() {
+    new Chart(document.getElementById('perMemberChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Medicare\n(per beneficiary)', 'Medicaid\n(per enrollee)', 'Private Ins.\n(per covered life)', 'Out-of-Pocket\n(per capita)'],
+        datasets: [{
+          label: 'Annual Cost per Member (2024)',
+          data: [14600, 8900, 7200, 1650],
+          backgroundColor: ['#22a35a','#9b59b6','#1a6fd4','#e8930a'],
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: true,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` $${ctx.raw.toLocaleString()} per member` } } },
+        scales: {
+          x: { ticks: { callback: v => '$' + v.toLocaleString(), font: { size: 11 } }, grid: { color: '#f0f2f7' } },
+          y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+        }
+      }
+    });
+  })();
+
+  /* ══════════════════════════════════════════════
+     PAYER DRIVER DATA & INTERACTION
+     ══════════════════════════════════════════════ */
+
+  const payerDriverData = {
+    private: {
+      title: 'Private Health Insurance',
+      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 31% of NHE &nbsp;|&nbsp; ~228M covered lives',
+      color: '#1a6fd4',
+      drivers: [
+        { label: 'Hospital Contract Renewals',    value: '+4.5%', pct: 90 },
+        { label: 'Premium Rate Increases',        value: '+7.0%', pct: 82 },
+        { label: 'GLP-1 Drug Coverage',           value: '+$12B', pct: 60 },
+        { label: 'Specialty Pharmacy Trend',      value: '+11%',  pct: 55 },
+        { label: 'Mental Health Parity Enforce.', value: '+2.1%', pct: 28 },
+      ],
+      insights: [
+        { icon: '🏦', text: '<strong>Hospital consolidation is the top structural driver.</strong> Markets where the largest system holds >50% share show commercial rates 20–40% above competitive markets, with limited plan leverage at renewal.' },
+        { icon: '💊', text: '<strong>GLP-1 formulary decisions now define plan financials.</strong> Adding obesity indication coverage adds $3–8 PMPM. Most large employers are covering weight management Rx in 2025 after pressure from employees.' },
+        { icon: '📄', text: '<strong>Employer premiums rose ~7% in 2024</strong> (KFF Employer Health Benefits Survey) — the steepest increase since 2011. Employers are responding with higher deductibles and cost-sharing to offset premium impact.' },
+        { icon: '⚖️', text: '<strong>MHPAEA final rule (2024)</strong> requires insurers to apply equivalent benefit limitations to mental health and substance use vs. medical/surgical — driving near-term cost increase with long-term ROI potential.' },
+      ],
+      source: 'Sources: CMS NHEA Private Insurance Tables 2024; KFF Employer Health Benefits Survey 2024; American Hospital Association Statistics; CMS MHPAEA enforcement data.'
+    },
+    medicare: {
+      title: 'Medicare',
+      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 21% of NHE &nbsp;|&nbsp; ~67M beneficiaries',
+      color: '#22a35a',
+      drivers: [
+        { label: 'Enrollment Growth (Boomers)',    value: '+2.8%', pct: 72 },
+        { label: 'Medicare Advantage Risk Scores', value: '+4.1%', pct: 85 },
+        { label: 'Part D IRA Restructuring',       value: '+1.9%', pct: 49 },
+        { label: 'Post-Acute Care Volume',         value: '+3.2%', pct: 66 },
+        { label: 'Fee Schedule Updates',           value: '+3.5%', pct: 71 },
+      ],
+      insights: [
+        { icon: '👵', text: '<strong>54% of beneficiaries now in Medicare Advantage (2024).</strong> MA plans receive per-capita payments adjusted for risk scores — CMS and DOJ investigations into risk-score upcoding by MA plans are ongoing and could reduce capitation rates.' },
+        { icon: '💊', text: '<strong>IRA Part D redesign (effective 2025)</strong> caps enrollee OOP at $2,000 and eliminates the coverage gap — shifting catastrophic cost liability to the federal government and manufacturers through the manufacturer discount program.' },
+        { icon: '👴', text: '<strong>~1.1M new beneficiaries per year</strong> through ~2030 as baby boomers age into eligibility. Medicare per-beneficiary cost is also rising as the average beneficiary age increases within the program.' },
+        { icon: '🏨', text: '<strong>Post-acute care is the fastest-growing subcategory</strong> — home health, SNF, and LTACH volumes are recovering post-pandemic while also benefiting from hospital-at-home and value-based care model expansion.' },
+      ],
+      source: 'Sources: CMS Medicare Trustees Report 2024; MedPAC March 2024 Report to Congress; CMS Medicare Advantage Enrollment Data; CMS Part D Prescription Drug Dashboard.'
+    },
+    medicaid: {
+      title: 'Medicaid & CHIP',
+      subtitle: '$931.7B &nbsp;&#9650;&nbsp; +6.6% YoY &nbsp;|&nbsp; 18% of NHE &nbsp;|&nbsp; ~93M enrollees',
+      color: '#9b59b6',
+      drivers: [
+        { label: 'Managed Care Rate Increases', value: '+5.8%', pct: 82 },
+        { label: 'LTSS Spending Growth',        value: '+4.2%', pct: 60 },
+        { label: 'Unwinding Redeterminations',  value: '−6M enrollees', pct: 45 },
+        { label: 'Behavioral Health Expansion', value: '+8.1%', pct: 58 },
+        { label: 'ACA Expansion Baseline',      value: '+3.1%', pct: 44 },
+      ],
+      insights: [
+        { icon: '🔄', text: '<strong>Continuous enrollment unwinding (2023–2024)</strong> removed ~6M beneficiaries from Medicaid rolls after the COVID public health emergency ended — however, per-enrollee costs rose for the remaining population, which is sicker on average.' },
+        { icon: '🏠', text: '<strong>Long-Term Services & Supports (LTSS)</strong> — nursing home, home- and community-based services — now account for ~30% of Medicaid spend and are growing faster than acute care as states shift from institutional to home-based care.' },
+        { icon: '🧠', text: '<strong>Behavioral health is the highest-growth category</strong> within Medicaid managed care. States are expanding 1115 waivers for mental health and SUD services, reflecting both demand increase and policy priority shift.' },
+        { icon: '📊', text: '<strong>40 states + DC have expanded Medicaid</strong> under the ACA. Expansion population (adults 18–64) drives a lower-cost per-enrollee profile vs. aged/disabled — but overall enrollment growth still adds aggregate spend.' },
+      ],
+      source: 'Sources: CMS Medicaid & CHIP Enrollment Data 2024; CMS NHEA Medicaid Tables; KFF Medicaid State Facts; MACPAC Report to Congress 2024.'
+    },
+    oop: {
+      title: 'Out-of-Pocket Spending',
+      subtitle: '$556.6B &nbsp;&#9650;&nbsp; +5.9% YoY &nbsp;|&nbsp; 11% of NHE &nbsp;|&nbsp; ~$1,650 per capita',
+      color: '#e8930a',
+      drivers: [
+        { label: 'High-Deductible Plan Growth',   value: '+3.8%', pct: 78 },
+        { label: 'Dental / Vision (uninsured)',   value: '+4.5%', pct: 68 },
+        { label: 'Cost-Sharing Increases',        value: '+3.2%', pct: 55 },
+        { label: 'OTC & Consumer Health',         value: '+6.1%', pct: 50 },
+        { label: 'Long-Term Care (self-pay)',      value: '+5.0%', pct: 44 },
+      ],
+      insights: [
+        { icon: '📋', text: '<strong>55% of covered workers are in HDHPs (2024)</strong> (KFF), up from 26% in 2013. Higher deductibles shift first-dollar cost to consumers and are particularly burdensome for low/middle-income households with chronic conditions.' },
+        { icon: '🦷', text: '<strong>Dental and vision spending is almost entirely out-of-pocket</strong> for the non-Medicare population — these categories represent ~$200B of total OOP spend and are growing with aging and consumer health awareness.' },
+        { icon: '💊', text: '<strong>OTC and consumer health</strong> expanded significantly post-COVID with behind-the-counter access to oral contraceptives, hearing aids, COVID tests, and respiratory treatments — adding to OOP without insurance offset.' },
+        { icon: '🏡', text: '<strong>Self-pay long-term care</strong> is a hidden time bomb — Medicaid requires near-total spend-down of assets before covering LTC. The median private-pay nursing home cost exceeded $108K/year in 2024.' },
+      ],
+      source: 'Sources: CMS NHEA Out-of-Pocket Tables 2024; KFF Employer Health Benefits Survey 2024; Genworth Cost of Care Survey 2024; AHRQ MEPS Household Component.'
+    },
+    other: {
+      title: 'Other Payers (VA, DoD, Workers Comp, CHIP)',
+      subtitle: '$590.5B &nbsp;&#9660;&nbsp; &minus;7.0% YoY &nbsp;|&nbsp; 11% of NHE',
+      color: '#7a8aa8',
+      drivers: [
+        { label: 'PHE Supplemental Spend Ended', value: '−$85B', pct: 95 },
+        { label: 'Workers Comp Normalization',   value: '−2.1%', pct: 38 },
+        { label: 'VA Mission Act Utilization',   value: '+3.8%', pct: 32 },
+        { label: 'DoD TRICARE Costs',            value: '+2.5%', pct: 22 },
+        { label: 'CHIP Enrollment Shift',        value: '−0.8%', pct: 8  },
+      ],
+      insights: [
+        { icon: '🏛️', text: '<strong>The large decline in "Other Payers" is almost entirely explained by the wind-down of COVID-era Public Health Emergency supplemental federal funding</strong> — grants, FEMA reimbursements, and PHE-specific appropriations that were in this category in 2022–2023.' },
+        { icon: '⚕️', text: '<strong>VA Mission Act (2019)</strong> expanded Veterans\' access to community care outside VA facilities — VA community care spending grew ~12% YoY in 2024, partially offsetting the PHE wind-down within this category.' },
+        { icon: '🪖', text: '<strong>TRICARE (DoD)</strong> covers ~9.5M active duty, retired military, and dependents. TRICARE costs have grown modestly (+2–3% annually) relative to civilian trends due to fixed fee schedules and base access to care.' },
+        { icon: '⚠️', text: '<strong>This category is the most volatile in the NHE</strong> due to emergency supplemental appropriations. Absent another public health emergency, expect this category to stabilize at +2–4% annual growth, driven by VA and TRICARE.' },
+      ],
+      source: 'Sources: CMS NHEA Other Payers Tables 2024; VA Annual Benefits Report 2024; DoD TRICARE Actuarial Report; NCCI Workers Compensation Statistical Plan.'
+    }
+  };
+
+  let activePayerKpi = null;
+
+  function showPayerDrivers(key) {
+    const data = payerDriverData[key];
+    if (!data) return;
+    if (activePayerKpi === key) { closePayerDrivers(); return; }
+
+    document.querySelectorAll('.payer-kpi-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('pkpi-' + key).classList.add('active');
+    activePayerKpi = key;
+
+    document.getElementById('payerDriverTitle').innerHTML = data.title;
+    document.getElementById('payerDriverSubtitle').innerHTML = data.subtitle;
+    document.getElementById('payerDriverSource').textContent = data.source;
+
+    document.getElementById('payerDriverBars').innerHTML = data.drivers.map(d => `
+      <div class="driver-bar-row">
+        <div class="driver-bar-label">${d.label} <span>${d.value}</span></div>
+        <div class="driver-bar-track">
+          <div class="driver-bar-fill" style="width:0%;background:${data.color}" data-pct="${d.pct}"></div>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('payerDriverInsights').innerHTML = data.insights.map(i => `
+      <div class="driver-insight">
+        <div class="driver-insight-icon">${i.icon}</div>
+        <div class="driver-insight-text">${i.text}</div>
+      </div>
+    `).join('');
+
+    const panel = document.getElementById('payerDriverPanel');
+    panel.classList.add('open');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.querySelectorAll('.driver-bar-fill').forEach(el => { el.style.width = el.dataset.pct + '%'; });
+    }));
+  }
+
+  function closePayerDrivers() {
+    document.getElementById('payerDriverPanel').classList.remove('open');
+    document.querySelectorAll('.payer-kpi-card').forEach(c => c.classList.remove('active'));
+    activePayerKpi = null;
+  }
 
   /* ══════════════════════════════════════════════
      KPI DRIVER DATA & INTERACTION
