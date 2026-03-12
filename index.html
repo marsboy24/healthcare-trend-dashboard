@@ -1291,6 +1291,50 @@
       margin-top: .45em;
     }
 
+    .gap-opportunity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      margin-bottom: .7rem;
+      font-size: .78rem;
+      color: #1a2233;
+      line-height: 1.5;
+      padding-left: .9rem;
+      position: relative;
+    }
+
+    .gap-opportunity-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .45em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22a35a;
+      flex-shrink: 0;
+    }
+
+    .gap-status-block {
+      background: #f8f9fc;
+      border-radius: 8px;
+      padding: .85rem 1rem;
+      margin-bottom: .65rem;
+      font-size: .75rem;
+      color: #3a4a6a;
+      line-height: 1.55;
+    }
+
+    .gap-status-block strong {
+      display: block;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #9aaac0;
+      margin-bottom: .3rem;
+    }
+
     .gap-source-item {
       display: flex;
       align-items: flex-start;
@@ -2026,44 +2070,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">Drug-by-drug spend breakdown (Ozempic, Wegovy, Mounjaro, Zepbound)</div>
-        <div class="gap-missing-item">Medicare vs. Medicaid vs. commercial spend comparison</div>
-        <div class="gap-missing-item">Net vs. gross spend trajectory (rebate-adjusted ~50%)</div>
-        <div class="gap-missing-item">Coverage policy variation by payer type</div>
-        <div class="gap-missing-item">Spend growth rate vs. utilization growth decomposition</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">What is our true GLP-1 exposure across all lines — Medicare, Medicaid, and commercial — and how does it compare to the rest of the Rx portfolio?</div>
+        <div class="gap-missing-item">How much of the +7.9% Rx spend growth is GLP-1s specifically, vs. everything else?</div>
+        <div class="gap-missing-item">What does net cost look like after rebates — and does that change how plan sponsors should think about coverage decisions?</div>
+        <div class="gap-missing-item">What happens to plan financials when obesity coverage is added on top of diabetes-only GLP-1 benefits?</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG Dec 2025: Medicare Part D diabetes drugs $35.8B (2023), +364% from 2019; projected $102B by 2026</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG 2024: Medicaid GLP-1 gross spend $9.4B (2023), +540% from 2019</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Part D Drug Spending Dashboard — drug-level annual data 2018–2023</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> ASPE Nov 2024: FDA approval timeline, pricing vs. comparator countries, OOP burden</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">NONPROFIT</span> KFF Jan 2026: $27.5B gross Medicare Part D GLP-1 spend 2024 (net ~$14B after rebates)</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Elevate GLP-1s from a footnote into a standalone cost center — the fastest-growing category in U.S. healthcare, projected to hit $102B in Medicare Part D alone by 2026.</div>
+        <div class="gap-opportunity-item">Inform formulary and benefit design strategy: the difference between diabetes-only and obesity coverage adds $3–8 PMPM to plan cost, making this a live decision for every plan sponsor.</div>
+        <div class="gap-opportunity-item">Benchmark payer exposure: Medicaid GLP-1 gross spend rose 540% in four years. Understanding which payer segment carries which share of that growth changes portfolio risk assessment.</div>
+        <div class="gap-opportunity-item">Model the IRA drug negotiation savings impact on the GLP-1 trajectory — $1.5B in confirmed savings already, with Cycle 2 negotiations completed in 2025.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">95%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Primary Source</strong>
+          OIG Dec 2025 &amp; CMS Part D Dashboard — drug-level spend 2018–2023 (gov). KFF Jan 2026 synthesis covers 2024 net figures.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">90%</span>
+        <div class="gap-status-block">
+          <strong>Coverage Gap</strong>
+          Commercial payer GLP-1 spend is not reported in any government source. Private insurance exposure requires commercial data or modeling.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (through 2024)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:80%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">80%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">95%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build — government data available through 2024</div>
       </div>
     </div>
   </div>
@@ -2083,44 +2113,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">MA overpayment vs. FFS benchmark comparison over time</div>
-        <div class="gap-missing-item">Risk score inflation / diagnosis code upcoding trend</div>
-        <div class="gap-missing-item">Plan-level financial performance and rebate flow</div>
-        <div class="gap-missing-item">OIG audit findings — unsupported diagnosis rates by plan</div>
-        <div class="gap-missing-item">Policy reform trajectory (CMS audit backlog, GAO recommendations)</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">The dashboard shows MA at 54% penetration — but doesn't show what that 54% is costing the federal government compared to what Traditional Medicare would have cost for the same people.</div>
+        <div class="gap-missing-item">How much of Medicare's $1.12T spend is driven by risk-score inflation — diagnoses added by MA plans to increase capitation payments — vs. actual care costs?</div>
+        <div class="gap-missing-item">What is the reform exposure? With $100B+ in flagged improper payments and a multi-year CMS audit backlog, what is the realistic recovery trajectory?</div>
+        <div class="gap-missing-item">How does the overpayment dynamic affect MA plan profitability and competitive positioning relative to TM?</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> MedPAC Mar 2025 Ch.11: $84B overpayment est.; $44B from favorable selection</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> MedPAC July 2025 Data Book §9: updated payment tables through 2025</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG MA Audit Series 2024–25: 83–87% unsupported diagnosis codes across 8 plans audited</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO-24-107487: $100B+ combined improper payments FY2023; audit backlog documented</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO 2025 High-Risk Update: MA overpayment remains on high-risk list</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Explain the financial mechanics behind MA growth — why CMS pays more per enrollee in MA than TM, and why that gap has persisted despite years of reform attempts.</div>
+        <div class="gap-opportunity-item">Surface the OIG audit findings as a regulatory risk signal: 83–87% of audited enrollee-years had unsupported diagnosis codes. This is a live compliance and rate-setting risk for MA plans.</div>
+        <div class="gap-opportunity-item">Contextualize the 54% MA penetration figure already in the dashboard — it looks like a market success story without the overpayment lens. With it, the picture is more complex.</div>
+        <div class="gap-opportunity-item">Enable scenario modeling: what happens to federal Medicare spending if CMS completes audits and recovers even a fraction of the $84B overpayment estimate?</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:88%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">88%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Primary Source</strong>
+          MedPAC March 2025 Chapter 11 quantifies the $84B overpayment. OIG MA audit series (2024–25) documents plan-level diagnosis code inflation.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">95%</span>
+        <div class="gap-status-block">
+          <strong>Constraint</strong>
+          OIG audit data reflects 2016–2019 payment years due to inherent audit lag. Current-year risk score inflation is directional, not audited.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (through 2025)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">90%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:85%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">85%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build — MedPAC and OIG sources confirmed through 2025</div>
       </div>
     </div>
   </div>
@@ -2140,42 +2156,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">10-year Medicare / Medicaid outlay projections (2025–2035)</div>
-        <div class="gap-missing-item">30-year federal health spending as % of GDP trajectory</div>
-        <div class="gap-missing-item">Medicare Trust Fund solvency timeline</div>
-        <div class="gap-missing-item">IRA drug negotiation savings projections</div>
-        <div class="gap-missing-item">Sensitivity ranges around key assumptions</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">The dashboard is a strong snapshot of 2024 actuals — but has no forward-looking trajectory. Where is healthcare spending going, and what does the federal fiscal picture look like over the next 10 years?</div>
+        <div class="gap-missing-item">At current trend rates, federal health programs grow from 5.8% to 8.1% of GDP by 2055. Without projections, there is no structural sustainability context around the figures already in the dashboard.</div>
+        <div class="gap-missing-item">How do 2024 actuals compare to CBO's expected baseline — are we running ahead or behind projection, and what does that signal about near-term reform pressure?</div>
+        <div class="gap-missing-item">When does the Medicare Trust Fund reach insolvency under current trajectory — and what legislative interventions are built into the CBO baseline?</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Budget &amp; Economic Outlook Jan 2025: 10-year baseline; Medicare/Medicaid annual projections 2025–2035</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Long-Term Budget Outlook Mar 2025: 30-year projection to 2055; health programs 5.8% → 8.1% GDP</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Baseline Projections for Selected Programs: downloadable Excel tables by program, year-by-year</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Transform this dashboard from a backward-looking report into a planning tool — by connecting 2024 actuals to 2025–2035 CBO projections in a single trajectory view.</div>
+        <div class="gap-opportunity-item">Give payers and plan sponsors a sustainability frame: how long can current trend rates continue before structural reform is fiscally unavoidable? The answer is in the CBO baseline.</div>
+        <div class="gap-opportunity-item">Enable product portfolio planning around where federal program spend is going — Medicare growth, Medicaid exposure, and the ACA marketplace trajectory all shape where payer revenue is heading.</div>
+        <div class="gap-opportunity-item">Anchor IRA drug savings projections alongside the broader spending curve — showing how much the negotiated drug prices offset trend, and what the net trajectory looks like.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">100%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Primary Source</strong>
+          CBO Budget &amp; Economic Outlook (Jan 2025) covers 2025–2035. CBO Long-Term Outlook (Mar 2025) extends to 2055. Downloadable year-by-year tables available.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">100%</span>
+        <div class="gap-status-block">
+          <strong>No Constraints</strong>
+          All CBO data is government-published, freely available, and current as of early 2025. This is the highest-readiness gap on the list.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (Jan–Mar 2025)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">100%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">95%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Highest readiness — data fully available, no commercial sources needed</div>
       </div>
     </div>
   </div>
@@ -2195,43 +2199,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">Total MH/SUD spending by payer (Medicare, Medicaid, private, OOP)</div>
-        <div class="gap-missing-item">Spending growth rate vs. prevalence growth decomposition</div>
-        <div class="gap-missing-item">Inpatient psychiatric vs. outpatient vs. SUD treatment breakdown</div>
-        <div class="gap-missing-item">MHPAEA enforcement impact on private plan spending</div>
-        <div class="gap-missing-item">Behavioral health workforce shortage as cost and access driver</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">The dashboard tracks how many people have mental health and substance use conditions — but says nothing about what the system is spending to treat them, or whether spending is keeping up with prevalence.</div>
+        <div class="gap-missing-item">57.8 million adults have a mental illness. Is that $280B in treatment spend, or $400B? The absence of a spending figure makes it impossible to assess cost burden or payer exposure.</div>
+        <div class="gap-missing-item">MHPAEA 2024 is actively expanding required coverage. Private plans need to know what behavioral health spending looks like today — before enforcement drives it higher.</div>
+        <div class="gap-missing-item">Is behavioral health cost growing because prevalence is rising, because utilization per patient is rising, or because unit costs are rising? Without spending data, the dashboard can't answer that.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS NHEA Tables 13–16 (already in use): MH/SUD spending sub-tables by payer — data exists, not yet extracted</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS IPF PPS FY2024/2025 Final Rules: Medicare inpatient psychiatric facility payment rates</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> SAMHSA: Behavioral Health Expenditures for Dual Eligibles — spending by diagnosis for dual-eligible adults</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">CAUTION</span> SAMHSA Standalone Expenditure Report: last updated 2014 — major data staleness gap</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Connect prevalence and spending in the same view — the dashboard already has the prevalence side. Adding the spending dimension completes the picture and makes it actionable for benefit design.</div>
+        <div class="gap-opportunity-item">Quantify the MHPAEA enforcement impact for private plans: mental health parity enforcement is a near-term cost driver already flagged in the Payer Landscape section. This section would put a dollar figure on it.</div>
+        <div class="gap-opportunity-item">Show the payer mix for behavioral health spend — a disproportionate share falls on Medicaid and Medicare, making this a public program fiscal issue as much as a private plan design issue.</div>
+        <div class="gap-opportunity-item">Surface the carve-out vs. integrated benefit debate: how does behavioral health cost behave differently under carved-out ASO arrangements vs. integrated managed care?</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:75%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">75%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Key Insight</strong>
+          The spending data already exists — CMS NHEA Tables 13–16 include mental health and SUD spending line items by payer. The gap is extraction, not sourcing.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">70%</span>
+        <div class="gap-status-block">
+          <strong>Constraint</strong>
+          SAMHSA's standalone behavioral health expenditure report has not been updated since 2014. NHEA sub-tables are the only current government source for spending dollars.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (SAMHSA gap)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:50%;background:#d63b6f;"></div></div>
-          <span class="gap-readiness-pct">50%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:80%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">80%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#fef6e8;color:#8a5a00;">&#9888; Partial — extract NHEA sub-tables first</div>
+        <div class="gap-build-badge" style="background:#fef6e8;color:#8a5a00;">&#9888; Partial readiness — requires extracting NHEA behavioral health sub-tables</div>
       </div>
     </div>
   </div>
@@ -2251,44 +2242,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">Spending and access disparities by race/ethnicity and income</div>
-        <div class="gap-missing-item">Geographic variation in healthcare access and cost</div>
-        <div class="gap-missing-item">MA quality disparities by demographic subgroup</div>
-        <div class="gap-missing-item">SDOH domain framework with quantified health impact</div>
-        <div class="gap-missing-item">Dual-eligible population cost and care utilization patterns</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">Healthcare costs and outcomes differ significantly by race, income, and geography — but the dashboard presents aggregate national figures that mask this variation entirely.</div>
+        <div class="gap-missing-item">CMS's 10-year health equity framework has made equity a formal requirement across MA star ratings, Medicaid managed care contracting, and quality reporting. This dashboard has no coverage of that policy landscape.</div>
+        <div class="gap-missing-item">Dual-eligible populations (Medicare + Medicaid) represent roughly 20% of Medicare and 15% of Medicaid enrollment but a disproportionate share of spend — and have no dedicated view here.</div>
+        <div class="gap-missing-item">Employer clients operating under ESG or DEI commitments increasingly need health equity metrics. Without this section, the dashboard can't speak to that audience.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> AHRQ NHQDR 2023: 700 measures across 30+ data sources; disparities by race, income, geography</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Mapping Medicare Disparities Tool: 60 conditions, county-level, by race/ethnicity</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS MA Stratified Reporting: HEDIS/CAHPS by demographic subgroup, 2023–2024</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> HHS Healthy People 2030: SDOH framework with 5 domains and baseline tracking data</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Health Equity Framework 2022–2032: 10-year goals, current disparity baselines</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Add a disparity lens to existing dashboard data — showing how chronic condition prevalence, payer composition, and spending differ by race, income, and geography using CMS's own tools.</div>
+        <div class="gap-opportunity-item">Surface the financial stakes of health inequity: populations with high SDOH burden have higher acute care utilization, higher readmission rates, and greater long-term cost. Quantifying this changes how payers price risk.</div>
+        <div class="gap-opportunity-item">Enable MA star rating strategy conversations: CMS's equity-focused HEDIS and CAHPS measures now affect star ratings — and lower-rated plans lose MA bonus payments. This is a direct financial signal.</div>
+        <div class="gap-opportunity-item">Position the dashboard for employer and Medicaid managed care clients who face contractual equity reporting requirements that are becoming standard in public program RFPs.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:85%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">85%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Primary Sources</strong>
+          AHRQ NHQDR 2023 (700+ disparity measures) and CMS Mapping Medicare Disparities Tool provide robust government data. CMS MA Stratified Reporting covers 2023–2024.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
-          <span class="gap-readiness-pct">90%</span>
+        <div class="gap-status-block">
+          <strong>Constraint</strong>
+          Source volume is high and data requires curation decisions — which measures and dimensions to surface for an executive payer audience. Scoping is needed before building.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (through 2023)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:72%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">72%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">70%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#e6f0fd;color:#0d4da0;">&#9432; Scoping needed — high source volume</div>
+        <div class="gap-build-badge" style="background:#e6f0fd;color:#0d4da0;">&#9432; Scoping required — strong sources available, framing decisions needed first</div>
       </div>
     </div>
   </div>
@@ -2308,43 +2285,30 @@
     </div>
     <div class="gap-card-body">
       <div class="gap-col">
-        <div class="gap-col-title">What's Missing</div>
-        <div class="gap-missing-item">Private plan vs. Medicare rate benchmark comparison</div>
-        <div class="gap-missing-item">Price transparency rule compliance rate and enforcement trend</div>
-        <div class="gap-missing-item">Hospital market concentration and price correlation</div>
-        <div class="gap-missing-item">State-level price variation (Arkansas ~170% vs. California ~320%)</div>
-        <div class="gap-missing-item">Drug administration in hospital settings (281% of Medicare ASP)</div>
+        <div class="gap-col-title">The Gap</div>
+        <div class="gap-missing-item">The dashboard shows that hospital care is the largest NHE category at $1.4T — but says nothing about what private plans are actually paying relative to Medicare rates, or why prices vary so dramatically by market.</div>
+        <div class="gap-missing-item">Hospital consolidation is called out as the dominant cost driver for private insurance — but without a price benchmark, there's no way to quantify how much of the premium increase is attributable to negotiated rate increases vs. utilization.</div>
+        <div class="gap-missing-item">CMS has required hospitals to publish their prices since 2021. Three years in, 37% still don't comply and GAO found the data quality is unverified. The dashboard has no coverage of this active regulatory story.</div>
+        <div class="gap-missing-item">State-level price variation is enormous — private plans pay hospitals 170% of Medicare in Arkansas and over 300% in California. A geography-agnostic national figure masks the exposure that varies significantly by where a plan operates.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Sources Identified</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS HPT Enforcement Data: 1,287 actions, $4M+ penalties, 37% non-compliance (2024)</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG Dec 2025: 37 of 100 hospitals non-compliant with HPT rule</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO-25-106995: CMS cannot assure data completeness or accuracy of hospital MRFs</div>
-        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">COMMERCIAL FLAG</span> RAND Round 5.1: private plans paid 254% of Medicare rates (2022); state variation 170%–320%</div>
+        <div class="gap-col-title">The Opportunity</div>
+        <div class="gap-opportunity-item">Anchor the hospital consolidation narrative already in the dashboard to a price benchmark — showing that consolidated markets drive commercial rates to 254%+ of Medicare on average, rising to 320%+ in high-concentration states.</div>
+        <div class="gap-opportunity-item">Give plan sponsors a network negotiation frame: the 254% of Medicare average is a strategic anchor that employers and payers increasingly use to evaluate whether their contracted rates are competitive.</div>
+        <div class="gap-opportunity-item">Track the price transparency enforcement trajectory as a leading indicator — compliance rising means more pricing data becomes available; stalled enforcement means the benchmark gap persists.</div>
+        <div class="gap-opportunity-item">Surface the drug administration in hospital settings finding (281% of Medicare ASP) as a distinct cost lever — relevant to site-of-care strategy, a major focus for self-insured employers and large plan sponsors.</div>
       </div>
       <div class="gap-col">
-        <div class="gap-col-title">Build Readiness</div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Data availability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">70%</span>
+        <div class="gap-col-title">Data Status</div>
+        <div class="gap-status-block">
+          <strong>Government Data</strong>
+          CMS enforcement data and OIG/GAO findings cover the regulatory compliance story through 2024. Fully government-sourced.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Source quality</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:75%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">75%</span>
+        <div class="gap-status-block">
+          <strong>Key Constraint</strong>
+          The 254% price benchmark comes from RAND (commercial, employer-funded). RAND Round 6 is not expected until 2027. The benchmarking story requires flagging this source limitation prominently.
         </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Recency (RAND 2022 lag)</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:55%;background:#d63b6f;"></div></div>
-          <span class="gap-readiness-pct">55%</span>
-        </div>
-        <div class="gap-readiness-row">
-          <span class="gap-readiness-label">Chart buildability</span>
-          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:65%;background:#e8930a;"></div></div>
-          <span class="gap-readiness-pct">65%</span>
-        </div>
-        <div class="gap-build-badge" style="background:#fde8ef;color:#c0184e;">&#9888; Limited by RAND data lag — Round 6 not until 2027</div>
+        <div class="gap-build-badge" style="background:#fde8ef;color:#c0184e;">&#9888; Buildable with caveats — RAND benchmark data lags to 2022; flag commercial source</div>
       </div>
     </div>
   </div>
