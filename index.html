@@ -1515,7 +1515,7 @@
       <div class="kpi-label">Medicare Spend</div>
       <div class="kpi-value">$1.12T</div>
       <div class="kpi-delta up">&#9650; +7.8% YoY</div>
-      <div class="kpi-note">21% share of total NHE</div>
+      <div class="kpi-note">23% share of payer-attributed NHE</div>
       <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1523,7 +1523,7 @@
       <div class="kpi-label">Private Insurance</div>
       <div class="kpi-value">$1.64T</div>
       <div class="kpi-delta up">&#9650; +8.8% YoY</div>
-      <div class="kpi-note">31% share of total NHE</div>
+      <div class="kpi-note">34% share of payer-attributed NHE</div>
       <div class="kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1592,7 +1592,7 @@
 
     <div class="chart-card">
       <div class="chart-title">Healthcare Spending by Payer (2024)</div>
-      <div class="chart-desc">Source: CMS NHEA &mdash; share of $5.3T total NHE</div>
+      <div class="chart-desc">Source: CMS NHEA &mdash; 5 payers shown = $4.84T; $454B remainder is government administration, research &amp; investment (excluded from payer breakdown)</div>
       <div class="chart-wrap" style="max-width:380px;margin:0 auto;">
         <canvas id="payerDonut" height="260"></canvas>
       </div>
@@ -1672,7 +1672,7 @@
       <div class="payer-kpi-name">Private Insurance</div>
       <div class="payer-kpi-spend">$1.64T</div>
       <div class="payer-kpi-trend">&#9650; +8.8% YoY</div>
-      <div class="payer-kpi-share">31% of NHE &nbsp;·&nbsp; ~228M lives</div>
+      <div class="payer-kpi-share">34% of payer-attributed NHE &nbsp;·&nbsp; ~228M lives</div>
       <div class="payer-kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1680,7 +1680,7 @@
       <div class="payer-kpi-name">Medicare</div>
       <div class="payer-kpi-spend">$1.12T</div>
       <div class="payer-kpi-trend">&#9650; +7.8% YoY</div>
-      <div class="payer-kpi-share">21% of NHE &nbsp;·&nbsp; ~67M beneficiaries</div>
+      <div class="payer-kpi-share">23% of payer-attributed NHE &nbsp;·&nbsp; ~67M beneficiaries</div>
       <div class="payer-kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1688,7 +1688,7 @@
       <div class="payer-kpi-name">Medicaid &amp; CHIP</div>
       <div class="payer-kpi-spend">$932B</div>
       <div class="payer-kpi-trend">&#9650; +6.6% YoY</div>
-      <div class="payer-kpi-share">18% of NHE &nbsp;·&nbsp; ~76M enrollees (Nov 2025)</div>
+      <div class="payer-kpi-share">19% of payer-attributed NHE &nbsp;·&nbsp; ~76M enrollees (Nov 2025)</div>
       <div class="payer-kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1696,7 +1696,7 @@
       <div class="payer-kpi-name">Out-of-Pocket</div>
       <div class="payer-kpi-spend">$557B</div>
       <div class="payer-kpi-trend">&#9650; +5.9% YoY</div>
-      <div class="payer-kpi-share">11% of NHE &nbsp;·&nbsp; ~$1,650 per capita</div>
+      <div class="payer-kpi-share">12% of payer-attributed NHE &nbsp;·&nbsp; ~$1,650 per capita</div>
       <div class="payer-kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1704,7 +1704,7 @@
       <div class="payer-kpi-name">Other Payers</div>
       <div class="payer-kpi-spend">$591B</div>
       <div class="payer-kpi-trend" style="color:#d63b6f">&#9660; &minus;7.0% YoY</div>
-      <div class="payer-kpi-share">11% of NHE &nbsp;·&nbsp; VA, DoD, Workers Comp</div>
+      <div class="payer-kpi-share">12% of payer-attributed NHE &nbsp;·&nbsp; VA, DoD, Workers Comp</div>
       <div class="payer-kpi-hint">&#9660; View drivers</div>
     </div>
 
@@ -1794,7 +1794,7 @@
             <tr class="tbl-clickable" onclick="toggleTblRow('tbl-private')">
               <td><span class="payer-dot" style="background:#1a6fd4"></span>Private Insurance <span class="tbl-chevron">&#9660;</span></td>
               <td>$1,644.6B</td><td class="trend-up">&#9650; +8.8%</td>
-              <td><div class="share-bar-inline">31%<div class="share-bar-track"><div class="share-bar-fill" style="width:31%;background:#1a6fd4"></div></div></div></td>
+              <td><div class="share-bar-inline">34%<div class="share-bar-track"><div class="share-bar-fill" style="width:34%;background:#1a6fd4"></div></div></div></td>
             </tr>
             <tr class="tbl-detail-row" id="tbl-private"><td class="tbl-detail-cell" colspan="4">
               <div class="tbl-detail-inner">
@@ -1808,7 +1808,7 @@
             <tr class="tbl-clickable" onclick="toggleTblRow('tbl-medicare')">
               <td><span class="payer-dot" style="background:#22a35a"></span>Medicare <span class="tbl-chevron">&#9660;</span></td>
               <td>$1,118.0B</td><td class="trend-up">&#9650; +7.8%</td>
-              <td><div class="share-bar-inline">21%<div class="share-bar-track"><div class="share-bar-fill" style="width:21%;background:#22a35a"></div></div></div></td>
+              <td><div class="share-bar-inline">23%<div class="share-bar-track"><div class="share-bar-fill" style="width:23%;background:#22a35a"></div></div></div></td>
             </tr>
             <tr class="tbl-detail-row" id="tbl-medicare"><td class="tbl-detail-cell" colspan="4">
               <div class="tbl-detail-inner">
@@ -1822,7 +1822,7 @@
             <tr class="tbl-clickable" onclick="toggleTblRow('tbl-medicaid')">
               <td><span class="payer-dot" style="background:#9b59b6"></span>Medicaid &amp; CHIP <span class="tbl-chevron">&#9660;</span></td>
               <td>$931.7B</td><td class="trend-up">&#9650; +6.6%</td>
-              <td><div class="share-bar-inline">18%<div class="share-bar-track"><div class="share-bar-fill" style="width:18%;background:#9b59b6"></div></div></div></td>
+              <td><div class="share-bar-inline">19%<div class="share-bar-track"><div class="share-bar-fill" style="width:19%;background:#9b59b6"></div></div></div></td>
             </tr>
             <tr class="tbl-detail-row" id="tbl-medicaid"><td class="tbl-detail-cell" colspan="4">
               <div class="tbl-detail-inner">
@@ -1836,7 +1836,7 @@
             <tr class="tbl-clickable" onclick="toggleTblRow('tbl-oop')">
               <td><span class="payer-dot" style="background:#e8930a"></span>Out-of-Pocket <span class="tbl-chevron">&#9660;</span></td>
               <td>$556.6B</td><td class="trend-up">&#9650; +5.9%</td>
-              <td><div class="share-bar-inline">11%<div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#e8930a"></div></div></div></td>
+              <td><div class="share-bar-inline">12%<div class="share-bar-track"><div class="share-bar-fill" style="width:12%;background:#e8930a"></div></div></div></td>
             </tr>
             <tr class="tbl-detail-row" id="tbl-oop"><td class="tbl-detail-cell" colspan="4">
               <div class="tbl-detail-inner">
@@ -1850,7 +1850,7 @@
             <tr class="tbl-clickable" onclick="toggleTblRow('tbl-other')">
               <td><span class="payer-dot" style="background:#7a8aa8"></span>Other Payers <span class="tbl-chevron">&#9660;</span></td>
               <td>$590.5B</td><td class="trend-down">&#9660; &minus;7.0%</td>
-              <td><div class="share-bar-inline">11%<div class="share-bar-track"><div class="share-bar-fill" style="width:11%;background:#7a8aa8"></div></div></div></td>
+              <td><div class="share-bar-inline">12%<div class="share-bar-track"><div class="share-bar-fill" style="width:12%;background:#7a8aa8"></div></div></div></td>
             </tr>
             <tr class="tbl-detail-row" id="tbl-other"><td class="tbl-detail-cell" colspan="4">
               <div class="tbl-detail-inner">
@@ -1874,7 +1874,7 @@
     <div class="exec-callout-icon">🔬</div>
     <div class="exec-callout-text">
       <span class="callout-tag">Condition Drivers</span>
-      Ten chronic conditions account for over <strong>$2.7 trillion in annual spend</strong>. Alzheimer's ($360B), Musculoskeletal ($380B), and Diabetes ($307B) are the top categories — each with distinct payer mix and per-patient cost implications. <strong>Click any condition bar to load a full breakdown.</strong>
+      Ten chronic conditions account for over <strong>$1.9 trillion in annual spend</strong>. Musculoskeletal ($380B), Diabetes ($307B), and Mental Health &amp; Behavioral ($280B) are the top categories — each with distinct payer mix and per-patient cost implications. <strong>Click any condition bar to load a full breakdown.</strong>
     </div>
   </div>
 
@@ -2375,7 +2375,7 @@
   // 2024 actual: $5,295B (~$5.3T) from CMS NHE Fact Sheet
   // 2014-2023 from CMS NHEA published historical series
   const nheYears = ['2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024'];
-  const nheBillions = [3031, 3207, 3371, 3491, 3652, 3795, 4108, 4256, 4466, 4867, 5295];
+  const nheBillions = [3031, 3207, 3371, 3491, 3652, 3795, 4108, 4256, 4466, 4939, 5295];
 
   new Chart(document.getElementById('nheLineChart'), {
     type: 'line',
@@ -2421,7 +2421,7 @@
   // ─── 2. Per Capita Line Chart (2014-2024) ────────────────────
   // Source: CMS NHEA — 2024 actual $15,474 from CMS Fact Sheet
   // Historical consistent with CMS per capita series
-  const perCapita = [9524, 10048, 10530, 10878, 11365, 11791, 12747, 13206, 13807, 15008, 15474];
+  const perCapita = [9524, 10048, 10530, 10878, 11365, 11791, 12747, 13206, 13807, 14570, 15474];
 
   new Chart(document.getElementById('perCapitaChart'), {
     type: 'line',
@@ -3483,7 +3483,7 @@
   const payerDriverData = {
     private: {
       title: 'Private Health Insurance',
-      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 31% of NHE &nbsp;|&nbsp; ~228M covered lives',
+      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 34% of payer-attributed NHE &nbsp;|&nbsp; ~228M covered lives',
       color: '#1a6fd4',
       drivers: [
         { label: 'Hospital Contract Renewals',    value: '+4.5%', pct: 90 },
@@ -3502,7 +3502,7 @@
     },
     medicare: {
       title: 'Medicare',
-      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 21% of NHE &nbsp;|&nbsp; ~67M beneficiaries',
+      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 23% of payer-attributed NHE &nbsp;|&nbsp; ~67M beneficiaries',
       color: '#22a35a',
       drivers: [
         { label: 'Enrollment Growth (Boomers)',    value: '+2.8%', pct: 72 },
@@ -3521,7 +3521,7 @@
     },
     medicaid: {
       title: 'Medicaid & CHIP',
-      subtitle: '$931.7B &nbsp;&#9650;&nbsp; +6.6% YoY &nbsp;|&nbsp; 18% of NHE &nbsp;|&nbsp; ~76M enrollees (Nov 2025 post-unwinding)',
+      subtitle: '$931.7B &nbsp;&#9650;&nbsp; +6.6% YoY &nbsp;|&nbsp; 19% of payer-attributed NHE &nbsp;|&nbsp; ~76M enrollees (Nov 2025 post-unwinding)',
       color: '#9b59b6',
       drivers: [
         { label: 'Managed Care Rate Increases', value: '+5.8%', pct: 82 },
@@ -3751,7 +3751,7 @@
     },
     medicare: {
       title: 'Medicare Program Spend',
-      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 21% of Total NHE',
+      subtitle: '$1.12T &nbsp;&#9650;&nbsp; +7.8% YoY &nbsp;|&nbsp; 23% of payer-attributed NHE',
       color: '#22a35a',
       drivers: [
         { label: 'Beneficiary Enrollment Growth', value: '+2.8%', pct: 72 },
@@ -3770,7 +3770,7 @@
     },
     private: {
       title: 'Private Health Insurance Spend',
-      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 31% of Total NHE',
+      subtitle: '$1.64T &nbsp;&#9650;&nbsp; +8.8% YoY &nbsp;|&nbsp; 34% of payer-attributed NHE',
       color: '#1a6fd4',
       drivers: [
         { label: 'Hospital System Consolidation', value: '+4.5%', pct: 90 },
