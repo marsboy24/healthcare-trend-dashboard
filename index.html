@@ -1121,6 +1121,255 @@
       gap: .5rem 1.5rem;
     }
     @media (max-width: 700px) { .tbl-detail-inner { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════
+       DATA GAPS SECTION
+       ══════════════════════════════════════════════ */
+
+    .gaps-toggle-bar {
+      display: flex;
+      gap: .45rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .gap-pill {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem 1rem;
+      border-radius: 20px;
+      border: 1.5px solid #dde3ed;
+      background: #fff;
+      font-size: .75rem;
+      font-weight: 600;
+      color: #7a8aa8;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .gap-pill:hover { border-color: #aab8d0; color: #1a2233; }
+
+    .gap-pill.active {
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .gap-pill-rank {
+      font-size: .65rem;
+      font-weight: 800;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .gap-pill:not(.active) .gap-pill-rank {
+      background: #edf0f7;
+      color: #5a6a8a;
+    }
+
+    .gap-card {
+      display: none;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.08);
+      overflow: hidden;
+      animation: slideDown .22s ease;
+    }
+
+    .gap-card.visible { display: block; }
+
+    .gap-card-header {
+      padding: 1.5rem 2rem 1.25rem;
+      border-bottom: 1px solid #edf0f7;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .gap-card-header-left { flex: 1; min-width: 0; }
+
+    .gap-rank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+      margin-bottom: .6rem;
+    }
+
+    .gap-card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0d2b52;
+      line-height: 1.2;
+      margin-bottom: .35rem;
+    }
+
+    .gap-card-why {
+      font-size: .82rem;
+      color: #5a6a8a;
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    .gap-materiality {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .gap-materiality-val {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #0d2b52;
+      line-height: 1.1;
+    }
+
+    .gap-materiality-label {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: #9aaac0;
+      margin-top: .2rem;
+    }
+
+    .gap-card-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    @media (max-width: 1000px) { .gap-card-body { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 650px)  { .gap-card-body { grid-template-columns: 1fr; } }
+
+    .gap-col {
+      padding: 1.25rem 1.5rem;
+      border-right: 1px solid #edf0f7;
+    }
+
+    .gap-col:last-child { border-right: none; }
+
+    .gap-col-title {
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: #9aaac0;
+      margin-bottom: .85rem;
+    }
+
+    .gap-missing-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      margin-bottom: .7rem;
+      font-size: .78rem;
+      color: #1a2233;
+      line-height: 1.5;
+    }
+
+    .gap-missing-item::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #d63b6f;
+      flex-shrink: 0;
+      margin-top: .45em;
+    }
+
+    .gap-source-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      margin-bottom: .65rem;
+      font-size: .75rem;
+      color: #3a4a6a;
+      line-height: 1.5;
+    }
+
+    .gap-source-flag {
+      font-size: .58rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+      padding: .1rem .45rem;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: .15em;
+      white-space: nowrap;
+    }
+
+    .flag-gov {
+      background: #e0f2ee;
+      color: #0a6b58;
+    }
+
+    .flag-commercial {
+      background: #fff3cd;
+      color: #8a5a00;
+    }
+
+    .gap-readiness-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .55rem;
+    }
+
+    .gap-readiness-label {
+      font-size: .75rem;
+      color: #1a2233;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .gap-readiness-track {
+      width: 80px;
+      height: 6px;
+      background: #edf0f7;
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .gap-readiness-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .gap-readiness-pct {
+      font-size: .68rem;
+      font-weight: 700;
+      color: #5a6a8a;
+      width: 30px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .gap-build-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .72rem;
+      font-weight: 700;
+      padding: .35rem .8rem;
+      border-radius: 20px;
+      margin-top: .85rem;
+    }
+
   </style>
 </head>
 <body>
@@ -1156,6 +1405,9 @@
       </a>
       <a class="nav-tab" onclick="navTo('sec-conditions')" id="navtab-conditions">
         <span class="nav-tab-icon">🔬</span> Condition Drivers <span class="nav-tab-count">10</span>
+      </a>
+      <a class="nav-tab" onclick="navTo('sec-gaps')" id="navtab-gaps">
+        <span class="nav-tab-icon">🔍</span> Coverage Gaps <span class="nav-tab-count">6</span>
       </a>
     </div>
     <div class="nav-meta">
@@ -1720,6 +1972,380 @@
     </div>
     <div class="data-note-banner">
       <strong>Important methodology note:</strong> Condition-level spending figures span reference years 2019&ndash;2024 due to varying data publication cycles across government sources. Dollar figures represent direct medical costs unless otherwise noted; indirect costs (lost productivity) are excluded from chart values to ensure cross-condition comparability. Per-patient costs are derived by dividing total direct costs by estimated prevalence. Payer mix percentages are modeled estimates based on CMS program enrollment by condition, AHRQ MEPS insurance type tabulations, and CMS Medicare/Medicaid chronic condition data. All figures should be treated as approximations for portfolio analytical purposes, not actuarial pricing inputs.
+    </div>
+  </div>
+
+
+  <!-- ════ SECTION: COVERAGE GAPS ════ -->
+  <span class="sec-anchor" id="sec-gaps"></span>
+
+  <div class="exec-callout" style="margin-top:3rem;">
+    <div class="exec-callout-icon">🔍</div>
+    <div class="exec-callout-text">
+      <span class="callout-tag">Data Gaps</span>
+      <strong>6 identified coverage gaps</strong> — sections not yet built into this dashboard, ranked by financial materiality and policy relevance. Sources have been identified and verified for each gap; all primary sources are government or peer-reviewed. Toggle between gaps to review data readiness.
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:1.5rem;">Coverage Gaps — Ranked by Materiality</div>
+
+  <!-- Toggle pills -->
+  <div class="gaps-toggle-bar" id="gapsToggleBar">
+    <button class="gap-pill active" style="background:#d63b6f;" onclick="showGap(0)" id="gap-pill-0">
+      <span class="gap-pill-rank">1</span> GLP-1 Spend
+    </button>
+    <button class="gap-pill" onclick="showGap(1)" id="gap-pill-1">
+      <span class="gap-pill-rank">2</span> MA Overpayment
+    </button>
+    <button class="gap-pill" onclick="showGap(2)" id="gap-pill-2">
+      <span class="gap-pill-rank">3</span> CBO Projections
+    </button>
+    <button class="gap-pill" onclick="showGap(3)" id="gap-pill-3">
+      <span class="gap-pill-rank">4</span> Behavioral Health Spend
+    </button>
+    <button class="gap-pill" onclick="showGap(4)" id="gap-pill-4">
+      <span class="gap-pill-rank">5</span> Health Equity / SDOH
+    </button>
+    <button class="gap-pill" onclick="showGap(5)" id="gap-pill-5">
+      <span class="gap-pill-rank">6</span> Hospital Pricing
+    </button>
+  </div>
+
+  <!-- Gap 1: GLP-1 -->
+  <div class="gap-card visible" id="gap-card-0">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#fde8ef;color:#c0184e;">#1 PRIORITY &nbsp;·&nbsp; HIGHEST MATERIALITY</div>
+        <div class="gap-card-title">GLP-1 Dedicated Spend Section</div>
+        <div class="gap-card-why">GLP-1s are the single largest new cost driver in U.S. healthcare — already referenced in 4 sections of this dashboard as a footnote, but no dedicated analysis exists. Medicare Part D spend is projected to reach $102B by 2026, up from $9.6B in 2019. This is the most-requested data point by plan sponsors and payers.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#d63b6f;">$102B</div>
+        <div class="gap-materiality-label">Medicare Part D<br>projected 2026</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">Drug-by-drug spend breakdown (Ozempic, Wegovy, Mounjaro, Zepbound)</div>
+        <div class="gap-missing-item">Medicare vs. Medicaid vs. commercial spend comparison</div>
+        <div class="gap-missing-item">Net vs. gross spend trajectory (rebate-adjusted ~50%)</div>
+        <div class="gap-missing-item">Coverage policy variation by payer type</div>
+        <div class="gap-missing-item">Spend growth rate vs. utilization growth decomposition</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG Dec 2025: Medicare Part D diabetes drugs $35.8B (2023), +364% from 2019; projected $102B by 2026</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG 2024: Medicaid GLP-1 gross spend $9.4B (2023), +540% from 2019</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Part D Drug Spending Dashboard — drug-level annual data 2018–2023</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> ASPE Nov 2024: FDA approval timeline, pricing vs. comparator countries, OOP burden</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">NONPROFIT</span> KFF Jan 2026: $27.5B gross Medicare Part D GLP-1 spend 2024 (net ~$14B after rebates)</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">95%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">90%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (through 2024)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:80%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">80%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">95%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap 2: MA Overpayment -->
+  <div class="gap-card" id="gap-card-1">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#fef0e0;color:#b05a00;">#2 PRIORITY &nbsp;·&nbsp; HIGH POLICY RELEVANCE</div>
+        <div class="gap-card-title">Medicare Advantage Financial Performance &amp; Overpayment</div>
+        <div class="gap-card-why">Medicare Advantage receives $84B more annually than Traditional Medicare would cost for the same enrollees — $44B (11%) from favorable selection alone. With MA now covering 54% of beneficiaries, this structural overpayment is the dominant federal Medicare cost policy debate. OIG audits found 83–87% of sampled enrollee-years had unsupported diagnosis codes.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#e8930a;">$84B</div>
+        <div class="gap-materiality-label">Annual MA<br>overpayment est.</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">MA overpayment vs. FFS benchmark comparison over time</div>
+        <div class="gap-missing-item">Risk score inflation / diagnosis code upcoding trend</div>
+        <div class="gap-missing-item">Plan-level financial performance and rebate flow</div>
+        <div class="gap-missing-item">OIG audit findings — unsupported diagnosis rates by plan</div>
+        <div class="gap-missing-item">Policy reform trajectory (CMS audit backlog, GAO recommendations)</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> MedPAC Mar 2025 Ch.11: $84B overpayment est.; $44B from favorable selection</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> MedPAC July 2025 Data Book §9: updated payment tables through 2025</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG MA Audit Series 2024–25: 83–87% unsupported diagnosis codes across 8 plans audited</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO-24-107487: $100B+ combined improper payments FY2023; audit backlog documented</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO 2025 High-Risk Update: MA overpayment remains on high-risk list</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:88%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">88%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">95%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (through 2025)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">90%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:85%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">85%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap 3: CBO Projections -->
+  <div class="gap-card" id="gap-card-2">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#e0ecfd;color:#0d4da0;">#3 PRIORITY &nbsp;·&nbsp; FORWARD-LOOKING ANALYSIS</div>
+        <div class="gap-card-title">CBO Federal Health Spending Projections</div>
+        <div class="gap-card-why">The dashboard has strong 2024 actuals but no authoritative projection trajectory. CBO's January 2025 baseline projects federal health spending rising from 5.8% to 8.1% of GDP by 2055. Medicare and Medicaid are the primary structural drivers. Without CBO projections, the dashboard cannot contextualize current spend within a sustainability or reform planning frame.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#1a6fd4;">8.1%</div>
+        <div class="gap-materiality-label">Federal health<br>spend % GDP 2055</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">10-year Medicare / Medicaid outlay projections (2025–2035)</div>
+        <div class="gap-missing-item">30-year federal health spending as % of GDP trajectory</div>
+        <div class="gap-missing-item">Medicare Trust Fund solvency timeline</div>
+        <div class="gap-missing-item">IRA drug negotiation savings projections</div>
+        <div class="gap-missing-item">Sensitivity ranges around key assumptions</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Budget &amp; Economic Outlook Jan 2025: 10-year baseline; Medicare/Medicaid annual projections 2025–2035</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Long-Term Budget Outlook Mar 2025: 30-year projection to 2055; health programs 5.8% → 8.1% GDP</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CBO Baseline Projections for Selected Programs: downloadable Excel tables by program, year-by-year</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">100%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">100%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (Jan–Mar 2025)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:100%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">100%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:95%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">95%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#e6f7f0;color:#0a6b47;">&#10003; Ready to build</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap 4: Behavioral Health -->
+  <div class="gap-card" id="gap-card-3">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#f5eefb;color:#6b2fa0;">#4 PRIORITY &nbsp;·&nbsp; NHEA DATA ALREADY IN USE</div>
+        <div class="gap-card-title">Behavioral Health Spending (Separate from Prevalence)</div>
+        <div class="gap-card-why">The dashboard tracks behavioral health prevalence (SAMHSA NSDUH) but not spending dollars. Mental health and SUD spending is a distinct NHEA line item — the data is inside the source already in use. MHPAEA 2024 enforcement is actively expanding required coverage, making behavioral health spending a near-term cost driver for private plans. SAMHSA's dedicated expenditure report has not been updated since 2014.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#9b59b6;">$280B+</div>
+        <div class="gap-materiality-label">Est. MH/SUD<br>spend 2024</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">Total MH/SUD spending by payer (Medicare, Medicaid, private, OOP)</div>
+        <div class="gap-missing-item">Spending growth rate vs. prevalence growth decomposition</div>
+        <div class="gap-missing-item">Inpatient psychiatric vs. outpatient vs. SUD treatment breakdown</div>
+        <div class="gap-missing-item">MHPAEA enforcement impact on private plan spending</div>
+        <div class="gap-missing-item">Behavioral health workforce shortage as cost and access driver</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS NHEA Tables 13–16 (already in use): MH/SUD spending sub-tables by payer — data exists, not yet extracted</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS IPF PPS FY2024/2025 Final Rules: Medicare inpatient psychiatric facility payment rates</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> SAMHSA: Behavioral Health Expenditures for Dual Eligibles — spending by diagnosis for dual-eligible adults</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">CAUTION</span> SAMHSA Standalone Expenditure Report: last updated 2014 — major data staleness gap</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:75%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">75%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">70%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (SAMHSA gap)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:50%;background:#d63b6f;"></div></div>
+          <span class="gap-readiness-pct">50%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:80%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">80%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#fef6e8;color:#8a5a00;">&#9888; Partial — extract NHEA sub-tables first</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap 5: Health Equity -->
+  <div class="gap-card" id="gap-card-4">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#e0f5f5;color:#0a6b6b;">#5 PRIORITY &nbsp;·&nbsp; REGULATORY RELEVANCE</div>
+        <div class="gap-card-title">Health Equity &amp; Social Determinants of Health</div>
+        <div class="gap-card-why">CMS's 10-year health equity framework (2022–2032) has established data collection and reporting requirements across Medicare and Medicaid. AHRQ's NHQDR tracks 700+ disparity measures. Health equity is increasingly central to MA star ratings, Medicaid managed care contracting, and employer benefits strategy — but absent from this dashboard.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#0ea5a0;">700+</div>
+        <div class="gap-materiality-label">AHRQ disparity<br>measures tracked</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">Spending and access disparities by race/ethnicity and income</div>
+        <div class="gap-missing-item">Geographic variation in healthcare access and cost</div>
+        <div class="gap-missing-item">MA quality disparities by demographic subgroup</div>
+        <div class="gap-missing-item">SDOH domain framework with quantified health impact</div>
+        <div class="gap-missing-item">Dual-eligible population cost and care utilization patterns</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> AHRQ NHQDR 2023: 700 measures across 30+ data sources; disparities by race, income, geography</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Mapping Medicare Disparities Tool: 60 conditions, county-level, by race/ethnicity</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS MA Stratified Reporting: HEDIS/CAHPS by demographic subgroup, 2023–2024</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> HHS Healthy People 2030: SDOH framework with 5 domains and baseline tracking data</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS Health Equity Framework 2022–2032: 10-year goals, current disparity baselines</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:85%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">85%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:90%;background:#22a35a;"></div></div>
+          <span class="gap-readiness-pct">90%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (through 2023)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:72%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">72%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">70%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#e6f0fd;color:#0d4da0;">&#9432; Scoping needed — high source volume</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gap 6: Hospital Pricing -->
+  <div class="gap-card" id="gap-card-5">
+    <div class="gap-card-header">
+      <div class="gap-card-header-left">
+        <div class="gap-rank-badge" style="background:#edf0f7;color:#4a5a78;">#6 PRIORITY &nbsp;·&nbsp; EMPLOYER / PLAN SPONSOR RELEVANCE</div>
+        <div class="gap-card-title">Hospital Pricing Transparency</div>
+        <div class="gap-card-why">Private insurance pays hospitals an average of 254% of what Medicare pays for the same services. The CMS price transparency rule (2021) has generated machine-readable files from 6,000+ hospitals, but 37% remain non-compliant and GAO found CMS cannot assure data accuracy. For plan sponsors and payers, hospital price benchmarking vs. Medicare rates is a core network strategy input.</div>
+      </div>
+      <div class="gap-materiality">
+        <div class="gap-materiality-val" style="color:#5a6a8a;">254%</div>
+        <div class="gap-materiality-label">Private vs. Medicare<br>hospital rates (RAND)</div>
+      </div>
+    </div>
+    <div class="gap-card-body">
+      <div class="gap-col">
+        <div class="gap-col-title">What's Missing</div>
+        <div class="gap-missing-item">Private plan vs. Medicare rate benchmark comparison</div>
+        <div class="gap-missing-item">Price transparency rule compliance rate and enforcement trend</div>
+        <div class="gap-missing-item">Hospital market concentration and price correlation</div>
+        <div class="gap-missing-item">State-level price variation (Arkansas ~170% vs. California ~320%)</div>
+        <div class="gap-missing-item">Drug administration in hospital settings (281% of Medicare ASP)</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Sources Identified</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> CMS HPT Enforcement Data: 1,287 actions, $4M+ penalties, 37% non-compliance (2024)</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> OIG Dec 2025: 37 of 100 hospitals non-compliant with HPT rule</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-gov">GOV</span> GAO-25-106995: CMS cannot assure data completeness or accuracy of hospital MRFs</div>
+        <div class="gap-source-item"><span class="gap-source-flag flag-commercial">COMMERCIAL FLAG</span> RAND Round 5.1: private plans paid 254% of Medicare rates (2022); state variation 170%–320%</div>
+      </div>
+      <div class="gap-col">
+        <div class="gap-col-title">Build Readiness</div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Data availability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:70%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">70%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Source quality</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:75%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">75%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Recency (RAND 2022 lag)</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:55%;background:#d63b6f;"></div></div>
+          <span class="gap-readiness-pct">55%</span>
+        </div>
+        <div class="gap-readiness-row">
+          <span class="gap-readiness-label">Chart buildability</span>
+          <div class="gap-readiness-track"><div class="gap-readiness-fill" style="width:65%;background:#e8930a;"></div></div>
+          <span class="gap-readiness-pct">65%</span>
+        </div>
+        <div class="gap-build-badge" style="background:#fde8ef;color:#c0184e;">&#9888; Limited by RAND data lag — Round 6 not until 2027</div>
+      </div>
     </div>
   </div>
 
@@ -3049,12 +3675,13 @@
 
   // ScrollSpy via IntersectionObserver
   (function() {
-    const sections = ['sec-overview', 'sec-trends', 'sec-payer', 'sec-conditions'];
+    const sections = ['sec-overview', 'sec-trends', 'sec-payer', 'sec-conditions', 'sec-gaps'];
     const tabMap = {
       'sec-overview':    'navtab-overview',
       'sec-trends':      'navtab-trends',
       'sec-payer':       'navtab-payer',
       'sec-conditions':  'navtab-conditions',
+      'sec-gaps':        'navtab-gaps',
     };
 
     function setActive(sectionId) {
@@ -3258,6 +3885,32 @@
     document.querySelectorAll('.kpi-card').forEach(c => c.classList.remove('active'));
     activeKpi = null;
   }
+
+  /* ══════════════════════════════════════════════
+     GAPS TOGGLE
+     ══════════════════════════════════════════════ */
+  const GAP_COLORS = ['#d63b6f','#e8930a','#1a6fd4','#9b59b6','#0ea5a0','#5a6a8a'];
+
+  function showGap(idx) {
+    // Hide all cards
+    document.querySelectorAll('.gap-card').forEach(c => c.classList.remove('visible'));
+    // Show selected
+    document.getElementById('gap-card-' + idx).classList.add('visible');
+    // Update pills
+    document.querySelectorAll('.gap-pill').forEach((p, i) => {
+      p.classList.remove('active');
+      p.style.background = '';
+      p.style.color = '';
+    });
+    const activePill = document.getElementById('gap-pill-' + idx);
+    activePill.classList.add('active');
+    activePill.style.background = GAP_COLORS[idx];
+    activePill.style.color = '#fff';
+  }
+
+  // Init first pill color
+  document.getElementById('gap-pill-0').style.background = GAP_COLORS[0];
+  document.getElementById('gap-pill-0').style.color = '#fff';
 
 </script>
 </body>
